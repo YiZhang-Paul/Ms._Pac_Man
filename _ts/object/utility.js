@@ -5,6 +5,9 @@ System.register([], function (exports_1, context_1) {
         setters: [],
         execute: function () {
             exports_1("default", {
+                get now() {
+                    return new Date().getTime();
+                },
                 capitalize(text) {
                     return text[0].toUpperCase() + text.slice(1);
                 },

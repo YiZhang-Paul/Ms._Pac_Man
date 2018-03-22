@@ -26,7 +26,7 @@ export default class ScorePopUp implements IPopUp {
         this.initialize();
     }
 
-    //check if current pop up should still be displayed
+    //check for the end of current pop up lifecycle
     get isAlive(): boolean {
 
         return this._spawn + this._duration > Utility.now;

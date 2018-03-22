@@ -89,9 +89,17 @@ export interface IPopUp extends IUserInterface {
     dispose(): void;
 }
 
+export interface IHud extends IUserInterface {
+
+    load(): void;
+    enqueue(type: number): void;
+    dequeue(): void;
+}
+
 export interface IGameManager extends IRenderable, IResettable {
 
     id: number;
+    life: number;
     score: number;
     highest: number;
     popUps: Set<IPopUp>;

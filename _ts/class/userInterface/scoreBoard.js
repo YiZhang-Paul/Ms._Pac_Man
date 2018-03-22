@@ -32,7 +32,7 @@ System.register(["_ts/object/monitor", "_ts/object/canvas", "_ts/object/grid"], 
                     this._fontSize = this._height * 0.45;
                     this._interval = null;
                     this._tick = 0;
-                    this._ctx = canvas_1.default.userInterface;
+                    this._ctx = canvas_1.default.interface;
                     this.draw();
                     this.blinkId();
                 }

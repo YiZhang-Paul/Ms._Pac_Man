@@ -10,8 +10,8 @@ System.register([], function (exports_1, context_1) {
                 food: null,
                 fruit: null,
                 player: null,
-                userInterface: null,
-                scorePopUp: null,
+                interface: null,
+                popUp: null,
                 create(width, height, zIndex) {
                     let canvas = document.createElement("canvas");
                     canvas.width = width;

@@ -31,8 +31,8 @@ System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas"
                     canvas_1.default.food = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 2);
                     canvas_1.default.fruit = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 3);
                     canvas_1.default.player = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 4);
-                    canvas_1.default.userInterface = canvas_1.default.create(grid_1.default.width, monitor_1.default.height, 5);
-                    canvas_1.default.scorePopUp = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 6);
+                    canvas_1.default.interface = canvas_1.default.create(grid_1.default.width, monitor_1.default.height, 5);
+                    canvas_1.default.popUp = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 6);
                 },
                 loadAsset() {
                     grid_1.default.initialize();
