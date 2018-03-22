@@ -1,0 +1,22 @@
+{
+  "name": "ms_pac_man",
+  "version": "1.0.0",
+  "description": "a replica of Ms.Pac Man game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YiZhang-Paul/Ms._Pac_Man.git"
+  },
+  "author": "Yi Zhang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YiZhang-Paul/Ms._Pac_Man/issues"
+  },
+  "homepage": "https://github.com/YiZhang-Paul/Ms._Pac_Man#readme",
+  "dependencies": {
+    "systemjs": "^0.21.0"
+  }
+}
