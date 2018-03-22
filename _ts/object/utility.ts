@@ -1,6 +1,11 @@
 //helper functions
 export default {
 
+    capitalize(text: string): string {
+
+        return text[0].toUpperCase() + text.slice(1);
+    },
+
     roundTo(value: number, decimal: number): number {
 
         const power = Math.pow(10, decimal);
@@ -31,5 +36,10 @@ export default {
     getRandom(min: number, max: number): number {
 
         return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+
+    getRangeCenter(range: number): number {
+
+        return (range + range % 2) * 0.5;
     }
 };

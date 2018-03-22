@@ -16,12 +16,13 @@ System.register(["_ts/object/utility"], function (exports_1, context_1) {
                     this._defaultState = defaultState;
                     this.initialize();
                 }
-                //retrieve current active state
+                //current active state
                 get active() {
                     return utility_1.default.lastElement(this._states);
                 }
                 initialize() {
                     this._states = [];
+                    //initialize state tracker if default state is given
                     if (this._defaultState) {
                         this.push(this._defaultState);
                     }
@@ -37,6 +38,7 @@ System.register(["_ts/object/utility"], function (exports_1, context_1) {
                 pop() {
                     return this._states.pop();
                 }
+                //replace current active state
                 swap(state) {
                     this.pop();
                     this.push(state);

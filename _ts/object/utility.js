@@ -5,6 +5,9 @@ System.register([], function (exports_1, context_1) {
         setters: [],
         execute: function () {
             exports_1("default", {
+                capitalize(text) {
+                    return text[0].toUpperCase() + text.slice(1);
+                },
                 roundTo(value, decimal) {
                     const power = Math.pow(10, decimal);
                     return Math.round(value * power) / power;
@@ -23,6 +26,9 @@ System.register([], function (exports_1, context_1) {
                 },
                 getRandom(min, max) {
                     return Math.floor(Math.random() * (max - min + 1)) + min;
+                },
+                getRangeCenter(range) {
+                    return (range + range % 2) * 0.5;
                 }
             });
         }
