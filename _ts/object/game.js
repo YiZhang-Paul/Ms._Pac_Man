@@ -1,7 +1,7 @@
-System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/control", "_ts/object/grid"], function (exports_1, context_1) {
+System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas", "_ts/object/control", "_ts/object/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var monitor_1, utility_1, control_1, grid_1;
+    var monitor_1, utility_1, canvas_1, control_1, grid_1;
     return {
         setters: [
             function (monitor_1_1) {
@@ -9,6 +9,9 @@ System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/control
             },
             function (utility_1_1) {
                 utility_1 = utility_1_1;
+            },
+            function (canvas_1_1) {
+                canvas_1 = canvas_1_1;
             },
             function (control_1_1) {
                 control_1 = control_1_1;
@@ -23,31 +26,13 @@ System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/control
                 timeStep: null,
                 maze: null,
                 manager: null,
-                canvas: {
-                    background: null,
-                    food: null,
-                    fruit: null,
-                    player: null,
-                    userInterface: null,
-                    scorePopUp: null
-                },
-                createCanvas(width, height, zIndex) {
-                    let canvas = document.createElement("canvas");
-                    canvas.width = width;
-                    canvas.height = height;
-                    canvas.style.width = width + "px";
-                    canvas.style.height = height + "px";
-                    canvas.style.zIndex = zIndex;
-                    document.getElementById("board").appendChild(canvas);
-                    return canvas.getContext("2d");
-                },
                 loadCanvas() {
-                    this.canvas.background = this.createCanvas(grid_1.default.width, grid_1.default.height, 1);
-                    this.canvas.food = this.createCanvas(grid_1.default.width, grid_1.default.height, 2);
-                    this.canvas.fruit = this.createCanvas(grid_1.default.width, grid_1.default.height, 3);
-                    this.canvas.player = this.createCanvas(grid_1.default.width, grid_1.default.height, 4);
-                    this.canvas.userInterface = this.createCanvas(grid_1.default.width, monitor_1.default.height, 5);
-                    this.canvas.scorePopUp = this.createCanvas(grid_1.default.width, grid_1.default.height, 6);
+                    canvas_1.default.background = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 1);
+                    canvas_1.default.food = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 2);
+                    canvas_1.default.fruit = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 3);
+                    canvas_1.default.player = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 4);
+                    canvas_1.default.userInterface = canvas_1.default.create(grid_1.default.width, monitor_1.default.height, 5);
+                    canvas_1.default.scorePopUp = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 6);
                 },
                 loadAsset() {
                     grid_1.default.initialize();

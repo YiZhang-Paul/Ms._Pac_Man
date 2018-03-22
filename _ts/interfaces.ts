@@ -3,6 +3,11 @@ export interface IInitializable {
     initialize(): void;
 }
 
+export interface IResettable {
+
+    reset(): void;
+}
+
 export interface IComparable<T> {
 
     isSame(object: T): boolean;
@@ -13,6 +18,13 @@ export interface IDimension {
     width: number;
     height: number;
 }
+
+export interface IRenderable {
+
+    draw(): void;
+}
+
+export interface IUserInterface extends IInitializable, IResettable, IRenderable, IDimension {}
 
 export interface IGridData extends IDimension {
 
@@ -59,37 +71,23 @@ export interface IGrid extends IInitializable, IGridData {
     getAdjacentNodes(row: number, column: number): INode[];
 }
 
-export interface IMaze {
+export interface IMaze extends IUserInterface {
 
-
+    blink(): void;
 }
 
-export interface IGameManager {
+export interface IGameManager extends IRenderable, IResettable {
 
-    reset(): void;
     update(timeStep: number): void;
-    draw(): void;
 }
 
-export interface IGame extends IInitializable {
+export interface IGame extends IInitializable, IResettable, IRenderable {
 
     state: string;
     timeStep: number;
     maze: IMaze;
     manager: IGameManager;
 
-    canvas: {
-
-        background: CanvasRenderingContext2D;
-        food: CanvasRenderingContext2D;
-        fruit: CanvasRenderingContext2D;
-        player: CanvasRenderingContext2D;
-        userInterface: CanvasRenderingContext2D;
-        scorePopUp: CanvasRenderingContext2D;
-    };
-
     run(): void;
-    reset(): void;
     update(): void;
-    draw(): void;
 }

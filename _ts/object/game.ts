@@ -1,6 +1,7 @@
 import { IGame } from "_ts/interfaces";
 import Monitor from "_ts/object/monitor";
 import Utility from "_ts/object/utility";
+import Canvas from "_ts/object/canvas";
 import Control from "_ts/object/control";
 import Grid from "_ts/object/grid";
 
@@ -11,39 +12,14 @@ export default <IGame>{
     maze       : null,
     manager    : null,
 
-    canvas     : {
-
-        background    : null,
-        food          : null,
-        fruit         : null,
-        player        : null,
-        userInterface : null,
-        scorePopUp    : null
-    },
-
-    createCanvas(width, height, zIndex): CanvasRenderingContext2D {
-
-        let canvas = document.createElement("canvas");
-
-        canvas.width = width;
-        canvas.height = height;
-        canvas.style.width = width + "px";
-        canvas.style.height = height + "px";
-        canvas.style.zIndex = zIndex;
-
-        document.getElementById("board").appendChild(canvas);
-
-        return canvas.getContext("2d");
-    },
-
     loadCanvas(): void {
 
-        this.canvas.background = this.createCanvas(Grid.width, Grid.height, 1);
-        this.canvas.food = this.createCanvas(Grid.width, Grid.height, 2);
-        this.canvas.fruit = this.createCanvas(Grid.width, Grid.height, 3);
-        this.canvas.player = this.createCanvas(Grid.width, Grid.height, 4);
-        this.canvas.userInterface = this.createCanvas(Grid.width, Monitor.height, 5);
-        this.canvas.scorePopUp = this.createCanvas(Grid.width, Grid.height, 6);
+        Canvas.background = Canvas.create(Grid.width, Grid.height, 1);
+        Canvas.food = Canvas.create(Grid.width, Grid.height, 2);
+        Canvas.fruit = Canvas.create(Grid.width, Grid.height, 3);
+        Canvas.player = Canvas.create(Grid.width, Grid.height, 4);
+        Canvas.userInterface = Canvas.create(Grid.width, Monitor.height, 5);
+        Canvas.scorePopUp = Canvas.create(Grid.width, Grid.height, 6);
     },
 
     loadAsset(): void {
