@@ -76,8 +76,19 @@ export interface IMaze extends IUserInterface {
     blink(): void;
 }
 
+export interface IScoreBoard extends IUserInterface {
+
+    blinkId(): void;
+    update(score: number): void;
+}
+
 export interface IGameManager extends IRenderable, IResettable {
 
+    id: number;
+    score: number;
+    highest: number;
+
+    checkScore(score: number): void;
     update(timeStep: number): void;
 }
 
