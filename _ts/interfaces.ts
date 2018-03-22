@@ -1,32 +1,38 @@
-interface IInitializable {
+export interface IInitializable {
 
     initialize(): void;
 }
 
-interface IGridData {
+export interface IComparable<T> {
 
-    rows: number;
-    columns: number;
+    isSame(object: T): boolean;
+}
+
+export interface IDimension {
+
     width: number;
     height: number;
 }
 
-export interface IPoint {
+export interface IGridData extends IDimension {
+
+    rows: number;
+    columns: number;
+}
+
+export interface IPoint extends IComparable<IPoint> {
 
     x: number;
     y: number;
 
-    isSame(point: IPoint): boolean;
     distanceTo(point: IPoint): number;
 }
 
-export interface INode {
+export interface INode extends IComparable<INode> {
 
     row: number;
     column: number;
     key: string;
-
-    isSame(node: INode): boolean;
 }
 
 export interface IGrid extends IInitializable, IGridData {
