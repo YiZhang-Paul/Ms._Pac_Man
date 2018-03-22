@@ -36,7 +36,7 @@ export default class ScoreBoard implements IScoreBoard {
         this._fontSize = this._height * 0.45;
         this._interval = null;
         this._tick = 0;
-        this._ctx = Canvas.userInterface;
+        this._ctx = Canvas.interface;
         this.draw();
         this.blinkId();
     }

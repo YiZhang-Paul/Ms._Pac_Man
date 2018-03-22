@@ -1,6 +1,11 @@
 //helper functions
 export default {
 
+    get now(): number {
+
+        return new Date().getTime();
+    },
+
     capitalize(text: string): string {
 
         return text[0].toUpperCase() + text.slice(1);

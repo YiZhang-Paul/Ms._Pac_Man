@@ -1,11 +1,11 @@
 export default {
     //in-game canvases
-    background    : null,
-    food          : null,
-    fruit         : null,
-    player        : null,
-    userInterface : null,
-    scorePopUp    : null,
+    background : null,
+    food       : null,
+    fruit      : null,
+    player     : null,
+    interface  : null,
+    popUp      : null,
 
     create(width: number, height: number, zIndex: number): CanvasRenderingContext2D {
 

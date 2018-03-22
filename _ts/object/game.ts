@@ -18,8 +18,8 @@ export default <IGame>{
         Canvas.food = Canvas.create(Grid.width, Grid.height, 2);
         Canvas.fruit = Canvas.create(Grid.width, Grid.height, 3);
         Canvas.player = Canvas.create(Grid.width, Grid.height, 4);
-        Canvas.userInterface = Canvas.create(Grid.width, Monitor.height, 5);
-        Canvas.scorePopUp = Canvas.create(Grid.width, Grid.height, 6);
+        Canvas.interface = Canvas.create(Grid.width, Monitor.height, 5);
+        Canvas.popUp = Canvas.create(Grid.width, Grid.height, 6);
     },
 
     loadAsset(): void {

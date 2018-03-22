@@ -82,11 +82,19 @@ export interface IScoreBoard extends IUserInterface {
     update(score: number): void;
 }
 
+export interface IPopUp extends IUserInterface {
+
+    isAlive: boolean;
+
+    dispose(): void;
+}
+
 export interface IGameManager extends IRenderable, IResettable {
 
     id: number;
     score: number;
     highest: number;
+    popUps: Set<IPopUp>;
 
     checkScore(score: number): void;
     update(timeStep: number): void;
