@@ -8,9 +8,21 @@ export interface IResettable {
     reset(): void;
 }
 
+export interface IDisposable {
+
+    dispose(): void;
+}
+
 export interface IComparable<T> {
 
     isSame(object: T): boolean;
+}
+
+export interface ILocatable {
+
+    row: number;
+    column: number;
+    coordinate: IPoint;
 }
 
 export interface IDimension {
@@ -22,14 +34,6 @@ export interface IDimension {
 export interface IRenderable {
 
     draw(): void;
-}
-
-export interface IUserInterface extends IInitializable, IResettable, IRenderable, IDimension {}
-
-export interface IGridData extends IDimension {
-
-    rows: number;
-    columns: number;
 }
 
 export interface IPoint extends IComparable<IPoint> {
@@ -45,6 +49,12 @@ export interface INode extends IComparable<INode> {
     row: number;
     column: number;
     key: string;
+}
+
+export interface IGridData extends IDimension {
+
+    rows: number;
+    columns: number;
 }
 
 export interface IGrid extends IInitializable, IGridData {
@@ -71,6 +81,8 @@ export interface IGrid extends IInitializable, IGridData {
     getAdjacentNodes(row: number, column: number): INode[];
 }
 
+export interface IUserInterface extends IInitializable, IResettable, IRenderable, IDimension {}
+
 export interface IMaze extends IUserInterface {
 
     blink(): void;
@@ -82,11 +94,9 @@ export interface IScoreBoard extends IUserInterface {
     update(score: number): void;
 }
 
-export interface IPopUp extends IUserInterface {
+export interface IPopUp extends IUserInterface, IDisposable {
 
     isAlive: boolean;
-
-    dispose(): void;
 }
 
 export interface IHud extends IUserInterface {
@@ -94,6 +104,16 @@ export interface IHud extends IUserInterface {
     load(): void;
     enqueue(type: number): void;
     dequeue(): void;
+}
+
+export interface IFood extends ILocatable, IRenderable, IDisposable {
+
+    score: number;
+}
+
+export interface IFoodManager extends IInitializable, IResettable {
+
+    remove(food: IFood): void;
 }
 
 export interface IGameManager extends IRenderable, IResettable {
