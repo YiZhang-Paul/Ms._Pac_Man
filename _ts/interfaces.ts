@@ -51,6 +51,15 @@ export interface INode extends IComparable<INode> {
     key: string;
 }
 
+export interface IMovable extends IInitializable, IResettable, ILocatable, IRenderable {
+
+    speed: number;
+    direction: string;
+
+    distanceToMovable(movable: IMovable): number;
+    update(timeStep: number): void;
+}
+
 export interface IGridData extends IDimension {
 
     rows: number;
