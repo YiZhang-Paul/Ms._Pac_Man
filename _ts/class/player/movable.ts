@@ -13,10 +13,11 @@ export default abstract class Movable implements IMovable {
     protected _tile: HTMLImageElement;
     protected _ctx: CanvasRenderingContext2D;
 
-    constructor(row: number, column: number) {
+    constructor(row: number, column: number, direction: string) {
 
         this._row = row;
         this._column = column;
+        this._direction = direction;
         this.initialize();
     }
 
@@ -45,6 +46,8 @@ export default abstract class Movable implements IMovable {
 
         return this._direction;
     }
+
+    abstract get canTurn(): boolean;
 
     //check if object is right on center of current node
     get onNodeCenter(): boolean {
@@ -101,7 +104,6 @@ export default abstract class Movable implements IMovable {
 
         this._coordinate = Grid.getNodeCenter(this._row, this._column);
         this._speed = 0;
-        this._direction = null;
         this._cropXY = null;
         this._cropWidth = 32;
         this._tile = <HTMLImageElement>document.getElementById("tile");
@@ -170,13 +172,9 @@ export default abstract class Movable implements IMovable {
     }
 
     //check if object can turn to given direction
-    protected abstract isValidDirection(): boolean;
+    protected abstract isValidDirection(direction: string): boolean;
 
-    protected changeDirection(direction: string): void {
-
-        this._direction = direction;
-        this.getCropXY();
-    }
+    protected abstract setDirection(): void;
 
     //update row and column of current node
     protected syncLocation(): void {

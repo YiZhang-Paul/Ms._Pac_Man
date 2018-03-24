@@ -18,7 +18,17 @@ export default {
         return Math.round(value * power) / power;
     },
 
-    lastElement(array: any[]): any {
+    swap(array: any[], index1: number, index2: number): void {
+
+        [array[index1], array[index2]] = [array[index2], array[index1]];
+    },
+
+    randomElement<T>(array: T[]): T {
+
+        return array[this.getRandom(0, array.length - 1)];
+    },
+
+    lastElement<T>(array: T[]): T {
 
         if(array.length === 0) {
 
@@ -28,7 +38,7 @@ export default {
         return array.slice(-1)[0];
     },
 
-    removeElement(array: any[], element: any): void {
+    removeElement<T>(array: T[], element: T): void {
 
         const index = array.indexOf(element);
 

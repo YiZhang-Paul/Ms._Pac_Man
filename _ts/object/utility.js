@@ -15,6 +15,12 @@ System.register([], function (exports_1, context_1) {
                     const power = Math.pow(10, decimal);
                     return Math.round(value * power) / power;
                 },
+                swap(array, index1, index2) {
+                    [array[index1], array[index2]] = [array[index2], array[index1]];
+                },
+                randomElement(array) {
+                    return array[this.getRandom(0, array.length - 1)];
+                },
                 lastElement(array) {
                     if (array.length === 0) {
                         return null;

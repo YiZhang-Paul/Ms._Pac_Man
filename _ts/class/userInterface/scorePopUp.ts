@@ -12,7 +12,7 @@ export default class ScorePopUp implements IPopUp {
     private _coordinate: IPoint;
     private _value: number;
     private _spawn: number;
-    private _duration: number;
+    private _lifespan: number;
     private _cropXY: IPoint;
     private _cropWidth: number;
     private _tile: HTMLImageElement;
@@ -26,10 +26,10 @@ export default class ScorePopUp implements IPopUp {
         this.initialize();
     }
 
-    //check for the end of current pop up lifecycle
+    //check for the end of pop up lifecycle
     get isAlive(): boolean {
 
-        return this._spawn + this._duration > Utility.now;
+        return this._spawn + this._lifespan > Utility.now;
     }
 
     get width(): number {
@@ -47,7 +47,7 @@ export default class ScorePopUp implements IPopUp {
         this._width = Grid.nodeSize * 1.8;
         this._height = this._width;
         this._spawn = Utility.now;
-        this._duration = 1500;
+        this._lifespan = 1500;
         this._cropWidth = 32;
         this._tile = <HTMLImageElement>document.getElementById("tile");
         this._ctx = Canvas.popUp;

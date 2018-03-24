@@ -25,9 +25,9 @@ System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/object/grid", "
                     this._value = value;
                     this.initialize();
                 }
-                //check for the end of current pop up lifecycle
+                //check for the end of pop up lifecycle
                 get isAlive() {
-                    return this._spawn + this._duration > utility_1.default.now;
+                    return this._spawn + this._lifespan > utility_1.default.now;
                 }
                 get width() {
                     return this._width;
@@ -39,7 +39,7 @@ System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/object/grid", "
                     this._width = grid_1.default.nodeSize * 1.8;
                     this._height = this._width;
                     this._spawn = utility_1.default.now;
-                    this._duration = 1500;
+                    this._lifespan = 1500;
                     this._cropWidth = 32;
                     this._tile = document.getElementById("tile");
                     this._ctx = canvas_1.default.popUp;
