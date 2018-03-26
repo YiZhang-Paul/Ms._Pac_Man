@@ -54,6 +54,16 @@ export default abstract class Movable implements IMovable {
         return this._state.active;
     }
 
+    set coordinate(value: IPoint) {
+
+        this._coordinate = value;
+    }
+
+    set direction(value: string) {
+
+        this._direction = value;
+    }
+
     abstract get canTurn(): boolean;
 
     //check if object is right on center of current node
@@ -196,9 +206,31 @@ export default abstract class Movable implements IMovable {
     protected abstract getCropXY(): void;
 
     //adjust current speed to ensure object can reach grid center
-    protected abstract adjustSpeed(speed: number): number;
+    protected adjustSpeed(speed: number): number {
 
-    protected abstract move(timeStep: number): void;
+        const toNodeCenter = this.distanceToFacingNode;
+
+        if(toNodeCenter === null) {
+
+            return speed;
+        }
+
+        return Math.min(speed, toNodeCenter);
+    }
+
+    protected move(timeStep: number): void {
+
+        const speed = this.adjustSpeed(this._speed * timeStep);
+
+        if(new Set(["up", "down"]).has(this._direction)) {
+
+            this._coordinate.y += speed * (this._direction === "up" ? -1 : 1);
+        }
+        else {
+
+            this._coordinate.x += speed * (this._direction === "left" ? -1 : 1);
+        }
+    };
 
     public abstract update(timeStep: number): void;
 

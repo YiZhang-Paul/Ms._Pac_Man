@@ -128,7 +128,7 @@ System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/object/grid", "
                         }, 1000);
                     }
                 }
-                //place first fruit in queue in game area
+                //place first fruit in queue on game area
                 putFruit() {
                     if (!this.canPutFruit) {
                         return;

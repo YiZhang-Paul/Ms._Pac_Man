@@ -108,6 +108,15 @@ export interface IMovable extends IInitializable, IResettable, ILocatable, IRend
     update(timeStep: number): void;
 }
 
+export interface IPlayer extends IMovable {
+
+    isMoving: boolean;
+    onAnimation: boolean;
+
+    playAnimation(totalTicks: number, speed: number, endTick: number): void;
+    stopAnimation(endTick: number): void;
+}
+
 export interface IGridData extends IDimension {
 
     readonly rows: number;
