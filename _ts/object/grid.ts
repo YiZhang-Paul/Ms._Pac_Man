@@ -120,14 +120,22 @@ export default <IGrid>{
     //check if given node is walkable for players
     isAccessible(row: number, column: number): boolean {
 
-        let node = this.getContent(1, row, column);
+        let content = this.getContent(1, row, column);
 
-        if(node === null) {
+        if(content === null || content.b === "p") {
 
-            return false;
+            return content !== null;
         }
 
-        return node.hasOwnProperty("f") || node.b === "p";
+        return content.hasOwnProperty("f") || content.hasOwnProperty("c");
+    },
+
+    //check if given node is entrance area of the ghost house
+    isEntrance(row: number, column: number): boolean {
+
+        let content = this.getContent(1, row, column);
+
+        return content.hasOwnProperty("d") || content.b === "s";
     },
 
     //calculate center coordinate of a given node

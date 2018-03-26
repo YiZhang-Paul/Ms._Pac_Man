@@ -1,5 +1,6 @@
-import { IMovable, IPoint } from "_ts/interfaces";
+import { IMovable, IPoint, IState } from "_ts/interfaces";
 import Grid from "_ts/object/grid";
+import StateMachine from "_ts/class/stateMachine";
 
 export default abstract class Movable implements IMovable {
 
@@ -12,6 +13,7 @@ export default abstract class Movable implements IMovable {
     protected _cropWidth: number;
     protected _tile: HTMLImageElement;
     protected _ctx: CanvasRenderingContext2D;
+    protected _state: IState;
 
     constructor(row: number, column: number, direction: string) {
 
@@ -45,6 +47,11 @@ export default abstract class Movable implements IMovable {
     get direction(): string {
 
         return this._direction;
+    }
+
+    get state(): string {
+
+        return this._state.active;
     }
 
     abstract get canTurn(): boolean;
@@ -108,6 +115,7 @@ export default abstract class Movable implements IMovable {
         this._cropWidth = 32;
         this._tile = <HTMLImageElement>document.getElementById("tile");
         this._ctx = null;
+        this._state = new StateMachine(this);
     }
 
     public reset(): void {

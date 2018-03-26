@@ -36,28 +36,11 @@ export interface IRenderable {
     draw(): void;
 }
 
-export interface IPoint extends IComparable<IPoint> {
+export interface IFindPath {
 
-    x: number;
-    y: number;
-
-    distanceTo(point: IPoint): number;
-}
-
-export interface INode extends IComparable<INode> {
-
-    row: number;
-    column: number;
-    key: string;
-}
-
-export interface IMovable extends IInitializable, IResettable, ILocatable, IRenderable {
-
-    speed: number;
-    direction: string;
-
-    distanceToMovable(movable: IMovable): number;
-    update(timeStep: number): void;
+    contains(path: INode[], node: INode): boolean;
+    coincides(path1: INode[], path2: INode[]): boolean;
+    find(destination: INode): INode[];
 }
 
 export interface IData<T> {
@@ -82,6 +65,42 @@ export interface IPriorityQueue<T> {
     peek(): T;
     enqueue(priority: number, data: T): void;
     dequeue(): T;
+}
+
+export interface IPoint extends IComparable<IPoint> {
+
+    x: number;
+    y: number;
+
+    distanceTo(point: IPoint): number;
+}
+
+export interface INode extends IComparable<INode> {
+
+    row: number;
+    column: number;
+    key: string;
+    parent: INode;
+}
+
+export interface IState extends IInitializable, IResettable {
+
+    active: string;
+
+    push(state: string): void;
+    pop(): string;
+    swap(state: string): void;
+    update(timeStep: number): void;
+}
+
+export interface IMovable extends IInitializable, IResettable, ILocatable, IRenderable {
+
+    speed: number;
+    direction: string;
+    state: string;
+
+    distanceToMovable(movable: IMovable): number;
+    update(timeStep: number): void;
 }
 
 export interface IGridData extends IDimension {
@@ -109,6 +128,7 @@ export interface IGrid extends IInitializable, IGridData {
     getContent(layer: number, row: number, column: number): { [key: string] : string };
     setContent(layer: number, row: number, column: number, content: any): void;
     isAccessible(row: number, column: number): boolean;
+    isEntrance(row: number, column: number): boolean;
     getNodeCenter(row: number, column: number): IPoint;
     getAdjacentNode(direction: string, row: number, column: number): INode;
     getAdjacentNodes(row: number, column: number): INode[];

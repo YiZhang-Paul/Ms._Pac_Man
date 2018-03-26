@@ -4,6 +4,7 @@ export default class Node implements INode {
 
     private _row: number;
     private _column: number;
+    private _parent: INode;
 
     constructor(row: number, column: number) {
 
@@ -25,6 +26,11 @@ export default class Node implements INode {
     get key(): string {
 
         return `${this._row},${this._column}`;
+    }
+
+    get parent(): INode {
+
+        return this._parent;
     }
 
     //check if two nodes are on the same location

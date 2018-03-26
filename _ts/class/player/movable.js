@@ -1,11 +1,14 @@
-System.register(["_ts/object/grid"], function (exports_1, context_1) {
+System.register(["_ts/object/grid", "_ts/class/stateMachine"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var grid_1, Movable;
+    var grid_1, stateMachine_1, Movable;
     return {
         setters: [
             function (grid_1_1) {
                 grid_1 = grid_1_1;
+            },
+            function (stateMachine_1_1) {
+                stateMachine_1 = stateMachine_1_1;
             }
         ],
         execute: function () {
@@ -31,6 +34,9 @@ System.register(["_ts/object/grid"], function (exports_1, context_1) {
                 //current facing direction
                 get direction() {
                     return this._direction;
+                }
+                get state() {
+                    return this._state.active;
                 }
                 //check if object is right on center of current node
                 get onNodeCenter() {
@@ -71,6 +77,7 @@ System.register(["_ts/object/grid"], function (exports_1, context_1) {
                     this._cropWidth = 32;
                     this._tile = document.getElementById("tile");
                     this._ctx = null;
+                    this._state = new stateMachine_1.default(this);
                 }
                 reset() {
                     this.getCropXY();

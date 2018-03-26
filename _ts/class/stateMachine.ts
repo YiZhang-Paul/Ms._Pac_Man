@@ -1,13 +1,14 @@
+import { IState } from "_ts/interfaces";
 import Utility from "_ts/object/utility";
 
 //stack based finite state machine
-export default class StateMachine {
+export default class StateMachine implements IState {
 
     private _originator: { update(timeStep: number): void };
     private _defaultState: string;
     private _states: string[];
 
-    constructor(originator: { update(timeStep: number): void }, defaultState: string) {
+    constructor(originator: { update(timeStep: number): void }, defaultState: string = null) {
 
         this._originator = originator;
         this._defaultState = defaultState;
@@ -20,7 +21,7 @@ export default class StateMachine {
         return Utility.lastElement(this._states);
     }
 
-    private initialize(): void {
+    public initialize(): void {
 
         this._states = [];
         //initialize state tracker if default state is given

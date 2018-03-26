@@ -20,6 +20,9 @@ System.register([], function (exports_1, context_1) {
                 get key() {
                     return `${this._row},${this._column}`;
                 }
+                get parent() {
+                    return this._parent;
+                }
                 //check if two nodes are on the same location
                 isSame(node) {
                     return this.key === node.key;

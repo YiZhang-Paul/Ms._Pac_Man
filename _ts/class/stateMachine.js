@@ -11,7 +11,7 @@ System.register(["_ts/object/utility"], function (exports_1, context_1) {
         execute: function () {
             //stack based finite state machine
             StateMachine = class StateMachine {
-                constructor(originator, defaultState) {
+                constructor(originator, defaultState = null) {
                     this._originator = originator;
                     this._defaultState = defaultState;
                     this.initialize();
