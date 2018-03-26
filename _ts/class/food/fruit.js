@@ -36,7 +36,7 @@ System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/object/grid", "
                     return this._spawn + this._lifespan > utility_1.default.now;
                 }
                 get canTurn() {
-                    //go straight out of maze area at the end of life cycle
+                    //go straight out of maze area at the end of lifecycle
                     if (!this.isAlive || !this.onNodeCenter) {
                         return false;
                     }

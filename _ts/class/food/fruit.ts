@@ -45,7 +45,7 @@ export default class Fruit extends Movable implements IFood {
     }
 
     get canTurn(): boolean {
-        //go straight out of maze area at the end of life cycle
+        //go straight out of maze area at the end of lifecycle
         if(!this.isAlive || !this.onNodeCenter) {
 
             return false;

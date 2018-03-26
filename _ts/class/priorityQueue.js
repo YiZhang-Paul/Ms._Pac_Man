@@ -1,7 +1,7 @@
 System.register(["_ts/object/utility"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var utility_1, Item, PriorityQueue;
+    var utility_1, Item, Heap, PriorityQueue;
     return {
         setters: [
             function (utility_1_1) {
@@ -21,18 +21,34 @@ System.register(["_ts/object/utility"], function (exports_1, context_1) {
                     return this._data;
                 }
             };
-            PriorityQueue = class PriorityQueue {
+            Heap = class Heap {
                 constructor() {
-                    this._heaps = new Array();
+                    this._nodes = new Array();
                 }
                 get size() {
-                    return this._heaps.length;
+                    return this._nodes.length;
+                }
+                get root() {
+                    if (this.size === 0) {
+                        return null;
+                    }
+                    return this._nodes[0];
                 }
                 compare(index1, index2) {
-                    if (this._heaps[index1] === undefined || this._heaps[index2] === undefined) {
+                    if (index1 >= this.size || index2 >= this.size) {
                         return 0;
                     }
-                    return this._heaps[index1].key - this._heaps[index2].key;
+                    return this._nodes[index1].key - this._nodes[index2].key;
+                }
+                checkParent(index) {
+                    while (index > 0) {
+                        const parent = Math.floor((index - 1) / 2);
+                        if (this.compare(index, parent) >= 0) {
+                            break;
+                        }
+                        utility_1.default.swap(this._nodes, index, parent);
+                        index = parent;
+                    }
                 }
                 heapify(index) {
                     let smallest = index;
@@ -45,45 +61,46 @@ System.register(["_ts/object/utility"], function (exports_1, context_1) {
                         smallest = child2;
                     }
                     if (index !== smallest) {
-                        utility_1.default.swap(this._heaps, index, smallest);
+                        utility_1.default.swap(this._nodes, index, smallest);
                         this.heapify(smallest);
                     }
                 }
-                checkParent(index) {
-                    while (index > 0) {
-                        const parent = Math.floor((index - 1) / 2);
-                        if (this.compare(index, parent) >= 0) {
-                            break;
-                        }
-                        utility_1.default.swap(this._heaps, index, parent);
-                        index = parent;
-                    }
+                add(data) {
+                    this._nodes.push(data);
+                    this.checkParent(this.size - 1);
                 }
-                clear() {
-                    this._heaps = new Array();
+                shift() {
+                    if (this.size === 0) {
+                        return null;
+                    }
+                    let root = this.root;
+                    this._nodes[0] = utility_1.default.lastElement(this._nodes);
+                    this._nodes.length--;
+                    this.heapify(0);
+                    return root;
+                }
+            };
+            PriorityQueue = class PriorityQueue {
+                constructor() {
+                    this._heaps = new Heap();
+                }
+                get size() {
+                    return this._heaps.size;
                 }
                 peek() {
                     if (this.size === 0) {
                         return null;
                     }
-                    return this._heaps[0].data;
+                    return this._heaps.root.data;
                 }
                 enqueue(priority, data) {
-                    let item = new Item(priority, data);
-                    this._heaps.push(item);
-                    this.checkParent(this.size - 1);
+                    this._heaps.add(new Item(priority, data));
                 }
                 dequeue() {
                     if (this.size === 0) {
                         return null;
                     }
-                    let data = this.peek();
-                    let lastItem = this._heaps.pop();
-                    if (this.size > 0) {
-                        this._heaps[0] = lastItem;
-                        this.heapify(0);
-                    }
-                    return data;
+                    return this._heaps.shift().data;
                 }
             };
             exports_1("default", PriorityQueue);

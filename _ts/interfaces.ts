@@ -60,6 +60,30 @@ export interface IMovable extends IInitializable, IResettable, ILocatable, IRend
     update(timeStep: number): void;
 }
 
+export interface IData<T> {
+
+    key: number;
+    data: T;
+}
+
+export interface IHeap<T> {
+
+    size: number;
+    root: IData<T>;
+
+    add(data: IData<T>): void;
+    shift(): IData<T>;
+}
+
+export interface IPriorityQueue<T> {
+
+    size: number;
+
+    peek(): T;
+    enqueue(priority: number, data: T): void;
+    dequeue(): T;
+}
+
 export interface IGridData extends IDimension {
 
     rows: number;
