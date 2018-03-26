@@ -16,7 +16,8 @@ System.register(["_ts/class/point", "_ts/object/canvas", "_ts/object/grid"], fun
         ],
         execute: function () {
             Bean = class Bean {
-                constructor(row, column) {
+                constructor(row, column, originator) {
+                    this._originator = originator;
                     this._row = row;
                     this._column = column;
                     this._coordinate = new point_1.default(this.x, this.y);
@@ -49,7 +50,7 @@ System.register(["_ts/class/point", "_ts/object/canvas", "_ts/object/grid"], fun
                 }
                 //permanently delete bean
                 dispose() {
-                    grid_1.default.setContent(0, this._row, this._column, null);
+                    this._originator.remove(this);
                     this.erase();
                 }
                 draw() {

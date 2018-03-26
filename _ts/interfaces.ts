@@ -27,13 +27,18 @@ export interface ILocatable {
 
 export interface IDimension {
 
-    width: number;
-    height: number;
+    readonly width: number;
+    readonly height: number;
 }
 
 export interface IRenderable {
 
     draw(): void;
+}
+
+export interface IBlinkable {
+
+    blink(): void;
 }
 
 export interface IFindPath {
@@ -45,14 +50,14 @@ export interface IFindPath {
 
 export interface IData<T> {
 
-    key: number;
-    data: T;
+    readonly key: number;
+    readonly data: T;
 }
 
 export interface IHeap<T> {
 
-    size: number;
-    root: IData<T>;
+    readonly size: number;
+    readonly root: IData<T>;
 
     add(data: IData<T>): void;
     shift(): IData<T>;
@@ -60,7 +65,7 @@ export interface IHeap<T> {
 
 export interface IPriorityQueue<T> {
 
-    size: number;
+    readonly size: number;
 
     peek(): T;
     enqueue(priority: number, data: T): void;
@@ -77,15 +82,15 @@ export interface IPoint extends IComparable<IPoint> {
 
 export interface INode extends IComparable<INode> {
 
-    row: number;
-    column: number;
-    key: string;
+    readonly row: number;
+    readonly column: number;
+    readonly key: string;
     parent: INode;
 }
 
 export interface IState extends IInitializable, IResettable {
 
-    active: string;
+    readonly active: string;
 
     push(state: string): void;
     pop(): string;
@@ -97,7 +102,7 @@ export interface IMovable extends IInitializable, IResettable, ILocatable, IRend
 
     speed: number;
     direction: string;
-    state: string;
+    readonly state: string;
 
     distanceToMovable(movable: IMovable): number;
     update(timeStep: number): void;
@@ -105,14 +110,14 @@ export interface IMovable extends IInitializable, IResettable, ILocatable, IRend
 
 export interface IGridData extends IDimension {
 
-    rows: number;
-    columns: number;
+    readonly rows: number;
+    readonly columns: number;
 }
 
 export interface IGrid extends IInitializable, IGridData {
 
-    nodeSize: number;
-    directions: string[];
+    readonly nodeSize: number;
+    readonly directions: string[];
 
     accessible : {
 
@@ -136,10 +141,7 @@ export interface IGrid extends IInitializable, IGridData {
 
 export interface IUserInterface extends IInitializable, IResettable, IRenderable, IDimension {}
 
-export interface IMaze extends IUserInterface {
-
-    blink(): void;
-}
+export interface IMaze extends IUserInterface, IBlinkable {}
 
 export interface IScoreBoard extends IUserInterface {
 
@@ -149,14 +151,14 @@ export interface IScoreBoard extends IUserInterface {
 
 export interface IPopUp extends IUserInterface, IDisposable {
 
-    isAlive: boolean;
+    readonly isAlive: boolean;
 }
 
 export interface IHud extends IUserInterface {
 
     load(): void;
-    enqueue(type: number): void;
-    dequeue(): void;
+    showLife(): void;
+    showFruits(): void;
 }
 
 export interface IFood extends ILocatable, IRenderable, IDisposable {
@@ -164,18 +166,30 @@ export interface IFood extends ILocatable, IRenderable, IDisposable {
     score: number;
 }
 
-export interface IFoodManager extends IInitializable, IResettable {
+export interface IBlinkableFood extends IFood, IBlinkable {}
 
+export interface IFruit extends IFood, IMovable {}
+
+export interface IFoodManager extends IInitializable, IResettable, IRenderable {
+
+    readonly totalBeans: number;
+    readonly fruitQueue: number[];
+
+    putBeans(): void;
+    putFruit(): void;
     remove(food: IFood): void;
+    update(timeStep: number): void;
 }
 
 export interface IGameManager extends IRenderable, IResettable {
 
-    id: number;
-    life: number;
-    score: number;
-    highest: number;
-    popUps: Set<IPopUp>;
+    readonly id: number;
+    readonly life: number;
+    readonly score: number;
+    readonly highest: number;
+    readonly popUps: Set<IPopUp>;
+    readonly hud: IHud;
+    readonly foodManager: IFoodManager;
 
     checkScore(score: number): void;
     update(timeStep: number): void;
@@ -183,10 +197,9 @@ export interface IGameManager extends IRenderable, IResettable {
 
 export interface IGame extends IInitializable, IResettable, IRenderable {
 
-    state: string;
-    timeStep: number;
-    maze: IMaze;
-    manager: IGameManager;
+    readonly state: string;
+    readonly timeStep: number;
+    readonly manager: IGameManager;
 
     run(): void;
     update(): void;

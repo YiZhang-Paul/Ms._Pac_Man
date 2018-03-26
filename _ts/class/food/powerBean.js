@@ -14,8 +14,7 @@ System.register(["_ts/class/food/bean", "_ts/object/grid"], function (exports_1,
         execute: function () {
             PowerBean = class PowerBean extends bean_1.default {
                 constructor(row, column, originator) {
-                    super(row, column);
-                    this._originator = originator;
+                    super(row, column, originator);
                     this._tick = 0;
                     this._score = 50;
                     this._radius = grid_1.default.nodeSize * 0.45;

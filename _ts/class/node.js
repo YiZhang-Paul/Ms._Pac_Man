@@ -23,6 +23,9 @@ System.register([], function (exports_1, context_1) {
                 get parent() {
                     return this._parent;
                 }
+                set parent(node) {
+                    this._parent = node;
+                }
                 //check if two nodes are on the same location
                 isSame(node) {
                     return this.key === node.key;

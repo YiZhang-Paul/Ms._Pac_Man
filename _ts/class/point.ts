@@ -21,6 +21,16 @@ export default class Point implements IPoint {
         return this._y;
     }
 
+    set x(value: number) {
+
+        this._x = value;
+    }
+
+    set y(value: number) {
+
+        this._y = value;
+    }
+
     public isSame(point: IPoint): boolean {
 
         return this._x === point.x && this._y === point.y;

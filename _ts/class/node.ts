@@ -33,6 +33,11 @@ export default class Node implements INode {
         return this._parent;
     }
 
+    set parent(node: INode) {
+
+        this._parent = node;
+    }
+
     //check if two nodes are on the same location
     public isSame(node: INode): boolean {
 

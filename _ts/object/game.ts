@@ -9,7 +9,6 @@ export default <IGame>{
 
     state      : null,
     timeStep   : null,
-    maze       : null,
     manager    : null,
 
     loadCanvas(): void {

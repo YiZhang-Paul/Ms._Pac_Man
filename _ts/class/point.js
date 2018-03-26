@@ -18,6 +18,12 @@ System.register([], function (exports_1, context_1) {
                 get y() {
                     return this._y;
                 }
+                set x(value) {
+                    this._x = value;
+                }
+                set y(value) {
+                    this._y = value;
+                }
                 isSame(point) {
                     return this._x === point.x && this._y === point.y;
                 }

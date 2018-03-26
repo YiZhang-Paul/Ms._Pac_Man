@@ -1,10 +1,11 @@
-import { IFood, IPoint } from "_ts/interfaces";
+import { IFood, IPoint, IFoodManager } from "_ts/interfaces";
 import Point from "_ts/class/point";
 import Canvas from "_ts/object/canvas";
 import Grid from "_ts/object/grid";
 
 export default class Bean implements IFood {
 
+    private _originator: IFoodManager;
     private _row: number;
     private _column: number;
     private _coordinate: IPoint;
@@ -13,8 +14,9 @@ export default class Bean implements IFood {
     protected _radius: number;
     private _ctx: CanvasRenderingContext2D;
 
-    constructor(row: number, column: number) {
+    constructor(row: number, column: number, originator: IFoodManager) {
 
+        this._originator = originator;
         this._row = row;
         this._column = column;
         this._coordinate = new Point(this.x, this.y);
@@ -69,7 +71,7 @@ export default class Bean implements IFood {
     //permanently delete bean
     public dispose(): void {
 
-        Grid.setContent(0, this._row, this._column, null);
+        this._originator.remove(this);
         this.erase();
     }
 

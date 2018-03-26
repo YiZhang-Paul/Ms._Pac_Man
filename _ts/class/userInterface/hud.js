@@ -30,7 +30,6 @@ System.register(["_ts/object/monitor", "_ts/object/canvas", "_ts/object/grid"], 
                     this._width = grid_1.default.width;
                     this._height = (monitor_1.default.height - grid_1.default.height) * 0.5;
                     this._loaded = false;
-                    this._fruits = new Array();
                     this._iconSize = grid_1.default.nodeSize * 2;
                     this._margin = this._height * 0.05;
                     this._cropWidth = 32;
@@ -39,7 +38,6 @@ System.register(["_ts/object/monitor", "_ts/object/canvas", "_ts/object/grid"], 
                     this.draw();
                 }
                 reset() {
-                    this._fruits = new Array();
                     this.draw();
                 }
                 load() {
@@ -48,32 +46,23 @@ System.register(["_ts/object/monitor", "_ts/object/canvas", "_ts/object/grid"], 
                         this._loaded = true;
                     }
                 }
-                //add new fruit type to fruit queue
-                enqueue(type) {
-                    this._fruits.push(type);
-                    this.draw();
-                }
-                //remove fruit type from fruit queue
-                dequeue() {
-                    this._fruits.shift();
-                    this.draw();
-                }
-                showRemainLife() {
+                showLife() {
                     //exclude current player life
                     for (let i = 0; i < this._originator.life - 1; i++) {
                         this._ctx.drawImage(this._tile, this._cropWidth, this._cropWidth, this._cropWidth, this._cropWidth, i * (this._iconSize + this._margin), monitor_1.default.height - this._height + this._margin, this._iconSize, this._iconSize);
                     }
                 }
-                showNextFruits() {
+                showFruits() {
+                    let fruits = this._originator.foodManager.fruitQueue;
                     //display fruit queue from head to tail
-                    for (let i = this._fruits.length - 1; i >= 0; i--) {
-                        this._ctx.drawImage(this._tile, this._cropWidth * (this._fruits[i] - 1), this._cropWidth * 6, this._cropWidth, this._cropWidth, this._width - (this._fruits.length - i) * (this._iconSize + this._margin), monitor_1.default.height - this._height + this._margin, this._iconSize, this._iconSize);
+                    for (let i = fruits.length - 1; i >= 0; i--) {
+                        this._ctx.drawImage(this._tile, this._cropWidth * (fruits[i] - 1), this._cropWidth * 6, this._cropWidth, this._cropWidth, this._width - (fruits.length - i) * (this._iconSize + this._margin), monitor_1.default.height - this._height + this._margin, this._iconSize, this._iconSize);
                     }
                 }
                 draw() {
                     this._ctx.clearRect(0, monitor_1.default.height - this._height, this._width, this._height);
-                    this.showRemainLife();
-                    this.showNextFruits();
+                    this.showLife();
+                    this.showFruits();
                 }
             };
             exports_1("default", Hud);

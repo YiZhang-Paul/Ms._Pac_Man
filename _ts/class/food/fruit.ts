@@ -1,11 +1,11 @@
-import { IFood, IFoodManager } from "_ts/interfaces";
+import { IFruit, IFoodManager } from "_ts/interfaces";
 import Utility from "_ts/object/utility";
 import Canvas from "_ts/object/canvas";
 import Grid from "_ts/object/grid";
 import Point from "_ts/class/point";
 import Movable from "_ts/class/player/movable";
 
-export default class Fruit extends Movable implements IFood {
+export default class Fruit extends Movable implements IFruit {
 
     private _originator: IFoodManager;
     private _type: number;

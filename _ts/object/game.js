@@ -24,7 +24,6 @@ System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas"
             exports_1("default", {
                 state: null,
                 timeStep: null,
-                maze: null,
                 manager: null,
                 loadCanvas() {
                     canvas_1.default.background = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 1);
