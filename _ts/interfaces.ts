@@ -134,14 +134,25 @@ export interface IGridData extends IDimension {
 
     readonly rows: number;
     readonly columns: number;
+    readonly nodeSize: number;
 }
 
-export interface IGrid extends IInitializable, IGridData {
+export interface IGridLayout extends IInitializable, IGridData{
 
-    readonly nodeSize: number;
+    layers: any[][][];
+
+    exists(row: number, column: number): boolean;
+    getObject(row: number, column: number): any;
+    getMetadata(row: number, column: number): { [key: string] : string };
+    setObject(row: number, column: number, object: any): void;
+}
+
+export interface IGrid extends IInitializable {
+
     readonly directions: string[];
+    readonly layout: IGridLayout;
 
-    accessible : {
+    readonly accessible: {
 
         all         : INode[],
         topLeft     : INode[],
@@ -150,14 +161,9 @@ export interface IGrid extends IInitializable, IGridData {
         bottomRight : INode[]
     },
 
-    exists(row: number, column: number): boolean;
-    getNode(point: IPoint): INode;
-    getContent(layer: number, row: number, column: number): any;
-    setContent(layer: number, row: number, column: number, content: any): void;
-    getObject(row: number, column: number): any;
-    getMetadata(row: number, column: number): { [key: string] : string };
     isAccessible(row: number, column: number): boolean;
     isEntrance(row: number, column: number): boolean;
+    getNode(point: IPoint): INode;
     getNodeCenter(row: number, column: number): IPoint;
     getAdjacentNode(direction: string, row: number, column: number): INode;
     getAdjacentNodes(row: number, column: number): INode[];
