@@ -1,9 +1,10 @@
 import { IGrid, IGridLayout, INode, IPoint } from "_ts/interfaces";
 import Utility from "_ts/object/utility";
+import Layout from "_ts/object/layout";
 import Point from "_ts/class/point";
 import Node from "_ts/class/node";
 
-export default class Grid implements IGrid {
+class Grid implements IGrid {
 
     private _layout: IGridLayout;
     private _directions = ["up", "down", "left", "right"];
@@ -21,6 +22,21 @@ export default class Grid implements IGrid {
 
         this._layout = layout;
         this.initialize();
+    }
+
+    get nodeSize(): number {
+
+        return this._layout.nodeSize;
+    }
+
+    get width(): number {
+
+        return this._layout.width;
+    }
+
+    get height(): number {
+
+        return this._layout.height;
     }
 
     get directions(): string[] {
@@ -152,3 +168,5 @@ export default class Grid implements IGrid {
         }).filter(node => node !== null);
     }
 }
+
+export default new Grid(Layout);

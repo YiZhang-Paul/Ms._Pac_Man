@@ -1,4 +1,4 @@
-System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas", "_ts/object/control", "_ts/object/grid"], function (exports_1, context_1) {
+System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas", "_ts/object/control", "_ts/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var monitor_1, utility_1, canvas_1, control_1, grid_1;
@@ -22,9 +22,18 @@ System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas"
         ],
         execute: function () {
             exports_1("default", {
-                state: null,
-                timeStep: null,
-                manager: null,
+                _state: null,
+                _timeStep: null,
+                _manager: null,
+                get state() {
+                    return this._state;
+                },
+                get timeStep() {
+                    return this._timeStep;
+                },
+                get manager() {
+                    return this._manager;
+                },
                 loadCanvas() {
                     canvas_1.default.background = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 1);
                     canvas_1.default.food = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 2);
@@ -34,7 +43,6 @@ System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas"
                     canvas_1.default.popUp = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 6);
                 },
                 loadAsset() {
-                    grid_1.default.initialize();
                     this.loadCanvas();
                 },
                 registerKeyDown() {

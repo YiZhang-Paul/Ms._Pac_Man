@@ -1,7 +1,7 @@
 import { IHud, IGameManager } from "_ts/interfaces";
 import Monitor from "_ts/object/monitor";
 import Canvas from "_ts/object/canvas";
-import Grid from "_ts/object/grid";
+import Grid from "_ts/class/grid";
 
 export default class Hud implements IHud {
 

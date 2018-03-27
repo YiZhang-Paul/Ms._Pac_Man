@@ -1,10 +1,10 @@
 import { IGameManager, IFoodManager, IFood, IBlinkableFood, IFruit } from "_ts/interfaces";
 import Utility from "_ts/object/utility";
 import Canvas from "_ts/object/canvas";
-import Grid from "_ts/object/grid";
 import Bean from "_ts/class/food/bean";
 import PowerBean from "_ts/class/food/powerBean";
 import Fruit from "_ts/class/food/fruit";
+import Grid from "_ts/class/grid";
 
 export default class FoodManager implements IFoodManager {
 
@@ -92,12 +92,12 @@ export default class FoodManager implements IFoodManager {
 
     public isBean(row: number, column: number): boolean {
         //check meta layer
-        if(!Grid.getContent(1, row, column).hasOwnProperty("f")) {
+        if(!Grid.layout.getMetadata(row, column).hasOwnProperty("f")) {
 
             return false;
         }
         //check logic layer to ensure the food is not consumed
-        return Grid.getContent(0, row, column) !== null;
+        return Grid.layout.getObject(row, column) !== null;
     }
 
     public isPowerBean(row: number, column: number): boolean {
@@ -107,13 +107,13 @@ export default class FoodManager implements IFoodManager {
             return false;
         }
         //check the type of bean on meta layer
-        return Grid.getContent(1, row, column).f === "l";
+        return Grid.layout.getMetadata(row, column).f === "l";
     }
 
     //retrieve existing bean
     public getBean(row: number, column: number): IFood {
 
-        return Grid.getObject(row, column);
+        return Grid.layout.getObject(row, column);
     }
 
     private createBean(row: number, column: number, type: string): IFood {
@@ -130,7 +130,7 @@ export default class FoodManager implements IFoodManager {
 
         let bean = this.createBean(row, column, type);
         //register bean on logic layer
-        Grid.setContent(0, row, column, bean);
+        Grid.layout.setObject(row, column, bean);
         bean.draw();
         this._totalBeans++;
 
@@ -145,15 +145,15 @@ export default class FoodManager implements IFoodManager {
         this._totalBeans = 0;
         this._ctx.clearRect(0, 0, Grid.width, Grid.height);
 
-        for(let i = 0; i < Grid.rows; i++) {
+        for(let i = 0; i < Grid.layout.rows; i++) {
 
-            for(let j = 0; j < Grid.columns; j++) {
+            for(let j = 0; j < Grid.layout.columns; j++) {
 
-                let content = Grid.getContent(1, i, j);
+                let meta = Grid.layout.getMetadata(i, j);
                 //check meta layer
-                if(content.hasOwnProperty("f")) {
+                if(meta.hasOwnProperty("f")) {
 
-                    this.putBean(i, j, content.f);
+                    this.putBean(i, j, meta.f);
                 }
             }
         }
@@ -167,14 +167,14 @@ export default class FoodManager implements IFoodManager {
         //randomize fruit spawn location
         if(Math.random() < 0.5) {
 
-            row = Math.random() < 0.5 ? 0 : Grid.rows - 1;
-            column = Math.floor(Math.random() * (Grid.columns - 10)) + 5;
+            row = Math.random() < 0.5 ? 0 : Grid.layout.rows - 1;
+            column = Math.floor(Math.random() * (Grid.layout.columns - 10)) + 5;
             direction = row === 0 ? "down" : "up";
         }
         else {
 
-            row = Math.floor(Math.random() * (Grid.rows - 10)) + 5;
-            column = Math.random() < 0.5 ? 0 : Grid.columns - 1;
+            row = Math.floor(Math.random() * (Grid.layout.rows - 10)) + 5;
+            column = Math.random() < 0.5 ? 0 : Grid.layout.columns - 1;
             direction = column === 0 ? "right" : "left";
         }
 
@@ -232,7 +232,7 @@ export default class FoodManager implements IFoodManager {
             //TODO: trigger ghost flee on power bean consumption
         }
         //remove beans
-        Grid.setContent(0, food.row, food.column, null);
+        Grid.layout.setObject(food.row, food.column, null);
     }
 
     public update(timeStep: number): void {

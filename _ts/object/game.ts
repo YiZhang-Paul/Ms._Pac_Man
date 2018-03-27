@@ -1,15 +1,30 @@
-import { IGame } from "_ts/interfaces";
+import { IGame, IGameManager } from "_ts/interfaces";
 import Monitor from "_ts/object/monitor";
 import Utility from "_ts/object/utility";
 import Canvas from "_ts/object/canvas";
 import Control from "_ts/object/control";
-import Grid from "_ts/object/grid";
+import Grid from "_ts/class/grid";
 
 export default <IGame>{
 
-    state      : null,
-    timeStep   : null,
-    manager    : null,
+    _state    : null,
+    _timeStep : null,
+    _manager  : null,
+
+    get state(): string {
+
+        return this._state;
+    },
+
+    get timeStep(): number {
+
+        return this._timeStep;
+    },
+
+    get manager(): IGameManager {
+
+        return this._manager;
+    },
 
     loadCanvas(): void {
 
@@ -23,7 +38,6 @@ export default <IGame>{
 
     loadAsset(): void {
 
-        Grid.initialize();
         this.loadCanvas();
     },
 

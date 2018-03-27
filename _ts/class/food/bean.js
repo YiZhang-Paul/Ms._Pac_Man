@@ -1,4 +1,4 @@
-System.register(["_ts/class/point", "_ts/object/canvas", "_ts/object/grid"], function (exports_1, context_1) {
+System.register(["_ts/class/point", "_ts/object/canvas", "_ts/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var point_1, canvas_1, grid_1, Bean;

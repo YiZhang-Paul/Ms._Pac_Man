@@ -70,6 +70,12 @@ System.register(["_ts/object/grid", "_ts/class/stateMachine"], function (exports
                 get withinMaze() {
                     return this._coordinate.x >= 0 && this._coordinate.x <= grid_1.default.width;
                 }
+                set coordinate(value) {
+                    this._coordinate = value;
+                }
+                set direction(value) {
+                    this._direction = value;
+                }
                 initialize() {
                     this._coordinate = grid_1.default.getNodeCenter(this._row, this._column);
                     this._speed = 0;
@@ -124,6 +130,24 @@ System.register(["_ts/object/grid", "_ts/class/stateMachine"], function (exports
                     this._row = node.row;
                     this._column = node.column;
                 }
+                //adjust current speed to ensure object can reach grid center
+                adjustSpeed(speed) {
+                    const toNodeCenter = this.distanceToFacingNode;
+                    if (toNodeCenter === null) {
+                        return speed;
+                    }
+                    return Math.min(speed, toNodeCenter);
+                }
+                move(timeStep) {
+                    const speed = this.adjustSpeed(this._speed * timeStep);
+                    if (new Set(["up", "down"]).has(this._direction)) {
+                        this._coordinate.y += speed * (this._direction === "up" ? -1 : 1);
+                    }
+                    else {
+                        this._coordinate.x += speed * (this._direction === "left" ? -1 : 1);
+                    }
+                }
+                ;
             };
             exports_1("default", Movable);
         }

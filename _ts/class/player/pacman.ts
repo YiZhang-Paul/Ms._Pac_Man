@@ -1,8 +1,8 @@
 import { IPacman, IGameManager, IGhost, IFood } from "_ts/interfaces";
 import Control from "_ts/object/control";
-import Grid from "_ts/object/grid";
-import Point from "_ts/class/point";
 import Player from "_ts/class/player/player";
+import Point from "_ts/class/point";
+import Grid from "_ts/class/grid";
 
 export default class Pacman extends Player implements IPacman {
 

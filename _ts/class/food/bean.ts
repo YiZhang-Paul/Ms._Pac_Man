@@ -1,7 +1,7 @@
 import { IFood, IPoint, IFoodManager } from "_ts/interfaces";
 import Point from "_ts/class/point";
 import Canvas from "_ts/object/canvas";
-import Grid from "_ts/object/grid";
+import Grid from "_ts/class/grid";
 
 export default class Bean implements IFood {
 

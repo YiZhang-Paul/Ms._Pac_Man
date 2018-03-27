@@ -1,8 +1,8 @@
 import { IPopUp, IPoint, IGameManager } from "_ts/interfaces";
 import Utility from "_ts/object/utility";
 import Canvas from "_ts/object/canvas";
-import Grid from "_ts/object/grid";
 import Point from "_ts/class/point";
+import Grid from "_ts/class/grid";
 
 export default class ScorePopUp implements IPopUp {
 

@@ -1,9 +1,9 @@
 import { IPlayer, IGameManager } from "_ts/interfaces";
 import Canvas from "_ts/object/canvas";
 import Locations from "_ts/object/locations";
-import Point from "_ts/class/point";
-import Grid from "_ts/object/grid";
 import Movable from "_ts/class/player/movable";
+import Point from "_ts/class/point";
+import Grid from "_ts/class/grid";
 
 export default abstract class Player extends Movable implements IPlayer {
 

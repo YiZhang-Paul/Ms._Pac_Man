@@ -128,22 +128,8 @@ System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/object/grid", "
                         this.setDirection();
                     }
                 }
-                //adjust current speed to ensure object can reach grid center
-                adjustSpeed(speed) {
-                    const toNodeCenter = this.distanceToFacingNode;
-                    if (toNodeCenter === null) {
-                        return speed;
-                    }
-                    return Math.min(toNodeCenter, speed);
-                }
                 move(timeStep) {
-                    const speed = this.adjustSpeed(this._speed * timeStep);
-                    if (new Set(["up", "down"]).has(this._direction)) {
-                        this._coordinate.y += speed * (this._direction === "up" ? -1 : 1);
-                    }
-                    else {
-                        this._coordinate.x += speed * (this._direction === "left" ? -1 : 1);
-                    }
+                    super.move(timeStep);
                     this.syncLocation();
                     this.autoDispose();
                 }

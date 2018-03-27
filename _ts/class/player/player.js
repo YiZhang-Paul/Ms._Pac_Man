@@ -1,17 +1,14 @@
-System.register(["_ts/object/canvas", "_ts/object/location", "_ts/class/point", "_ts/object/grid", "_ts/class/player/movable"], function (exports_1, context_1) {
+System.register(["_ts/object/canvas", "_ts/object/locations", "_ts/object/grid", "_ts/class/player/movable"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var canvas_1, location_1, point_1, grid_1, movable_1, Player;
+    var canvas_1, locations_1, grid_1, movable_1, Player;
     return {
         setters: [
             function (canvas_1_1) {
                 canvas_1 = canvas_1_1;
             },
-            function (location_1_1) {
-                location_1 = location_1_1;
-            },
-            function (point_1_1) {
-                point_1 = point_1_1;
+            function (locations_1_1) {
+                locations_1 = locations_1_1;
             },
             function (grid_1_1) {
                 grid_1 = grid_1_1;
@@ -22,16 +19,31 @@ System.register(["_ts/object/canvas", "_ts/object/location", "_ts/class/point", 
         ],
         execute: function () {
             Player = class Player extends movable_1.default {
-                constructor(name) {
+                constructor(name, originator) {
                     super(null, null, null);
                     this._name = name;
+                    this._originator = originator;
                     this.initialize();
                 }
+                get isMoving() {
+                    return this._isMoving;
+                }
+                get onAnimation() {
+                    return this._onAnimation;
+                }
+                set isMoving(value) {
+                    this._isMoving = value;
+                }
+                set onAnimation(value) {
+                    this._onAnimation = value;
+                }
                 initialize() {
-                    this.setLocation();
+                    locations_1.default.setLocation(this, this._name);
                     this._tick = 0;
                     this._totalTicks = null;
                     this._interval = null;
+                    this._isMoving = false;
+                    this._onAnimation = false;
                     this._ctx = canvas_1.default.player;
                 }
                 reset() {
@@ -41,23 +53,58 @@ System.register(["_ts/object/canvas", "_ts/object/location", "_ts/class/point", 
                         this._interval = null;
                     }
                 }
-                setLocation() {
-                    let location = location_1.default[this._name];
-                    const x = grid_1.default.nodeSize * location.column;
-                    const y = grid_1.default.nodeSize * (location.row + 0.5);
-                    this._coordinate = new point_1.default(x, y);
-                    this._direction = location.direction;
+                //warp from one side to the other side of tunnel
+                crossTunnel() {
+                    const left = -grid_1.default.nodeSize;
+                    const right = grid_1.default.width + grid_1.default.nodeSize;
+                    if (this._coordinate.x < left || this._coordinate.x > right) {
+                        this._coordinate.x = this._coordinate.x < left ? right : left;
+                    }
+                }
+                //adjust current speed to ensure object can reach grid center
+                adjustSpeed(speed) {
+                    const toCollision = this.toCollision;
+                    if (toCollision !== null) {
+                        return Math.min(speed, toCollision);
+                    }
+                    return super.adjustSpeed(speed);
+                }
+                move(timeStep) {
+                    super.move(timeStep);
+                    this.crossTunnel();
+                    this.syncLocation();
+                }
+                //move to next step of animation
+                nextTick(totalTicks = this._totalTicks) {
+                    this._tick = (this._tick + 1) % totalTicks;
+                    this.getCropXY();
+                }
+                playAnimation(totalTicks, speed = 100, endTick = this._tick) {
+                    if (!this._onAnimation) {
+                        this.stopAnimation(endTick);
+                        return;
+                    }
+                    //start animation
+                    if (this._interval === null) {
+                        this._interval = setInterval(() => {
+                            this.nextTick(totalTicks);
+                        }, speed);
+                    }
+                }
+                stopAnimation(endTick) {
+                    if (this._interval !== null) {
+                        clearInterval(this._interval);
+                        this._interval = null;
+                        //stop at given animation step
+                        this._tick = endTick;
+                        this.getCropXY();
+                    }
+                }
+                draw() {
+                    this._ctx.drawImage(this._tile, this._cropXY.x, this._cropXY.y, this._cropWidth, this._cropWidth, this._coordinate.x - grid_1.default.nodeSize * 0.8, this._coordinate.y - grid_1.default.nodeSize * 0.8, grid_1.default.nodeSize * 1.6, grid_1.default.nodeSize * 1.6);
                 }
             };
             exports_1("default", Player);
-            initialize();
-            {
-                let stats = grid[this.name];
-                const x = grid.nodeSize * stats.column;
-                const y = grid.nodeSize * (stats.row + 0.5);
-                this.coordinate = new point_1.default(x, y);
-                this.direction = stats.direction;
-            }
         }
     };
 });

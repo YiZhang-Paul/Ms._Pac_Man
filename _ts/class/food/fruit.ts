@@ -1,9 +1,9 @@
 import { IFruit, IFoodManager } from "_ts/interfaces";
 import Utility from "_ts/object/utility";
 import Canvas from "_ts/object/canvas";
-import Grid from "_ts/object/grid";
-import Point from "_ts/class/point";
 import Movable from "_ts/class/player/movable";
+import Point from "_ts/class/point";
+import Grid from "_ts/class/grid";
 
 export default class Fruit extends Movable implements IFruit {
 
@@ -91,7 +91,7 @@ export default class Fruit extends Movable implements IFruit {
     //self-dispose when going out of maze area
     private autoDispose(): void {
 
-        if(!Grid.exists(this._row, this._column)) {
+        if(!Grid.layout.exists(this._row, this._column)) {
 
             this.dispose();
         }

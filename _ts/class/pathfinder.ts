@@ -1,7 +1,7 @@
 import { IFindPath, IMovable, INode, IPriorityQueue } from "_ts/interfaces";
-import Grid from "_ts/object/grid";
-import Node from "_ts/class/node";
 import PriorityQueue from "_ts/class/priorityQueue";
+import Node from "_ts/class/node";
+import Grid from "_ts/class/grid";
 
 export default class PathFinder implements IFindPath {
 

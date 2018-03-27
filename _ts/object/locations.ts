@@ -1,6 +1,6 @@
 import { IMovable } from "_ts/interfaces";
-import Grid from "_ts/object/grid";
 import Point from "_ts/class/point";
+import Grid from "_ts/class/grid";
 
 //game object default locations
 export default {

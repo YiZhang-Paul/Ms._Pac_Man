@@ -137,7 +137,7 @@ export interface IGridData extends IDimension {
     readonly nodeSize: number;
 }
 
-export interface IGridLayout extends IInitializable, IGridData{
+export interface IGridLayout extends IInitializable, IGridData {
 
     layers: any[][][];
 
@@ -147,8 +147,9 @@ export interface IGridLayout extends IInitializable, IGridData{
     setObject(row: number, column: number, object: any): void;
 }
 
-export interface IGrid extends IInitializable {
+export interface IGrid extends IInitializable, IDimension {
 
+    readonly nodeSize: number;
     readonly directions: string[];
     readonly layout: IGridLayout;
 

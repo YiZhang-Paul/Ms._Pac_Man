@@ -1,6 +1,6 @@
 import { IMovable, IPoint, IState } from "_ts/interfaces";
-import Grid from "_ts/object/grid";
 import StateMachine from "_ts/class/stateMachine";
+import Grid from "_ts/class/grid";
 
 export default abstract class Movable implements IMovable {
 
@@ -158,7 +158,7 @@ export default abstract class Movable implements IMovable {
             return false;
         }
 
-        return Grid.getContent(1, adjacent.row, adjacent.column).hasOwnProperty("d");
+        return Grid.layout.getMetadata(adjacent.row, adjacent.column).hasOwnProperty("d");
     }
 
     protected hasWall(direction: string = this._direction): boolean {
@@ -170,7 +170,7 @@ export default abstract class Movable implements IMovable {
             return false;
         }
 
-        return Grid.getContent(1, adjacent.row, adjacent.column).hasOwnProperty("w");
+        return Grid.layout.getMetadata(adjacent.row, adjacent.column).hasOwnProperty("w");
     }
 
     protected getOpposite(direction: string = this.direction): string {
