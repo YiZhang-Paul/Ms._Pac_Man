@@ -116,6 +116,19 @@ export interface IPlayer extends IMovable {
     playAnimation(totalTicks: number, speed: number, endTick: number): void;
     stopAnimation(endTick: number): void;
 }
+//TODO: ghost
+export interface IGhost extends IPlayer {
+
+}
+
+export interface IPacman extends IPlayer {
+
+    readonly isDying: boolean;
+    readonly killCount: number;
+    readonly lastGhostKilled: IGhost;
+
+    consume(): void;
+}
 
 export interface IGridData extends IDimension {
 
@@ -139,8 +152,10 @@ export interface IGrid extends IInitializable, IGridData {
 
     exists(row: number, column: number): boolean;
     getNode(point: IPoint): INode;
-    getContent(layer: number, row: number, column: number): { [key: string] : string };
+    getContent(layer: number, row: number, column: number): any;
     setContent(layer: number, row: number, column: number, content: any): void;
+    getObject(row: number, column: number): any;
+    getMetadata(row: number, column: number): { [key: string] : string };
     isAccessible(row: number, column: number): boolean;
     isEntrance(row: number, column: number): boolean;
     getNodeCenter(row: number, column: number): IPoint;
@@ -183,11 +198,20 @@ export interface IFoodManager extends IInitializable, IResettable, IRenderable {
 
     readonly totalBeans: number;
     readonly fruitQueue: number[];
+    readonly fruit: IFruit;
 
+    isBean(row: number, column: number): boolean;
+    isPowerBean(row: number, column: number): boolean;
+    getBean(row: number, column: number): IFood;
     putBeans(): void;
     putFruit(): void;
     remove(food: IFood): void;
     update(timeStep: number): void;
+}
+
+export interface IGhostManager extends IInitializable, IResettable, IRenderable {
+
+    readonly ghosts: IGhost[];
 }
 
 export interface IGameManager extends IRenderable, IResettable {
@@ -199,8 +223,11 @@ export interface IGameManager extends IRenderable, IResettable {
     readonly popUps: Set<IPopUp>;
     readonly hud: IHud;
     readonly foodManager: IFoodManager;
+    readonly ghostManager: IGhostManager;
 
+    killGhost(): void;
     checkScore(score: number): void;
+    changeState(state: string): void;
     update(timeStep: number): void;
 }
 

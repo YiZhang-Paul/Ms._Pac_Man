@@ -54,16 +54,6 @@ export default abstract class Movable implements IMovable {
         return this._state.active;
     }
 
-    set coordinate(value: IPoint) {
-
-        this._coordinate = value;
-    }
-
-    set direction(value: string) {
-
-        this._direction = value;
-    }
-
     abstract get canTurn(): boolean;
 
     //check if object is right on center of current node
@@ -115,6 +105,16 @@ export default abstract class Movable implements IMovable {
     get withinMaze(): boolean {
 
         return this._coordinate.x >= 0 && this._coordinate.x <= Grid.width;
+    }
+
+    set coordinate(value: IPoint) {
+
+        this._coordinate = value;
+    }
+
+    set direction(value: string) {
+
+        this._direction = value;
     }
 
     public initialize(): void {

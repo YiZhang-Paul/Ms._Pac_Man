@@ -34,6 +34,11 @@ export default class FoodManager implements IFoodManager {
         return this._fruitQueue;
     }
 
+    get fruit(): IFruit {
+
+        return this._fruit;
+    }
+
     get canPutFruit(): boolean {
 
         if(this._fruit !== null || this._timeout !== null) {
@@ -83,6 +88,32 @@ export default class FoodManager implements IFoodManager {
 
             }, 150);
         }
+    }
+
+    public isBean(row: number, column: number): boolean {
+        //check meta layer
+        if(!Grid.getContent(1, row, column).hasOwnProperty("f")) {
+
+            return false;
+        }
+        //check logic layer to ensure the food is not consumed
+        return Grid.getContent(0, row, column) !== null;
+    }
+
+    public isPowerBean(row: number, column: number): boolean {
+
+        if(!this.isBean(row, column)) {
+
+            return false;
+        }
+        //check the type of bean on meta layer
+        return Grid.getContent(1, row, column).f === "l";
+    }
+
+    //retrieve existing bean
+    public getBean(row: number, column: number): IFood {
+
+        return Grid.getObject(row, column);
     }
 
     private createBean(row: number, column: number, type: string): IFood {
@@ -194,8 +225,13 @@ export default class FoodManager implements IFoodManager {
 
             return;
         }
+
+        if(this.isPowerBean(food.row, food.column)) {
+
+            this._powerBeans.delete(<IBlinkableFood>food);
+            //TODO: trigger ghost flee on power bean consumption
+        }
         //remove beans
-        this._powerBeans.delete(<IBlinkableFood>food);
         Grid.setContent(0, food.row, food.column, null);
     }
 

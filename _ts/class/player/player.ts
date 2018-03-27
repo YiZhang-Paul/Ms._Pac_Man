@@ -1,4 +1,4 @@
-import { IPlayer } from "_ts/interfaces";
+import { IPlayer, IGameManager } from "_ts/interfaces";
 import Canvas from "_ts/object/canvas";
 import Locations from "_ts/object/locations";
 import Point from "_ts/class/point";
@@ -7,6 +7,7 @@ import Movable from "_ts/class/player/movable";
 
 export default abstract class Player extends Movable implements IPlayer {
 
+    protected _originator: IGameManager;
     protected _name: string;
     protected _tick: number;
     protected _totalTicks: number;
@@ -14,10 +15,11 @@ export default abstract class Player extends Movable implements IPlayer {
     protected _isMoving: boolean;
     protected _onAnimation: boolean;
 
-    constructor(name: string) {
+    constructor(name: string, originator: IGameManager) {
 
         super(null, null, null);
         this._name = name;
+        this._originator = originator;
         this.initialize();
     }
 

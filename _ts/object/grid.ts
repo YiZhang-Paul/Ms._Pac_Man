@@ -99,7 +99,7 @@ export default <IGrid>{
         );
     },
 
-    getContent(layer: number, row: number, column: number): { [key: string] : string } {
+    getContent(layer: number, row: number, column: number): any {
 
         if(!this.exists(row, column)) {
 
@@ -115,6 +115,18 @@ export default <IGrid>{
 
             Layout[layer][row][column] = content;
         }
+    },
+
+    //retrieve objects on logic layer
+    getObject(row: number, column: number): any {
+
+        return this.getContent(0, row, column);
+    },
+
+    //retrieve metadata on meta layer
+    getMetadata(row: number, column: number): { [key: string] : string } {
+
+        return this.getContent(1, row, column);
     },
 
     //check if given node is walkable for players
