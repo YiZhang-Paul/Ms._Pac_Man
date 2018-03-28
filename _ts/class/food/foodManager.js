@@ -148,7 +148,7 @@ System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/class/food/bean
                                 this._fruitQueue.push(utility_1.default.getRandom(1, 7));
                                 this._originator.showFruits();
                             }
-                        }, 1000);
+                        }, 20000);
                     }
                 }
                 //place first fruit in queue on game area

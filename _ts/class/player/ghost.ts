@@ -14,7 +14,7 @@ export default abstract class Ghost extends Player implements IGhost {
     protected _score: number;
     protected _path: INode[];
     protected _pathfinder: IFindPath;
-    protected _aggressiveness: number;
+    protected _passiveness: number;
     private _timestamp: number;
     protected _fleeTime: number;
     protected _transitionTime: number;
@@ -110,7 +110,7 @@ export default abstract class Ghost extends Player implements IGhost {
         this._score = 200;
         this._path = null;
         this._pathfinder = new Pathfinder(this);
-        this._aggressiveness = 5;
+        this._passiveness = 5;
         this._totalTicks = 2;
         this._timestamp = null;
         this._fleeTime = 10000;
@@ -263,7 +263,7 @@ export default abstract class Ghost extends Player implements IGhost {
     private setPath(destination: INode, walkFullPath: boolean): void {
 
         let path = this._pathfinder.find(destination);
-        this._path = walkFullPath ? path: path.slice(0, this._aggressiveness);
+        this._path = walkFullPath ? path: path.slice(0, this._passiveness);
     }
 
     //check completion of current path

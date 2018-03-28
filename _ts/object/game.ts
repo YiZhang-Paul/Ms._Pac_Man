@@ -17,6 +17,7 @@ export default <IGame>{
         return this._state;
     },
 
+    //fps control
     get timeStep(): number {
 
         return this._timeStep;
@@ -27,6 +28,7 @@ export default <IGame>{
         return this._manager;
     },
 
+    //in-game canvases
     loadCanvas(): void {
 
         Canvas.background = Canvas.create(Grid.width, Grid.height, 1);
@@ -43,6 +45,9 @@ export default <IGame>{
         this._manager = new GameManager();
     },
 
+    /**
+     * keyboard event listeners
+     */
     registerKeyDown(): void {
 
         document.addEventListener("keydown", event => {

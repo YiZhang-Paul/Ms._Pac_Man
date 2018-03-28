@@ -1,6 +1,7 @@
 //helper functions
 export default {
 
+    //current time in milliseconds
     get now(): number {
 
         return new Date().getTime();
@@ -11,6 +12,7 @@ export default {
         return text[0].toUpperCase() + text.slice(1);
     },
 
+    //round number to given decimal place
     roundTo(value: number, decimal: number): number {
 
         const power = Math.pow(10, decimal);
@@ -23,6 +25,7 @@ export default {
         [array[index1], array[index2]] = [array[index2], array[index1]];
     },
 
+    //pick random element from a collection
     randomElement<T>(array: T[]): T {
 
         return array[this.getRandom(0, array.length - 1)];
@@ -38,6 +41,7 @@ export default {
         return array.slice(-1)[0];
     },
 
+    //remove first occurrence of given element from array
     removeElement<T>(array: T[], element: T): void {
 
         const index = array.indexOf(element);
@@ -48,11 +52,13 @@ export default {
         }
     },
 
+    //retrieve random integer value between given range (inclusive)
     getRandom(min: number, max: number): number {
 
         return Math.floor(Math.random() * (max - min + 1)) + min;
     },
 
+    //retrieve integer in middle of given range
     getRangeCenter(range: number): number {
 
         return (range + range % 2) * 0.5;

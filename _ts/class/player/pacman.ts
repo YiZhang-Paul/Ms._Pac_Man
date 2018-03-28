@@ -139,7 +139,7 @@ export default class Pacman extends Player implements IPacman {
 
             return;
         }
-
+        //check fruit position
         let fruitNode = Grid.getNode(fruit.coordinate);
         let pacmanNode = Grid.getNode(this._coordinate);
 

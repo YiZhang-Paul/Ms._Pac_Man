@@ -31,12 +31,14 @@ System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas"
                 get state() {
                     return this._state;
                 },
+                //fps control
                 get timeStep() {
                     return this._timeStep;
                 },
                 get manager() {
                     return this._manager;
                 },
+                //in-game canvases
                 loadCanvas() {
                     canvas_1.default.background = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 1);
                     canvas_1.default.food = canvas_1.default.create(grid_1.default.width, grid_1.default.height, 2);
@@ -49,6 +51,9 @@ System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas"
                     this.loadCanvas();
                     this._manager = new gameManager_1.default();
                 },
+                /**
+                 * keyboard event listeners
+                 */
                 registerKeyDown() {
                     document.addEventListener("keydown", event => {
                         const key = event.keyCode;

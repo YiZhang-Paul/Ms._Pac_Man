@@ -196,7 +196,7 @@ export default class FoodManager implements IFoodManager {
                     this._originator.showFruits();
                 }
 
-            }, 1000);
+            }, 20000);
         }
     }
 
