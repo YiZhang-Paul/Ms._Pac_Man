@@ -8,6 +8,11 @@ export default class Blinky extends Ghost {
     constructor(originator: IGhostManager) {
 
         super("blinky", originator);
+    }
+
+    public initialize(): void {
+
+        super.initialize();
         this._stateManager = new StateMachine(this, "chasing");
     }
 

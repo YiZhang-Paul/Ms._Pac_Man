@@ -18,6 +18,9 @@ System.register(["_ts/class/stateMachine", "_ts/class/node", "_ts/class/player/g
             Blinky = class Blinky extends ghost_1.default {
                 constructor(originator) {
                     super("blinky", originator);
+                }
+                initialize() {
+                    super.initialize();
                     this._stateManager = new stateMachine_1.default(this, "chasing");
                 }
                 setDirectionInHouse() {

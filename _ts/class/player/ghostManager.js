@@ -1,7 +1,7 @@
-System.register(["_ts/object/utility", "_ts/class/player/blinky"], function (exports_1, context_1) {
+System.register(["_ts/object/utility", "_ts/class/player/blinky", "_ts/class/player/pinky", "_ts/class/player/inky", "_ts/class/player/sue"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var utility_1, blinky_1, GhostManager;
+    var utility_1, blinky_1, pinky_1, inky_1, sue_1, GhostManager;
     return {
         setters: [
             function (utility_1_1) {
@@ -9,6 +9,15 @@ System.register(["_ts/object/utility", "_ts/class/player/blinky"], function (exp
             },
             function (blinky_1_1) {
                 blinky_1 = blinky_1_1;
+            },
+            function (pinky_1_1) {
+                pinky_1 = pinky_1_1;
+            },
+            function (inky_1_1) {
+                inky_1 = inky_1_1;
+            },
+            function (sue_1_1) {
+                sue_1 = sue_1_1;
             }
         ],
         execute: function () {
@@ -22,6 +31,18 @@ System.register(["_ts/object/utility", "_ts/class/player/blinky"], function (exp
                 }
                 get ghosts() {
                     return this._ghosts;
+                }
+                get blinky() {
+                    return this._blinky;
+                }
+                get pinky() {
+                    return this._pinky;
+                }
+                get inky() {
+                    return this._inky;
+                }
+                get sue() {
+                    return this._sue;
                 }
                 //all ghosts currently in ghost house
                 get house() {
@@ -38,9 +59,9 @@ System.register(["_ts/object/utility", "_ts/class/player/blinky"], function (exp
                 initialize() {
                     this._names = ["blinky", "pinky", "inky", "sue"];
                     this._blinky = new blinky_1.default(this);
-                    this._pinky = new blinky_1.default(this);
-                    this._inky = new blinky_1.default(this);
-                    this._sue = new blinky_1.default(this);
+                    this._pinky = new pinky_1.default(this);
+                    this._inky = new inky_1.default(this);
+                    this._sue = new sue_1.default(this);
                     this._ghosts = new Set([this._blinky, this._pinky, this._inky, this._sue]);
                     this._house = new Set([this._pinky, this._inky, this._sue]);
                     this._cooldown = 2000;

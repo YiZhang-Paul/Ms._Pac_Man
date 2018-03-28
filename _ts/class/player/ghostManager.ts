@@ -1,6 +1,9 @@
 import { IGhostManager, IGhost, IPacman, IGameManager } from "_ts/interfaces";
 import Utility from "_ts/object/utility";
 import Blinky from "_ts/class/player/blinky";
+import Pinky from "_ts/class/player/pinky";
+import Inky from "_ts/class/player/inky";
+import Sue from "_ts/class/player/sue";
 
 export default class GhostManager implements IGhostManager {
 
@@ -31,6 +34,26 @@ export default class GhostManager implements IGhostManager {
         return this._ghosts;
     }
 
+    get blinky(): IGhost {
+
+        return this._blinky;
+    }
+
+    get pinky(): IGhost {
+
+        return this._pinky;
+    }
+
+    get inky(): IGhost {
+
+        return this._inky;
+    }
+
+    get sue(): IGhost {
+
+        return this._sue;
+    }
+
     //all ghosts currently in ghost house
     get house(): Set<IGhost> {
 
@@ -53,9 +76,9 @@ export default class GhostManager implements IGhostManager {
 
         this._names = ["blinky", "pinky", "inky", "sue"];
         this._blinky = new Blinky(this);
-        this._pinky = new Blinky(this);
-        this._inky = new Blinky(this);
-        this._sue = new Blinky(this);
+        this._pinky = new Pinky(this);
+        this._inky = new Inky(this);
+        this._sue = new Sue(this);
         this._ghosts = new Set([this._blinky, this._pinky, this._inky, this._sue]);
         this._house = new Set([this._pinky, this._inky, this._sue]);
         this._cooldown = 2000;
