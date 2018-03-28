@@ -14,7 +14,7 @@ export default abstract class Movable implements IMovable {
     protected _cropWidth: number;
     protected _tile: HTMLImageElement;
     protected _ctx: CanvasRenderingContext2D;
-    protected _state: IState;
+    protected _stateManager: IState;
 
     constructor(row: number, column: number, direction: string) {
 
@@ -51,7 +51,7 @@ export default abstract class Movable implements IMovable {
 
     get state(): string {
 
-        return this._state.active;
+        return this._stateManager.active;
     }
 
     //straight path on current facing direction
@@ -139,7 +139,7 @@ export default abstract class Movable implements IMovable {
         this._cropWidth = 32;
         this._tile = <HTMLImageElement>document.getElementById("tile");
         this._ctx = null;
-        this._state = new StateMachine(this);
+        this._stateManager = new StateMachine(this, null);
         this.getCropXY();
         this.syncLocation();
     }

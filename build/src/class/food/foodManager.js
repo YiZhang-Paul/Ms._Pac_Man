@@ -164,6 +164,15 @@ System.register(["src/object/utility", "src/object/canvas", "src/class/food/bean
                     }, utility_1.default.getRandom(1, 2) * 1000);
                 }
                 removeBean(bean) {
+                    if (this.isPowerBean(bean.row, bean.column)) {
+                        this._powerBeans.delete(bean);
+                        this._originator.startFlee();
+                    }
+                    this._originator.checkScore(bean.score);
+                    //remove beans
+                    grid_1.default.layout.setObject(bean.row, bean.column, null);
+                    this._totalBeans--;
+                    this._originator.checkGameState();
                 }
                 removeFruit(auto) {
                     if (!auto) {
@@ -172,14 +181,6 @@ System.register(["src/object/utility", "src/object/canvas", "src/class/food/bean
                         this._originator.addPopUp(this._fruit.coordinate, score);
                     }
                     this._fruit = null;
-                }
-                remove(food) {
-                    if (this.isPowerBean(food.row, food.column)) {
-                        this._powerBeans.delete(food);
-                        //TODO: trigger ghost flee on power bean consumption
-                    }
-                    //remove beans
-                    grid_1.default.layout.setObject(food.row, food.column, null);
                 }
                 update(timeStep) {
                     this.queueFruit();

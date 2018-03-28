@@ -1,7 +1,7 @@
-System.register(["src/object/locations", "src/object/utility", "src/class/stateMachine", "src/class/pathfinder", "src/class/player/player", "src/class/point", "src/class/node", "src/class/grid"], function (exports_1, context_1) {
+System.register(["src/object/locations", "src/object/utility", "src/class/pathfinder", "src/class/player/player", "src/class/point", "src/class/node", "src/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var locations_1, utility_1, stateMachine_1, pathfinder_1, player_1, point_1, node_1, grid_1, Ghost;
+    var locations_1, utility_1, pathfinder_1, player_1, point_1, node_1, grid_1, Ghost;
     return {
         setters: [
             function (locations_1_1) {
@@ -9,9 +9,6 @@ System.register(["src/object/locations", "src/object/utility", "src/class/stateM
             },
             function (utility_1_1) {
                 utility_1 = utility_1_1;
-            },
-            function (stateMachine_1_1) {
-                stateMachine_1 = stateMachine_1_1;
             },
             function (pathfinder_1_1) {
                 pathfinder_1 = pathfinder_1_1;
@@ -96,7 +93,6 @@ System.register(["src/object/locations", "src/object/utility", "src/class/stateM
                     this._fleeTime = 10000;
                     this._transitionTime = 3000;
                     this._dodging = false;
-                    this._stateManager = new stateMachine_1.default(this, null);
                     this.defaultCropXY = this.getCropXY;
                 }
                 reset() {

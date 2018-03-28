@@ -19,7 +19,6 @@ export default abstract class Ghost extends Player implements IGhost {
     protected _fleeTime: number;
     protected _transitionTime: number;
     protected _dodging: boolean;
-    protected _stateManager: IState;
 
     constructor(name: string, originator: IGhostManager) {
 
@@ -116,7 +115,6 @@ export default abstract class Ghost extends Player implements IGhost {
         this._fleeTime = 10000;
         this._transitionTime = 3000;
         this._dodging = false;
-        this._stateManager = new StateMachine(this, null);
         this.defaultCropXY = this.getCropXY;
     }
 

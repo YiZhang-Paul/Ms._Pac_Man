@@ -38,7 +38,7 @@ System.register(["src/class/stateMachine", "src/class/node", "src/class/grid"], 
                     return this._direction;
                 }
                 get state() {
-                    return this._state.active;
+                    return this._stateManager.active;
                 }
                 //straight path on current facing direction
                 get pathAhead() {
@@ -94,7 +94,7 @@ System.register(["src/class/stateMachine", "src/class/node", "src/class/grid"], 
                     this._cropWidth = 32;
                     this._tile = document.getElementById("tile");
                     this._ctx = null;
-                    this._state = new stateMachine_1.default(this);
+                    this._stateManager = new stateMachine_1.default(this, null);
                     this.getCropXY();
                     this.syncLocation();
                 }

@@ -92,6 +92,9 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                     this._popUps = new Set();
                     this._stateManager.reset();
                 }
+                startFlee() {
+                    this._ghostManager.startFlee();
+                }
                 killPacman(killed) {
                     if (killed) {
                         this._life--;
@@ -111,6 +114,11 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                     this._score += score;
                     this._highest = Math.max(this._score, this._highest);
                     this._scoreBoard.draw();
+                }
+                checkGameState() {
+                    if (this._foodManager.totalBeans === 0) {
+                        this._stateManager.swap("resetting");
+                    }
                 }
                 showFruits() {
                     this._hud.draw();

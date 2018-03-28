@@ -109,6 +109,11 @@ export default class GameManager implements IGameManager {
         this._stateManager.reset();
     }
 
+    public startFlee(): void {
+
+        this._ghostManager.startFlee();
+    }
+
     public killPacman(killed: boolean): void {
 
         if(killed) {
@@ -136,6 +141,14 @@ export default class GameManager implements IGameManager {
         this._score += score;
         this._highest = Math.max(this._score, this._highest);
         this._scoreBoard.draw();
+    }
+
+    public checkGameState(): void {
+
+        if(this._foodManager.totalBeans === 0) {
+
+            this._stateManager.swap("resetting");
+        }
     }
 
     public showFruits(): void {

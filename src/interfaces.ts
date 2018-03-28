@@ -261,9 +261,11 @@ export interface IGameManager extends IManager {
     readonly pacman: IPacman;
     readonly ghosts: Set<IGhost>;
 
+    startFlee(): void;
     killPacman(killed: boolean): void;
     killGhost(ghost: IGhost): void;
     checkScore(score: number): void;
+    checkGameState(): void;
     showFruits(): void;
     addPopUp(coordinate: IPoint, score: number): void;
     removePopUp(popUp: IPopUp): void;

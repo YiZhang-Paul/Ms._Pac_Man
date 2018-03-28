@@ -221,6 +221,17 @@ export default class FoodManager implements IFoodManager {
 
     public removeBean(bean: IFood): void {
 
+        if(this.isPowerBean(bean.row, bean.column)) {
+
+            this._powerBeans.delete(<IBlinkableFood>bean);
+            this._originator.startFlee();
+        }
+
+        this._originator.checkScore(bean.score);
+        //remove beans
+        Grid.layout.setObject(bean.row, bean.column, null);
+        this._totalBeans--;
+        this._originator.checkGameState();
     }
 
     public removeFruit(auto: boolean): void {
@@ -233,17 +244,6 @@ export default class FoodManager implements IFoodManager {
         }
 
         this._fruit = null;
-    }
-
-    public remove(food: IFood): void {
-
-        if(this.isPowerBean(food.row, food.column)) {
-
-            this._powerBeans.delete(<IBlinkableFood>food);
-            //TODO: trigger ghost flee on power bean consumption
-        }
-        //remove beans
-        Grid.layout.setObject(food.row, food.column, null);
     }
 
     public update(timeStep: number): void {
