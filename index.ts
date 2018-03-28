@@ -1,4 +1,4 @@
-import Game from "_ts/object/game";
+import Game from "src/object/game";
 
 Game.initialize();
 
