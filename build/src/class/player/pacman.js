@@ -114,7 +114,7 @@ System.register(["src/object/control", "src/class/player/player", "src/class/poi
                     let fruitNode = grid_1.default.getNode(fruit.coordinate);
                     let pacmanNode = grid_1.default.getNode(this._coordinate);
                     if (fruitNode.isSame(pacmanNode)) {
-                        fruit.dispose();
+                        fruit.dispose(false);
                     }
                 }
                 consume() {

@@ -1,4 +1,11 @@
-import { IGameManager, IFoodManager, IHud, IPopUp, IPacman, IGhost, IGhostManager, IMaze, IScoreBoard, IState } from "src/interfaces";
+import {
+
+    IGameManager, IFoodManager, IHud, IPopUp,
+    IPacman, IGhost, IGhostManager, IMaze,
+    IPoint, IScoreBoard, IState
+
+} from "src/interfaces";
+
 import Control from "src/object/control";
 import Canvas from "src/object/canvas";
 import StateMachine from "src/class/stateMachine";
@@ -119,9 +126,7 @@ export default class GameManager implements IGameManager {
 
         const multiplier = Math.pow(2, this._pacman.killCount - 1);
         const score = ghost.score * multiplier;
-        const x = ghost.coordinate.x;
-        const y = ghost.coordinate.y;
-        this._popUps.add(new ScorePopUp(this, x, y, score));
+        this.addPopUp(ghost.coordinate, score);
         this.checkScore(score);
         this._stateManager.swap("ghostKilled");
     }
@@ -136,6 +141,11 @@ export default class GameManager implements IGameManager {
     public showFruits(): void {
 
         this._hud.draw();
+    }
+
+    public addPopUp(coordinate: IPoint, score: number): void {
+
+        this._popUps.add(new ScorePopUp(this, coordinate.x, coordinate.y, score));
     }
 
     public removePopUp(popUp: IPopUp): void {
@@ -168,6 +178,11 @@ export default class GameManager implements IGameManager {
     public update(timeStep: number): void {
 
         this._stateManager.update(timeStep);
+
+        this._popUps.forEach(popUp => {
+
+            popUp.update();
+        });
     }
 
     private drawPopUps(): void {

@@ -50,7 +50,7 @@ System.register(["src/class/point", "src/object/canvas", "src/class/grid"], func
                 }
                 //permanently delete bean
                 dispose() {
-                    this._originator.remove(this);
+                    this._originator.removeBean(this);
                     this.erase();
                 }
                 draw() {

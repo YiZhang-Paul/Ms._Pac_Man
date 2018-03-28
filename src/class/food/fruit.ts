@@ -59,7 +59,7 @@ export default class Fruit extends Movable implements IFruit {
         super.initialize();
         this._score = 500;
         this._spawn = Utility.now;
-        this._lifespan = 30000;
+        this._lifespan = 10000;
         this._falling = false;
         this._jumpHeight = 0;
         this._maxJumpHeight = Grid.nodeSize;
@@ -82,9 +82,9 @@ export default class Fruit extends Movable implements IFruit {
     }
 
     //permanently delete fruit
-    public dispose(): void {
+    public dispose(auto: boolean): void {
 
-        this._originator.remove(this);
+        this._originator.removeFruit(auto);
         this.erase();
     }
 
@@ -93,7 +93,7 @@ export default class Fruit extends Movable implements IFruit {
 
         if(!Grid.layout.exists(this._row, this._column)) {
 
-            this.dispose();
+            this.dispose(true);
         }
     }
 

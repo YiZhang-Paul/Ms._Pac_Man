@@ -46,7 +46,7 @@ System.register(["src/object/utility", "src/object/canvas", "src/class/player/mo
                     super.initialize();
                     this._score = 500;
                     this._spawn = utility_1.default.now;
-                    this._lifespan = 30000;
+                    this._lifespan = 10000;
                     this._falling = false;
                     this._jumpHeight = 0;
                     this._maxJumpHeight = grid_1.default.nodeSize;
@@ -60,14 +60,14 @@ System.register(["src/object/utility", "src/object/canvas", "src/class/player/mo
                     this._ctx.clearRect(this._coordinate.x - grid_1.default.nodeSize * 2, this._coordinate.y - grid_1.default.nodeSize * 2, grid_1.default.nodeSize * 4, grid_1.default.nodeSize * 4);
                 }
                 //permanently delete fruit
-                dispose() {
-                    this._originator.remove(this);
+                dispose(auto) {
+                    this._originator.removeFruit(auto);
                     this.erase();
                 }
                 //self-dispose when going out of maze area
                 autoDispose() {
                     if (!grid_1.default.layout.exists(this._row, this._column)) {
-                        this.dispose();
+                        this.dispose(true);
                     }
                 }
                 getCropXY() {

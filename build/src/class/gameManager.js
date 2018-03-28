@@ -103,9 +103,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                 killGhost(ghost) {
                     const multiplier = Math.pow(2, this._pacman.killCount - 1);
                     const score = ghost.score * multiplier;
-                    const x = ghost.coordinate.x;
-                    const y = ghost.coordinate.y;
-                    this._popUps.add(new scorePopUp_1.default(this, x, y, score));
+                    this.addPopUp(ghost.coordinate, score);
                     this.checkScore(score);
                     this._stateManager.swap("ghostKilled");
                 }
@@ -116,6 +114,9 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                 }
                 showFruits() {
                     this._hud.draw();
+                }
+                addPopUp(coordinate, score) {
+                    this._popUps.add(new scorePopUp_1.default(this, coordinate.x, coordinate.y, score));
                 }
                 removePopUp(popUp) {
                     this._popUps.delete(popUp);
@@ -137,6 +138,9 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                 }
                 update(timeStep) {
                     this._stateManager.update(timeStep);
+                    this._popUps.forEach(popUp => {
+                        popUp.update();
+                    });
                 }
                 drawPopUps() {
                     this._popUps.forEach(popUp => {

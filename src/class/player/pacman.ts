@@ -145,7 +145,7 @@ export default class Pacman extends Player implements IPacman {
 
         if(fruitNode.isSame(pacmanNode)) {
 
-            fruit.dispose();
+            fruit.dispose(false);
         }
     }
 

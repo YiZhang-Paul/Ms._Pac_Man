@@ -71,7 +71,7 @@ export default class Bean implements IFood {
     //permanently delete bean
     public dispose(): void {
 
-        this._originator.remove(this);
+        this._originator.removeBean(this);
         this.erase();
     }
 

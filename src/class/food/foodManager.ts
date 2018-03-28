@@ -196,7 +196,7 @@ export default class FoodManager implements IFoodManager {
                     this._originator.showFruits();
                 }
 
-            }, 20000);
+            }, 1000);
         }
     }
 
@@ -216,17 +216,26 @@ export default class FoodManager implements IFoodManager {
             clearTimeout(this._timeout);
             this._timeout = null;
 
-        }, Utility.getRandom(10, 20) * 1000);
+        }, Utility.getRandom(1, 2) * 1000);
+    }
+
+    public removeBean(bean: IFood): void {
+
+    }
+
+    public removeFruit(auto: boolean): void {
+
+        if(!auto) {
+
+            const score = this._fruit.score;
+            this._originator.checkScore(score);
+            this._originator.addPopUp(this._fruit.coordinate, score);
+        }
+
+        this._fruit = null;
     }
 
     public remove(food: IFood): void {
-        //remove fruit
-        if(food === this._fruit) {
-
-            this._fruit = null;
-
-            return;
-        }
 
         if(this.isPowerBean(food.row, food.column)) {
 

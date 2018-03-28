@@ -10,7 +10,7 @@ export interface IResettable {
 
 export interface IDisposable {
 
-    dispose(): void;
+    dispose(auto?: boolean): void;
 }
 
 export interface IComparable<T> {
@@ -227,7 +227,8 @@ export interface IFoodManager extends IManager {
     getBean(row: number, column: number): IFood;
     putBeans(): void;
     putFruit(): void;
-    remove(food: IFood): void;
+    removeBean(bean: IFood): void;
+    removeFruit(auto: boolean): void;
 }
 
 export interface IGhostManager extends IManager {
@@ -264,6 +265,7 @@ export interface IGameManager extends IManager {
     killGhost(ghost: IGhost): void;
     checkScore(score: number): void;
     showFruits(): void;
+    addPopUp(coordinate: IPoint, score: number): void;
     removePopUp(popUp: IPopUp): void;
 }
 

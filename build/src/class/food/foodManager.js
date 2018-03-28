@@ -148,7 +148,7 @@ System.register(["src/object/utility", "src/object/canvas", "src/class/food/bean
                                 this._fruitQueue.push(utility_1.default.getRandom(1, 7));
                                 this._originator.showFruits();
                             }
-                        }, 20000);
+                        }, 1000);
                     }
                 }
                 //place first fruit in queue on game area
@@ -161,14 +161,19 @@ System.register(["src/object/utility", "src/object/canvas", "src/class/food/bean
                         this._originator.showFruits();
                         clearTimeout(this._timeout);
                         this._timeout = null;
-                    }, utility_1.default.getRandom(10, 20) * 1000);
+                    }, utility_1.default.getRandom(1, 2) * 1000);
+                }
+                removeBean(bean) {
+                }
+                removeFruit(auto) {
+                    if (!auto) {
+                        const score = this._fruit.score;
+                        this._originator.checkScore(score);
+                        this._originator.addPopUp(this._fruit.coordinate, score);
+                    }
+                    this._fruit = null;
                 }
                 remove(food) {
-                    //remove fruit
-                    if (food === this._fruit) {
-                        this._fruit = null;
-                        return;
-                    }
                     if (this.isPowerBean(food.row, food.column)) {
                         this._powerBeans.delete(food);
                         //TODO: trigger ghost flee on power bean consumption
