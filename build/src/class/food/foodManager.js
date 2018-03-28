@@ -57,10 +57,8 @@ System.register(["src/object/utility", "src/object/canvas", "src/class/food/bean
                     this.blink();
                 }
                 reset() {
-                    this._powerBeans = new Set();
-                    this._fruitQueue = new Array();
                     if (this._fruit !== null) {
-                        this._fruit.dispose();
+                        this._fruit.dispose(true);
                     }
                 }
                 //blink all power beans
@@ -165,17 +163,20 @@ System.register(["src/object/utility", "src/object/canvas", "src/class/food/bean
                 }
                 removeBean(bean) {
                     if (this.isPowerBean(bean.row, bean.column)) {
-                        this._powerBeans.delete(bean);
+                        //trigger ghost flee mode on power bean consumption
                         this._originator.startFlee();
+                        this._powerBeans.delete(bean);
                     }
                     this._originator.checkScore(bean.score);
                     //remove beans
                     grid_1.default.layout.setObject(bean.row, bean.column, null);
                     this._totalBeans--;
+                    //check game end
                     this._originator.checkGameState();
                 }
                 removeFruit(auto) {
                     if (!auto) {
+                        //calculate score when consumed by pacman
                         const score = this._fruit.score;
                         this._originator.checkScore(score);
                         this._originator.addPopUp(this._fruit.coordinate, score);

@@ -51,6 +51,7 @@ export default class ScoreBoard implements IScoreBoard {
 
         this._tick = 0;
         this.draw();
+        this.blinkId();
     }
 
     //change to next tick

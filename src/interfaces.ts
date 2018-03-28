@@ -31,6 +31,11 @@ export interface IDimension {
     readonly height: number;
 }
 
+export interface IUpdatable {
+
+    update(timeStep?: number): void;
+}
+
 export interface IRenderable {
 
     draw(): void;
@@ -88,24 +93,22 @@ export interface INode extends IComparable<INode> {
     parent: INode;
 }
 
-export interface IState extends IInitializable, IResettable {
+export interface IState extends IInitializable, IResettable, IUpdatable {
 
     readonly active: string;
 
     push(state: string): void;
     pop(): string;
     swap(state: string): void;
-    update(timeStep: number): void;
 }
 
-export interface IMovable extends IInitializable, IResettable, ILocatable, IRenderable {
+export interface IMovable extends IInitializable, IResettable, ILocatable, IUpdatable, IRenderable {
 
     speed: number;
     direction: string;
     readonly state: string;
 
     distanceToMovable(movable: IMovable): number;
-    update(timeStep: number): void;
 }
 
 export interface IPlayer extends IMovable {
@@ -137,6 +140,7 @@ export interface IPacman extends IPlayer {
 
     killGhost(): void;
     consume(): void;
+    playDeathAnimation(): void;
 }
 
 export interface IGridData extends IDimension {
@@ -188,11 +192,9 @@ export interface IScoreBoard extends IUserInterface {
     blinkId(): void;
 }
 
-export interface IPopUp extends IUserInterface, IDisposable {
+export interface IPopUp extends IUserInterface, IDisposable, IUpdatable {
 
     readonly isAlive: boolean;
-
-    update(): void;
 }
 
 export interface IHud extends IUserInterface {
@@ -211,10 +213,7 @@ export interface IBlinkableFood extends IFood, IBlinkable {}
 
 export interface IFruit extends IFood, IMovable {}
 
-export interface IManager extends IInitializable, IResettable, IRenderable {
-
-    update(timeStep: number): void;
-}
+export interface IManager extends IInitializable, IResettable, IUpdatable, IRenderable {}
 
 export interface IFoodManager extends IManager {
 
@@ -271,12 +270,11 @@ export interface IGameManager extends IManager {
     removePopUp(popUp: IPopUp): void;
 }
 
-export interface IGame extends IInitializable, IResettable, IRenderable {
+export interface IGame extends IInitializable, IResettable, IUpdatable, IRenderable {
 
     readonly state: string;
     readonly timeStep: number;
     readonly manager: IGameManager;
 
     run(): void;
-    update(): void;
 }

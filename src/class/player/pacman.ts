@@ -174,7 +174,7 @@ export default class Pacman extends Player implements IPacman {
         this._cropXY = new Point(x, y);
     }
 
-    private playDeathAnimation(): void {
+    public playDeathAnimation(): void {
 
         if(this._deathTimeout !== null || this._deathInterval !== null) {
 

@@ -331,7 +331,7 @@ export default abstract class Ghost extends Player implements IGhost {
 
         if(this.distanceToMovable(this.enemy) < Grid.nodeSize) {
 
-            //(<IGhostManager>this._originator).killPacman();
+            (<IGhostManager>this._originator).killPacman();
         }
     }
 

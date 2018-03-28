@@ -26,6 +26,7 @@ export default class GameManager implements IGameManager {
     private _highest: number;
     private _foodManager: IFoodManager;
     private _ghostManager: IGhostManager;
+    private _lastGhostKilled: IGhost;
     private _pacman: IPacman;
     private _maze: IMaze;
     private _scoreBoard: IScoreBoard;
@@ -61,6 +62,11 @@ export default class GameManager implements IGameManager {
         return this._highest;
     }
 
+    get state(): string {
+
+        return this._stateManager.active;
+    }
+
     get pacman(): IPacman {
 
         return this._pacman;
@@ -79,6 +85,7 @@ export default class GameManager implements IGameManager {
         this._highest = this._score;
         this._foodManager = new FoodManager(this);
         this._ghostManager = new GhostManager(this);
+        this._lastGhostKilled = null;
         this._pacman = new Pacman(this, this._foodManager);
         this._maze = new Maze(Grid.width, Grid.height);
         this._hud = new Hud(this, this._foodManager);
@@ -102,10 +109,12 @@ export default class GameManager implements IGameManager {
 
         this._score = 0;
         this._ghostManager.reset();
+        this._lastGhostKilled = null;
+        this._foodManager.reset();
         this._pacman.reset();
         this._maze.reset();
+        this._hud.reset();
         this._scoreBoard.reset();
-        this._popUps = new Set<IPopUp>();
         this._stateManager.reset();
     }
 
@@ -131,8 +140,10 @@ export default class GameManager implements IGameManager {
 
         const multiplier = Math.pow(2, this._pacman.killCount - 1);
         const score = ghost.score * multiplier;
-        this.addPopUp(ghost.coordinate, score);
         this.checkScore(score);
+        this.addPopUp(ghost.coordinate, score);
+        this._lastGhostKilled = ghost;
+        this._lastGhostKilled.startRetreat();
         this._stateManager.swap("ghostKilled");
     }
 
@@ -188,6 +199,78 @@ export default class GameManager implements IGameManager {
         this._foodManager.update(timeStep);
     }
 
+    private ghostKilled(timeStep: number): void {
+
+        this.ghosts.forEach(ghost => {
+
+            if(ghost !== this._lastGhostKilled && ghost.state === "retreat") {
+
+                ghost.update(timeStep);
+            }
+        });
+
+        if(this._timeout === null) {
+
+            this._pacman.stopAnimation(0);
+
+            this._timeout = setTimeout(() => {
+
+                this._stateManager.swap("ongoing");
+
+                clearTimeout(this._timeout);
+                this._timeout = null;
+
+            }, 400);
+        }
+    }
+
+    private pacmanDying(timeStep: number): void {
+
+        if(this._timeout === null && !this._pacman.isDying) {
+
+            this._pacman.stopAnimation(2);
+
+            this._timeout = setTimeout(() => {
+
+                this._pacman.playDeathAnimation();
+
+                clearTimeout(this._timeout);
+                this._timeout = null;
+
+            }, 2000);
+        }
+    }
+
+    private resetting(timeStep: number): void {
+
+        if(this._interval === null && this._timeout === null) {
+
+            this._interval = setInterval(() => {
+
+                this._maze.blink();
+
+            }, 300);
+
+            this._timeout = setTimeout(() => {
+
+                clearTimeout(this._timeout);
+                this._timeout = null;
+                clearInterval(this._interval);
+                this._interval = null;
+
+                if(this._life === 0) {
+
+                    this.initialize();
+                }
+                else {
+
+                    this.reset();
+                }
+
+            }, 3000);
+        }
+    }
+
     public update(timeStep: number): void {
 
         this._stateManager.update(timeStep);
@@ -209,9 +292,17 @@ export default class GameManager implements IGameManager {
     public draw(): void {
 
         this._ctx.clearRect(0, 0, Grid.width, Grid.height);
-        this._pacman.draw();
-        this._ghostManager.draw();
         this._foodManager.draw();
         this.drawPopUps();
+
+        if(this.state !== "resetting") {
+
+            this._pacman.draw();
+        }
+
+        if(!this._pacman.isDying && this.state !== "resetting") {
+
+            this._ghostManager.draw();
+        }
     }
 }

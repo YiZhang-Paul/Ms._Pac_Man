@@ -44,6 +44,7 @@ System.register(["src/object/monitor", "src/object/canvas", "src/class/grid"], f
                     }
                     this._tick = 0;
                     this.draw();
+                    this.blinkId();
                 }
                 //change to next tick
                 flip() {

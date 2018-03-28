@@ -55,6 +55,9 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                 get highest() {
                     return this._highest;
                 }
+                get state() {
+                    return this._stateManager.active;
+                }
                 get pacman() {
                     return this._pacman;
                 }
@@ -68,6 +71,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                     this._highest = this._score;
                     this._foodManager = new foodManager_1.default(this);
                     this._ghostManager = new ghostManager_1.default(this);
+                    this._lastGhostKilled = null;
                     this._pacman = new pacman_1.default(this, this._foodManager);
                     this._maze = new maze_1.default(grid_1.default.width, grid_1.default.height);
                     this._hud = new hud_1.default(this, this._foodManager);
@@ -86,10 +90,12 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                 reset() {
                     this._score = 0;
                     this._ghostManager.reset();
+                    this._lastGhostKilled = null;
+                    this._foodManager.reset();
                     this._pacman.reset();
                     this._maze.reset();
+                    this._hud.reset();
                     this._scoreBoard.reset();
-                    this._popUps = new Set();
                     this._stateManager.reset();
                 }
                 startFlee() {
@@ -106,8 +112,10 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                 killGhost(ghost) {
                     const multiplier = Math.pow(2, this._pacman.killCount - 1);
                     const score = ghost.score * multiplier;
-                    this.addPopUp(ghost.coordinate, score);
                     this.checkScore(score);
+                    this.addPopUp(ghost.coordinate, score);
+                    this._lastGhostKilled = ghost;
+                    this._lastGhostKilled.startRetreat();
                     this._stateManager.swap("ghostKilled");
                 }
                 checkScore(score) {
@@ -144,6 +152,50 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                     this._ghostManager.update(timeStep);
                     this._foodManager.update(timeStep);
                 }
+                ghostKilled(timeStep) {
+                    this.ghosts.forEach(ghost => {
+                        if (ghost !== this._lastGhostKilled && ghost.state === "retreat") {
+                            ghost.update(timeStep);
+                        }
+                    });
+                    if (this._timeout === null) {
+                        this._pacman.stopAnimation(0);
+                        this._timeout = setTimeout(() => {
+                            this._stateManager.swap("ongoing");
+                            clearTimeout(this._timeout);
+                            this._timeout = null;
+                        }, 400);
+                    }
+                }
+                pacmanDying(timeStep) {
+                    if (this._timeout === null && !this._pacman.isDying) {
+                        this._pacman.stopAnimation(2);
+                        this._timeout = setTimeout(() => {
+                            this._pacman.playDeathAnimation();
+                            clearTimeout(this._timeout);
+                            this._timeout = null;
+                        }, 2000);
+                    }
+                }
+                resetting(timeStep) {
+                    if (this._interval === null && this._timeout === null) {
+                        this._interval = setInterval(() => {
+                            this._maze.blink();
+                        }, 300);
+                        this._timeout = setTimeout(() => {
+                            clearTimeout(this._timeout);
+                            this._timeout = null;
+                            clearInterval(this._interval);
+                            this._interval = null;
+                            if (this._life === 0) {
+                                this.initialize();
+                            }
+                            else {
+                                this.reset();
+                            }
+                        }, 3000);
+                    }
+                }
                 update(timeStep) {
                     this._stateManager.update(timeStep);
                     this._popUps.forEach(popUp => {
@@ -157,10 +209,14 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                 }
                 draw() {
                     this._ctx.clearRect(0, 0, grid_1.default.width, grid_1.default.height);
-                    this._pacman.draw();
-                    this._ghostManager.draw();
                     this._foodManager.draw();
                     this.drawPopUps();
+                    if (this.state !== "resetting") {
+                        this._pacman.draw();
+                    }
+                    if (!this._pacman.isDying && this.state !== "resetting") {
+                        this._ghostManager.draw();
+                    }
                 }
             };
             exports_1("default", GameManager);

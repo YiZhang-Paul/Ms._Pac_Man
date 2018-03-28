@@ -245,7 +245,7 @@ System.register(["src/object/locations", "src/object/utility", "src/class/pathfi
                 }
                 killPacman() {
                     if (this.distanceToMovable(this.enemy) < grid_1.default.nodeSize) {
-                        //(<IGhostManager>this._originator).killPacman();
+                        this._originator.killPacman();
                     }
                 }
                 /**

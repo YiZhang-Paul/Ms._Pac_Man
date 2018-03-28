@@ -65,12 +65,9 @@ export default class FoodManager implements IFoodManager {
 
     public reset(): void {
 
-        this._powerBeans = new Set<IBlinkableFood>();
-        this._fruitQueue = new Array<number>();
-
         if(this._fruit !== null) {
 
-            this._fruit.dispose();
+            this._fruit.dispose(true);
         }
     }
 
@@ -222,22 +219,23 @@ export default class FoodManager implements IFoodManager {
     public removeBean(bean: IFood): void {
 
         if(this.isPowerBean(bean.row, bean.column)) {
-
-            this._powerBeans.delete(<IBlinkableFood>bean);
+            //trigger ghost flee mode on power bean consumption
             this._originator.startFlee();
+            this._powerBeans.delete(<IBlinkableFood>bean);
         }
 
         this._originator.checkScore(bean.score);
         //remove beans
         Grid.layout.setObject(bean.row, bean.column, null);
         this._totalBeans--;
+        //check game end
         this._originator.checkGameState();
     }
 
     public removeFruit(auto: boolean): void {
 
         if(!auto) {
-
+            //calculate score when consumed by pacman
             const score = this._fruit.score;
             this._originator.checkScore(score);
             this._originator.addPopUp(this._fruit.coordinate, score);
