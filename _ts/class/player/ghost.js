@@ -84,6 +84,7 @@ System.register(["_ts/object/locations", "_ts/object/utility", "_ts/class/stateM
                     return this._column < 3 || this._column > grid_1.default.layout.columns - 4;
                 }
                 initialize() {
+                    super.initialize();
                     this._defaultSpeed = Math.round(grid_1.default.height * 0.02) / 100;
                     this._speed = this._defaultSpeed;
                     this._score = 200;

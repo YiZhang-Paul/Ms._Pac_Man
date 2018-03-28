@@ -58,10 +58,6 @@ System.register(["_ts/object/monitor", "_ts/object/canvas", "_ts/class/grid"], f
                         }, 150);
                     }
                 }
-                update(score) {
-                    this._originator.checkScore(score);
-                    this.draw();
-                }
                 drawTexts(texts) {
                     for (let i = 0; i < texts.length; i++) {
                         for (let j = 0; j < texts[i].length; j++) {

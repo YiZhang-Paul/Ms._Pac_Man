@@ -88,8 +88,16 @@ export default class ScorePopUp implements IPopUp {
     //permanently delete pop up
     public dispose(): void {
 
-        this._originator.popUps.delete(this);
+        this._originator.removePopUp(this);
         this.erase();
+    }
+
+    public update(): void {
+
+        if(!this.isAlive) {
+
+            this.dispose();
+        }
     }
 
     public draw(): void {

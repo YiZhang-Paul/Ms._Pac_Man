@@ -10,9 +10,8 @@ System.register(["_ts/object/utility"], function (exports_1, context_1) {
         ],
         execute: function () {
             GhostManager = class GhostManager {
-                constructor(originator, enemy) {
+                constructor(originator) {
                     this._originator = originator;
-                    this._enemy = enemy;
                     this.initialize();
                 }
                 get names() {
@@ -21,12 +20,15 @@ System.register(["_ts/object/utility"], function (exports_1, context_1) {
                 get ghosts() {
                     return this._ghosts;
                 }
+                //all ghosts currently in ghost house
                 get house() {
                     return this._house;
                 }
+                //human controlled characters
                 get enemy() {
-                    return this._enemy;
+                    return this._originator.pacman;
                 }
+                //cooldown to allow leaving ghost house
                 get onCooldown() {
                     return this._timestamp + this._cooldown > utility_1.default.now;
                 }
@@ -47,6 +49,7 @@ System.register(["_ts/object/utility"], function (exports_1, context_1) {
                     });
                     this._house = new Set([this._pinky, this._inky, this._sue]);
                 }
+                //record timestamp when ghost enter ghost house
                 setCooldown() {
                     this._timestamp = utility_1.default.now;
                 }
@@ -58,6 +61,7 @@ System.register(["_ts/object/utility"], function (exports_1, context_1) {
                 startMove() {
                     this.startAnimation();
                     this._ghosts.forEach(ghost => {
+                        //allow ghosts to move one by one
                         let timeout = setTimeout(() => {
                             clearTimeout(timeout);
                             ghost.isMoving = true;
@@ -77,6 +81,7 @@ System.register(["_ts/object/utility"], function (exports_1, context_1) {
                     this._house.delete(ghost);
                     this.setCooldown();
                 }
+                //all ghosts outside of ghost house will enter flee state
                 startFlee() {
                     let states = ["chasing", "flee", "transition"];
                     this._ghosts.forEach(ghost => {
@@ -86,7 +91,7 @@ System.register(["_ts/object/utility"], function (exports_1, context_1) {
                     });
                 }
                 killPacman() {
-                    this._originator.killPacman();
+                    this._originator.killPacman(false);
                 }
                 killGhost(ghost) {
                     ghost.startRetreat();

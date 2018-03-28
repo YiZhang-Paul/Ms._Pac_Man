@@ -20,7 +20,6 @@ System.register(["_ts/class/stateMachine", "_ts/class/node", "_ts/class/grid"], 
                     this._row = row;
                     this._column = column;
                     this._direction = direction;
-                    this.initialize();
                 }
                 get row() {
                     return this._row;
@@ -92,11 +91,11 @@ System.register(["_ts/class/stateMachine", "_ts/class/node", "_ts/class/grid"], 
                 initialize() {
                     this._coordinate = grid_1.default.getNodeCenter(this._row, this._column);
                     this._speed = 0;
-                    this._cropXY = null;
                     this._cropWidth = 32;
                     this._tile = document.getElementById("tile");
                     this._ctx = null;
                     this._state = new stateMachine_1.default(this);
+                    this.getCropXY();
                 }
                 reset() {
                     this.getCropXY();

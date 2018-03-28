@@ -191,7 +191,7 @@ export default class FoodManager implements IFoodManager {
                 if(this._fruitQueue.length < 5) {
                     //pick random fruit type
                     this._fruitQueue.push(Utility.getRandom(1, 7));
-                    this._originator.hud.showFruits();
+                    this._originator.showFruits();
                 }
 
             }, 1000);
@@ -209,7 +209,7 @@ export default class FoodManager implements IFoodManager {
         this._timeout = setTimeout(() => {
 
             this._fruit = this.createFruit(this._fruitQueue.shift());
-            this._originator.hud.showFruits();
+            this._originator.showFruits();
 
             clearTimeout(this._timeout);
             this._timeout = null;

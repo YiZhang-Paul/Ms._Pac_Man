@@ -1,4 +1,4 @@
-import { IHud, IGameManager } from "_ts/interfaces";
+import { IHud, IGameManager, IFoodManager } from "_ts/interfaces";
 import Monitor from "_ts/object/monitor";
 import Canvas from "_ts/object/canvas";
 import Grid from "_ts/class/grid";
@@ -6,6 +6,7 @@ import Grid from "_ts/class/grid";
 export default class Hud implements IHud {
 
     private _originator: IGameManager;
+    private _foodManager: IFoodManager;
     private _width: number;
     private _height: number;
     private _loaded: boolean;
@@ -15,9 +16,10 @@ export default class Hud implements IHud {
     private _tile: HTMLImageElement;
     private _ctx: CanvasRenderingContext2D;
 
-    constructor(originator: IGameManager) {
+    constructor(originator: IGameManager, foodManager: IFoodManager) {
 
         this._originator = originator;
+        this._foodManager = foodManager;
         this.initialize();
     }
 
@@ -79,7 +81,7 @@ export default class Hud implements IHud {
 
     public showFruits(): void {
 
-        let fruits = this._originator.foodManager.fruitQueue;
+        let fruits = this._foodManager.fruitQueue;
         //display fruit queue from head to tail
         for(let i = fruits.length - 1; i >= 0; i--) {
 

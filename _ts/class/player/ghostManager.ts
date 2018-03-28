@@ -11,14 +11,12 @@ export default class GhostManager implements IGhostManager {
     private _sue: IGhost;
     private _ghosts: Set<IGhost>;
     private _house: Set<IGhost>;
-    private _enemy: IPacman;
     private _cooldown: number;
     private _timestamp: number;
 
-    constructor(originator: IGameManager, enemy: IPacman) {
+    constructor(originator: IGameManager) {
 
         this._originator = originator;
-        this._enemy = enemy;
         this.initialize();
     }
 
@@ -41,7 +39,7 @@ export default class GhostManager implements IGhostManager {
     //human controlled characters
     get enemy(): IPacman {
 
-        return this._enemy;
+        return this._originator.pacman;
     }
 
     //cooldown to allow leaving ghost house
@@ -138,7 +136,7 @@ export default class GhostManager implements IGhostManager {
 
     public killPacman(): void {
 
-        this._originator.killPacman();
+        this._originator.killPacman(false);
     }
 
     public killGhost(ghost: IGhost): void {

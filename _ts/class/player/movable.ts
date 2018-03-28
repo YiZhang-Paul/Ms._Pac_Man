@@ -21,7 +21,6 @@ export default abstract class Movable implements IMovable {
         this._row = row;
         this._column = column;
         this._direction = direction;
-        this.initialize();
     }
 
     get row(): number {
@@ -137,11 +136,11 @@ export default abstract class Movable implements IMovable {
 
         this._coordinate = Grid.getNodeCenter(this._row, this._column);
         this._speed = 0;
-        this._cropXY = null;
         this._cropWidth = 32;
         this._tile = <HTMLImageElement>document.getElementById("tile");
         this._ctx = null;
         this._state = new StateMachine(this);
+        this.getCropXY();
     }
 
     public reset(): void {

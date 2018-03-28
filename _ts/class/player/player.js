@@ -23,7 +23,6 @@ System.register(["_ts/object/canvas", "_ts/object/locations", "_ts/class/player/
                     super(null, null, null);
                     this._name = name;
                     this._originator = originator;
-                    this.initialize();
                 }
                 get isMoving() {
                     return this._isMoving;
@@ -42,6 +41,7 @@ System.register(["_ts/object/canvas", "_ts/object/locations", "_ts/class/player/
                     this._onAnimation = value;
                 }
                 initialize() {
+                    super.initialize();
                     locations_1.default.setLocation(this, this._name);
                     this._tick = 0;
                     this._totalTicks = null;
@@ -55,8 +55,8 @@ System.register(["_ts/object/canvas", "_ts/object/locations", "_ts/class/player/
                         clearInterval(this._interval);
                         this._interval = null;
                     }
-                    this.initialize();
                     super.reset();
+                    this.initialize();
                 }
                 //warp from one side to the other side of tunnel
                 crossTunnel() {

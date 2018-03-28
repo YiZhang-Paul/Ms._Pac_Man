@@ -103,6 +103,7 @@ export default abstract class Ghost extends Player implements IGhost {
 
     public initialize(): void {
 
+        super.initialize();
         this._defaultSpeed = Math.round(Grid.height * 0.02) / 100;
         this._speed = this._defaultSpeed;
         this._score = 200;

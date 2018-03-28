@@ -19,7 +19,6 @@ export default abstract class Player extends Movable implements IPlayer {
         super(null, null, null);
         this._name = name;
         this._originator = originator;
-        this.initialize();
     }
 
     get isMoving(): boolean {
@@ -50,6 +49,7 @@ export default abstract class Player extends Movable implements IPlayer {
 
     public initialize(): void {
 
+        super.initialize();
         Locations.setLocation(this, this._name);
         this._tick = 0;
         this._totalTicks = null;
@@ -67,8 +67,8 @@ export default abstract class Player extends Movable implements IPlayer {
             this._interval = null;
         }
 
-        this.initialize();
         super.reset();
+        this.initialize();
     }
 
     //warp from one side to the other side of tunnel

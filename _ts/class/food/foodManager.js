@@ -145,7 +145,7 @@ System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/class/food/bean
                             if (this._fruitQueue.length < 5) {
                                 //pick random fruit type
                                 this._fruitQueue.push(utility_1.default.getRandom(1, 7));
-                                this._originator.hud.showFruits();
+                                this._originator.showFruits();
                             }
                         }, 1000);
                     }
@@ -157,7 +157,7 @@ System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/class/food/bean
                     }
                     this._timeout = setTimeout(() => {
                         this._fruit = this.createFruit(this._fruitQueue.shift());
-                        this._originator.hud.showFruits();
+                        this._originator.showFruits();
                         clearTimeout(this._timeout);
                         this._timeout = null;
                     }, utility_1.default.getRandom(10, 20) * 1000);

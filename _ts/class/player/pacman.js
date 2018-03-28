@@ -19,8 +19,9 @@ System.register(["_ts/object/control", "_ts/class/player/player", "_ts/class/poi
         ],
         execute: function () {
             Pacman = class Pacman extends player_1.default {
-                constructor(originator) {
+                constructor(originator, foodManager) {
                     super("pacman", originator);
+                    this._foodManager = foodManager;
                     this.initialize();
                 }
                 get isDying() {
@@ -31,6 +32,7 @@ System.register(["_ts/object/control", "_ts/class/player/player", "_ts/class/poi
                     return this._killCount;
                 }
                 initialize() {
+                    super.initialize();
                     this._killCount = 0;
                     this._speed = Math.round(grid_1.default.height * 0.025) / 100;
                     this._isDying = false;
@@ -87,7 +89,7 @@ System.register(["_ts/object/control", "_ts/class/player/player", "_ts/class/poi
                 }
                 killGhost() {
                     let originator = this._originator;
-                    originator.ghostManager.ghosts.forEach(ghost => {
+                    originator.ghosts.forEach(ghost => {
                         if (this.canKill(ghost)) {
                             this._killCount++;
                             originator.killGhost(ghost);
@@ -95,25 +97,23 @@ System.register(["_ts/object/control", "_ts/class/player/player", "_ts/class/poi
                     });
                 }
                 consumeFood() {
-                    let foodManager = this._originator.foodManager;
-                    if (this.onNodeCenter && foodManager.isBean(this._row, this._column)) {
+                    if (this.onNodeCenter && this._foodManager.isBean(this._row, this._column)) {
                         //refresh kill count on power bean consumption
-                        if (foodManager.isPowerBean(this._row, this._column)) {
+                        if (this._foodManager.isPowerBean(this._row, this._column)) {
                             this._killCount = 0;
                         }
-                        foodManager.remove(foodManager.getBean(this._row, this._column));
+                        this._foodManager.remove(this._foodManager.getBean(this._row, this._column));
                     }
                 }
                 consumeFruit() {
-                    let foodManager = this._originator.foodManager;
-                    let fruit = foodManager.fruit;
+                    let fruit = this._foodManager.fruit;
                     if (fruit === null) {
                         return;
                     }
                     let fruitNode = grid_1.default.getNode(fruit.coordinate);
                     let pacmanNode = grid_1.default.getNode(this._coordinate);
                     if (fruitNode.isSame(pacmanNode)) {
-                        foodManager.remove(fruit);
+                        this._foodManager.remove(fruit);
                     }
                 }
                 consume() {
@@ -154,7 +154,7 @@ System.register(["_ts/object/control", "_ts/class/player/player", "_ts/class/poi
                     this._deathTimeout = null;
                     clearInterval(this._deathInterval);
                     this._deathInterval = null;
-                    this._originator.changeState("resetting");
+                    this._originator.killPacman(true);
                 }
                 update(timeStep) {
                     //animation

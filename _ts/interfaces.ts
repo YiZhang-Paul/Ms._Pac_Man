@@ -186,12 +186,13 @@ export interface IMaze extends IUserInterface, IBlinkable {}
 export interface IScoreBoard extends IUserInterface {
 
     blinkId(): void;
-    update(score: number): void;
 }
 
 export interface IPopUp extends IUserInterface, IDisposable {
 
     readonly isAlive: boolean;
+
+    update(): void;
 }
 
 export interface IHud extends IUserInterface {
@@ -251,15 +252,14 @@ export interface IGameManager extends IManager {
     readonly life: number;
     readonly score: number;
     readonly highest: number;
-    readonly popUps: Set<IPopUp>;
-    readonly hud: IHud;
-    readonly foodManager: IFoodManager;
-    readonly ghostManager: IGhostManager;
+    readonly pacman: IPacman;
+    readonly ghosts: Set<IGhost>;
 
-    killPacman(): void;
+    killPacman(killed: boolean): void;
     killGhost(ghost: IGhost): void;
     checkScore(score: number): void;
-    changeState(state: string): void;
+    showFruits(): void;
+    removePopUp(popUp: IPopUp): void;
 }
 
 export interface IGame extends IInitializable, IResettable, IRenderable {

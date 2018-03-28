@@ -16,8 +16,9 @@ System.register(["_ts/object/monitor", "_ts/object/canvas", "_ts/class/grid"], f
         ],
         execute: function () {
             Hud = class Hud {
-                constructor(originator) {
+                constructor(originator, foodManager) {
                     this._originator = originator;
+                    this._foodManager = foodManager;
                     this.initialize();
                 }
                 get width() {
@@ -53,7 +54,7 @@ System.register(["_ts/object/monitor", "_ts/object/canvas", "_ts/class/grid"], f
                     }
                 }
                 showFruits() {
-                    let fruits = this._originator.foodManager.fruitQueue;
+                    let fruits = this._foodManager.fruitQueue;
                     //display fruit queue from head to tail
                     for (let i = fruits.length - 1; i >= 0; i--) {
                         this._ctx.drawImage(this._tile, this._cropWidth * (fruits[i] - 1), this._cropWidth * 6, this._cropWidth, this._cropWidth, this._width - (fruits.length - i) * (this._iconSize + this._margin), monitor_1.default.height - this._height + this._margin, this._iconSize, this._iconSize);

@@ -1,7 +1,7 @@
-System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas", "_ts/object/control", "_ts/class/grid"], function (exports_1, context_1) {
+System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas", "_ts/object/control", "_ts/class/gameManager", "_ts/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var monitor_1, utility_1, canvas_1, control_1, grid_1;
+    var monitor_1, utility_1, canvas_1, control_1, gameManager_1, grid_1;
     return {
         setters: [
             function (monitor_1_1) {
@@ -15,6 +15,9 @@ System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas"
             },
             function (control_1_1) {
                 control_1 = control_1_1;
+            },
+            function (gameManager_1_1) {
+                gameManager_1 = gameManager_1_1;
             },
             function (grid_1_1) {
                 grid_1 = grid_1_1;
@@ -44,6 +47,7 @@ System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas"
                 },
                 loadAsset() {
                     this.loadCanvas();
+                    this._manager = new gameManager_1.default();
                 },
                 registerKeyDown() {
                     document.addEventListener("keydown", event => {

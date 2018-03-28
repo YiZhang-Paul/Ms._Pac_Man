@@ -3,6 +3,7 @@ import Monitor from "_ts/object/monitor";
 import Utility from "_ts/object/utility";
 import Canvas from "_ts/object/canvas";
 import Control from "_ts/object/control";
+import GameManager from "_ts/class/gameManager";
 import Grid from "_ts/class/grid";
 
 export default <IGame>{
@@ -39,6 +40,7 @@ export default <IGame>{
     loadAsset(): void {
 
         this.loadCanvas();
+        this._manager = new GameManager();
     },
 
     registerKeyDown(): void {

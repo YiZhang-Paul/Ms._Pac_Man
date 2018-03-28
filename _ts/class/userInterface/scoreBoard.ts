@@ -73,12 +73,6 @@ export default class ScoreBoard implements IScoreBoard {
         }
     }
 
-    public update(score: number): void {
-
-        this._originator.checkScore(score);
-        this.draw();
-    }
-
     private drawTexts(texts: string[][]): void {
 
         for(let i = 0; i < texts.length; i++) {

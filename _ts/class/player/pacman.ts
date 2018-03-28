@@ -1,4 +1,4 @@
-import { IPacman, IGameManager, IGhost, IFood } from "_ts/interfaces";
+import { IPacman, IGameManager, IGhost, IFood, IFoodManager } from "_ts/interfaces";
 import Control from "_ts/object/control";
 import Player from "_ts/class/player/player";
 import Point from "_ts/class/point";
@@ -6,14 +6,16 @@ import Grid from "_ts/class/grid";
 
 export default class Pacman extends Player implements IPacman {
 
+    private _foodManager: IFoodManager;
     private _killCount: number;
     private _isDying: boolean;
     private _deathTimeout: number;
     private _deathInterval: number;
 
-    constructor(originator: IGameManager) {
+    constructor(originator: IGameManager, foodManager: IFoodManager) {
 
         super("pacman", originator);
+        this._foodManager = foodManager;
         this.initialize();
     }
 
@@ -30,6 +32,7 @@ export default class Pacman extends Player implements IPacman {
 
     public initialize(): void {
 
+        super.initialize();
         this._killCount = 0;
         this._speed = Math.round(Grid.height * 0.025) / 100;
         this._isDying = false;
@@ -105,7 +108,7 @@ export default class Pacman extends Player implements IPacman {
 
         let originator = <IGameManager>this._originator;
 
-        originator.ghostManager.ghosts.forEach(ghost => {
+        originator.ghosts.forEach(ghost => {
 
             if(this.canKill(ghost)) {
 
@@ -117,23 +120,20 @@ export default class Pacman extends Player implements IPacman {
 
     private consumeFood(): void {
 
-        let foodManager = (<IGameManager>this._originator).foodManager;
-
-        if(this.onNodeCenter && foodManager.isBean(this._row, this._column)) {
+        if(this.onNodeCenter && this._foodManager.isBean(this._row, this._column)) {
             //refresh kill count on power bean consumption
-            if(foodManager.isPowerBean(this._row, this._column)) {
+            if(this._foodManager.isPowerBean(this._row, this._column)) {
 
                 this._killCount = 0;
             }
 
-            foodManager.remove(foodManager.getBean(this._row, this._column));
+            this._foodManager.remove(this._foodManager.getBean(this._row, this._column));
         }
     }
 
     private consumeFruit(): void {
 
-        let foodManager = (<IGameManager>this._originator).foodManager;
-        let fruit = foodManager.fruit;
+        let fruit = this._foodManager.fruit;
 
         if(fruit === null) {
 
@@ -145,7 +145,7 @@ export default class Pacman extends Player implements IPacman {
 
         if(fruitNode.isSame(pacmanNode)) {
 
-            foodManager.remove(fruit);
+            this._foodManager.remove(fruit);
         }
     }
 
@@ -208,7 +208,7 @@ export default class Pacman extends Player implements IPacman {
         clearInterval(this._deathInterval);
         this._deathInterval = null;
 
-        (<IGameManager>this._originator).changeState("resetting");
+        (<IGameManager>this._originator).killPacman(true);
     }
 
     public update(timeStep: number): void {

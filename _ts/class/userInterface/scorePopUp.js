@@ -64,8 +64,13 @@ System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/class/point", "
                 }
                 //permanently delete pop up
                 dispose() {
-                    this._originator.popUps.delete(this);
+                    this._originator.removePopUp(this);
                     this.erase();
+                }
+                update() {
+                    if (!this.isAlive) {
+                        this.dispose();
+                    }
                 }
                 draw() {
                     this.erase();
