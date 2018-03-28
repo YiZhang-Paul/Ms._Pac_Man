@@ -90,6 +90,7 @@ System.register(["_ts/object/locations", "_ts/object/utility", "_ts/class/stateM
                     this._score = 200;
                     this._path = null;
                     this._pathfinder = new pathfinder_1.default(this);
+                    this._aggressiveness = 5;
                     this._totalTicks = 2;
                     this._timestamp = null;
                     this._fleeTime = 10000;
@@ -202,7 +203,7 @@ System.register(["_ts/object/locations", "_ts/object/utility", "_ts/class/stateM
                 }
                 setPath(destination, walkFullPath) {
                     let path = this._pathfinder.find(destination);
-                    this._path = walkFullPath ? path : path.slice(0, 2);
+                    this._path = walkFullPath ? path : path.slice(0, this._aggressiveness);
                 }
                 //check completion of current path
                 checkPath(destination, walkFullPath) {
@@ -248,7 +249,7 @@ System.register(["_ts/object/locations", "_ts/object/utility", "_ts/class/stateM
                 }
                 killPacman() {
                     if (this.distanceToMovable(this.enemy) < grid_1.default.nodeSize) {
-                        this._originator.killPacman();
+                        //(<IGhostManager>this._originator).killPacman();
                     }
                 }
                 /**
@@ -321,15 +322,15 @@ System.register(["_ts/object/locations", "_ts/object/utility", "_ts/class/stateM
                 getOutHouse() {
                     if (this._direction === "up" && this.hasDoor("down")) {
                         this._originator.getOutHouse(this);
-                        this._stateManager.swap("chasing");
+                        this._stateManager.swap("exitedHouse");
                     }
                 }
                 //ghost action inside ghost house
-                insideActions(timeStep, modifier, changeState) {
+                insideActions(timeStep, modifier, stateChanger) {
                     this._speed = this._defaultSpeed * modifier;
                     if (this._isMoving) {
-                        if (changeState !== null) {
-                            changeState();
+                        if (stateChanger !== null) {
+                            stateChanger.bind(this)();
                         }
                         this.move(timeStep);
                         this.getOutHouse();
@@ -337,11 +338,11 @@ System.register(["_ts/object/locations", "_ts/object/utility", "_ts/class/stateM
                     this.playAnimation();
                 }
                 //ghost action outside of ghost house
-                outsideActions(timeStep, modifier, callback, changeState, walkFullPath) {
+                outsideActions(timeStep, modifier, pathFinder, stateChanger, walkFullPath) {
                     this._speed = this._defaultSpeed * modifier;
                     if (this._isMoving) {
                         if (this.canTurn) {
-                            this.managePath(callback(), walkFullPath);
+                            this.managePath(pathFinder.bind(this)(), walkFullPath);
                         }
                         if (this._path !== null) {
                             this.setDirection();
@@ -349,7 +350,7 @@ System.register(["_ts/object/locations", "_ts/object/utility", "_ts/class/stateM
                         this.move(timeStep);
                     }
                     this.playAnimation();
-                    changeState();
+                    stateChanger.bind(this)();
                 }
                 /**
                  * ghost states
@@ -359,6 +360,14 @@ System.register(["_ts/object/locations", "_ts/object/utility", "_ts/class/stateM
                 }
                 exitingHouse(timeStep) {
                     this.insideActions(timeStep, 0.65, null);
+                }
+                exitedHouse(timeStep) {
+                    this.move(timeStep);
+                    if (this.toCollision === 0) {
+                        //pick random direction upon exiting ghost house
+                        this._direction = Math.random() < 0.5 ? "left" : "right";
+                        this._stateManager.swap("chasing");
+                    }
                 }
                 chasing(timeStep) {
                     this.outsideActions(timeStep, 1, this.getChaseDestination, this.killPacman, false);

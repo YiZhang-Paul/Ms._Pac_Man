@@ -18,6 +18,7 @@ System.register(["_ts/class/stateMachine", "_ts/class/player/ghost"], function (
                 }
                 initialize() {
                     super.initialize();
+                    this._aggressiveness = 15;
                     this._stateManager = new stateMachine_1.default(this, "inHouse");
                 }
                 setDirectionInHouse() {
@@ -29,7 +30,7 @@ System.register(["_ts/class/stateMachine", "_ts/class/player/ghost"], function (
                     super.setDirectionInHouse();
                 }
                 getChaseDestination() {
-                    let nodeAhead = this.nodeAhead(this.enemy.direction, 2);
+                    let nodeAhead = this.nodeAhead(this.enemy.direction, 3);
                     if (nodeAhead !== null) {
                         return nodeAhead;
                     }

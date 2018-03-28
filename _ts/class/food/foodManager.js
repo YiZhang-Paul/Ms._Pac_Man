@@ -75,7 +75,8 @@ System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/class/food/bean
                 }
                 isBean(row, column) {
                     //check meta layer
-                    if (!grid_1.default.layout.getMetadata(row, column).hasOwnProperty("f")) {
+                    let meta = grid_1.default.layout.getMetadata(row, column);
+                    if (meta === null || !meta.hasOwnProperty("f")) {
                         return false;
                     }
                     //check logic layer to ensure the food is not consumed
@@ -165,7 +166,7 @@ System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/class/food/bean
                 remove(food) {
                     //remove fruit
                     if (food === this._fruit) {
-                        this._fruit === null;
+                        this._fruit = null;
                         return;
                     }
                     if (this.isPowerBean(food.row, food.column)) {

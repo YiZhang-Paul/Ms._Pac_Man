@@ -25,6 +25,7 @@ System.register(["_ts/class/stateMachine", "_ts/class/node", "_ts/class/grid", "
                 initialize() {
                     super.initialize();
                     this._ignored = false;
+                    this._aggressiveness = 35;
                     this._stateManager = new stateMachine_1.default(this, "inHouse");
                 }
                 setDirectionInHouse() {

@@ -102,7 +102,7 @@ System.register(["_ts/object/control", "_ts/class/player/player", "_ts/class/poi
                         if (this._foodManager.isPowerBean(this._row, this._column)) {
                             this._killCount = 0;
                         }
-                        this._foodManager.remove(this._foodManager.getBean(this._row, this._column));
+                        this._foodManager.getBean(this._row, this._column).dispose();
                     }
                 }
                 consumeFruit() {
@@ -113,7 +113,7 @@ System.register(["_ts/object/control", "_ts/class/player/player", "_ts/class/poi
                     let fruitNode = grid_1.default.getNode(fruit.coordinate);
                     let pacmanNode = grid_1.default.getNode(this._coordinate);
                     if (fruitNode.isSame(pacmanNode)) {
-                        this._foodManager.remove(fruit);
+                        fruit.dispose();
                     }
                 }
                 consume() {

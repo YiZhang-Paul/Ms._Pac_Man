@@ -14,6 +14,7 @@ export default abstract class Ghost extends Player implements IGhost {
     protected _score: number;
     protected _path: INode[];
     protected _pathfinder: IFindPath;
+    protected _aggressiveness: number;
     private _timestamp: number;
     protected _fleeTime: number;
     protected _transitionTime: number;
@@ -109,6 +110,7 @@ export default abstract class Ghost extends Player implements IGhost {
         this._score = 200;
         this._path = null;
         this._pathfinder = new Pathfinder(this);
+        this._aggressiveness = 5;
         this._totalTicks = 2;
         this._timestamp = null;
         this._fleeTime = 10000;
@@ -261,7 +263,7 @@ export default abstract class Ghost extends Player implements IGhost {
     private setPath(destination: INode, walkFullPath: boolean): void {
 
         let path = this._pathfinder.find(destination);
-        this._path = walkFullPath ? path: path.slice(0, 2);
+        this._path = walkFullPath ? path: path.slice(0, this._aggressiveness);
     }
 
     //check completion of current path
@@ -331,7 +333,7 @@ export default abstract class Ghost extends Player implements IGhost {
 
         if(this.distanceToMovable(this.enemy) < Grid.nodeSize) {
 
-            (<IGhostManager>this._originator).killPacman();
+            //(<IGhostManager>this._originator).killPacman();
         }
     }
 
@@ -431,20 +433,20 @@ export default abstract class Ghost extends Player implements IGhost {
         if(this._direction === "up" && this.hasDoor("down")) {
 
             (<IGhostManager>this._originator).getOutHouse(this);
-            this._stateManager.swap("chasing");
+            this._stateManager.swap("exitedHouse");
         }
     }
 
     //ghost action inside ghost house
-    private insideActions(timeStep: number, modifier: number, changeState: () => void): void {
+    private insideActions(timeStep: number, modifier: number, stateChanger: () => void): void {
 
         this._speed = this._defaultSpeed * modifier;
 
         if(this._isMoving) {
 
-            if(changeState !== null) {
+            if(stateChanger !== null) {
 
-                changeState();
+                stateChanger.bind(this)();
             }
 
             this.move(timeStep);
@@ -459,8 +461,8 @@ export default abstract class Ghost extends Player implements IGhost {
 
         timeStep: number,
         modifier: number,
-        callback: () => INode,
-        changeState: () => void,
+        pathFinder: () => INode,
+        stateChanger: () => void,
         walkFullPath: boolean
 
     ): void {
@@ -471,7 +473,7 @@ export default abstract class Ghost extends Player implements IGhost {
 
             if(this.canTurn) {
 
-                this.managePath(callback(), walkFullPath);
+                this.managePath(pathFinder.bind(this)(), walkFullPath);
             }
 
             if(this._path !== null) {
@@ -483,7 +485,7 @@ export default abstract class Ghost extends Player implements IGhost {
         }
 
         this.playAnimation();
-        changeState();
+        stateChanger.bind(this)();
     }
 
     /**
@@ -497,6 +499,17 @@ export default abstract class Ghost extends Player implements IGhost {
     private exitingHouse(timeStep: number): void {
 
         this.insideActions(timeStep, 0.65, null);
+    }
+
+    private exitedHouse(timeStep: number): void {
+
+        this.move(timeStep);
+
+        if(this.toCollision === 0) {
+            //pick random direction upon exiting ghost house
+            this._direction = Math.random() < 0.5 ? "left" : "right";
+            this._stateManager.swap("chasing");
+        }
     }
 
     private chasing(timeStep: number): void {

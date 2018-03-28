@@ -92,7 +92,9 @@ export default class FoodManager implements IFoodManager {
 
     public isBean(row: number, column: number): boolean {
         //check meta layer
-        if(!Grid.layout.getMetadata(row, column).hasOwnProperty("f")) {
+        let meta = Grid.layout.getMetadata(row, column);
+
+        if(meta === null || !meta.hasOwnProperty("f")) {
 
             return false;
         }
@@ -221,7 +223,7 @@ export default class FoodManager implements IFoodManager {
         //remove fruit
         if(food === this._fruit) {
 
-            this._fruit === null;
+            this._fruit = null;
 
             return;
         }

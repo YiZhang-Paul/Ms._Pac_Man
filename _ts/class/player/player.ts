@@ -60,6 +60,7 @@ export default abstract class Player extends Movable implements IPlayer {
         this._ctx = Canvas.player;
         //recalculate crop location since direction is reset
         this.getCropXY();
+        this.syncLocation();
     }
 
     public reset(): void {
@@ -103,7 +104,11 @@ export default abstract class Player extends Movable implements IPlayer {
 
         super.move(timeStep);
         this.crossTunnel();
-        this.syncLocation();
+
+        if(this.withinMaze) {
+
+            this.syncLocation();
+        }
     }
 
     //move to next step of animation

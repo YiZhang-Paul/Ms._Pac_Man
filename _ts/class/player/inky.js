@@ -24,6 +24,7 @@ System.register(["_ts/class/stateMachine", "_ts/class/node", "_ts/class/grid", "
                 }
                 initialize() {
                     super.initialize();
+                    this._aggressiveness = 25;
                     this._stateManager = new stateMachine_1.default(this, "inHouse");
                 }
                 setDirectionInHouse() {

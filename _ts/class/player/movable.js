@@ -96,6 +96,7 @@ System.register(["_ts/class/stateMachine", "_ts/class/node", "_ts/class/grid"], 
                     this._ctx = null;
                     this._state = new stateMachine_1.default(this);
                     this.getCropXY();
+                    this.syncLocation();
                 }
                 reset() {
                     this.getCropXY();

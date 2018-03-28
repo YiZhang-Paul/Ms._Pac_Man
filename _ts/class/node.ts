@@ -10,6 +10,7 @@ export default class Node implements INode {
 
         this._row = row;
         this._column = column;
+        this._parent = null;
     }
 
     get row(): number {

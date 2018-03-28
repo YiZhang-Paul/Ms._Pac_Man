@@ -17,6 +17,7 @@ export default class Sue extends Ghost {
 
         super.initialize();
         this._ignored = false;
+        this._aggressiveness = 35;
         this._stateManager = new StateMachine(this, "inHouse");
     }
 

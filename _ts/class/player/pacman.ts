@@ -127,7 +127,7 @@ export default class Pacman extends Player implements IPacman {
                 this._killCount = 0;
             }
 
-            this._foodManager.remove(this._foodManager.getBean(this._row, this._column));
+            this._foodManager.getBean(this._row, this._column).dispose();
         }
     }
 
@@ -145,7 +145,7 @@ export default class Pacman extends Player implements IPacman {
 
         if(fruitNode.isSame(pacmanNode)) {
 
-            this._foodManager.remove(fruit);
+            fruit.dispose();
         }
     }
 

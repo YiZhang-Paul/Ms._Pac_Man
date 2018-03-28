@@ -14,6 +14,7 @@ export default class Pinky extends Ghost {
     public initialize(): void {
 
         super.initialize();
+        this._aggressiveness = 15;
         this._stateManager = new StateMachine(this, "inHouse");
     }
 
@@ -33,7 +34,7 @@ export default class Pinky extends Ghost {
 
     protected getChaseDestination(): INode {
 
-        let nodeAhead = this.nodeAhead(this.enemy.direction, 2);
+        let nodeAhead = this.nodeAhead(this.enemy.direction, 3);
 
         if(nodeAhead !== null) {
 

@@ -14,6 +14,7 @@ export default class Inky extends Ghost {
     public initialize(): void {
 
         super.initialize();
+        this._aggressiveness = 25;
         this._stateManager = new StateMachine(this, "inHouse");
     }
 

@@ -9,6 +9,7 @@ System.register([], function (exports_1, context_1) {
                 constructor(row, column) {
                     this._row = row;
                     this._column = column;
+                    this._parent = null;
                 }
                 get row() {
                     return this._row;

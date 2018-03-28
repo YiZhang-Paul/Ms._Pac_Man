@@ -115,7 +115,7 @@ System.register(["_ts/object/control", "_ts/object/canvas", "_ts/class/stateMach
                     this._scoreBoard.draw();
                 }
                 showFruits() {
-                    this._hud.showFruits();
+                    this._hud.draw();
                 }
                 removePopUp(popUp) {
                     this._popUps.delete(popUp);
@@ -126,6 +126,7 @@ System.register(["_ts/object/control", "_ts/object/canvas", "_ts/class/stateMach
                 }
                 startGame(timeStep) {
                     if (control_1.default.active !== null) {
+                        this._ghostManager.startMove();
                         this._stateManager.swap("ongoing");
                     }
                 }

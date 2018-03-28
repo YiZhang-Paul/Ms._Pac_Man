@@ -141,6 +141,7 @@ export default abstract class Movable implements IMovable {
         this._ctx = null;
         this._state = new StateMachine(this);
         this.getCropXY();
+        this.syncLocation();
     }
 
     public reset(): void {

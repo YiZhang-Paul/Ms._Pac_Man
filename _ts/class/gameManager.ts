@@ -135,7 +135,7 @@ export default class GameManager implements IGameManager {
 
     public showFruits(): void {
 
-        this._hud.showFruits();
+        this._hud.draw();
     }
 
     public removePopUp(popUp: IPopUp): void {
@@ -153,6 +153,7 @@ export default class GameManager implements IGameManager {
 
         if(Control.active !== null) {
 
+            this._ghostManager.startMove();
             this._stateManager.swap("ongoing");
         }
     }
