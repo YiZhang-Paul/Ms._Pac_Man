@@ -102,7 +102,7 @@ System.register(["_ts/object/locations", "_ts/object/utility", "_ts/class/stateM
                     super.reset();
                     this._speed = this._defaultSpeed;
                     this._path = null;
-                    this._stateManager = new stateMachine_1.default(this, null);
+                    this._stateManager.reset();
                     this.getCropXY = this.defaultCropXY;
                 }
                 turnAround() {

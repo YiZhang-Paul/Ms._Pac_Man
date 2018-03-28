@@ -236,6 +236,7 @@ export interface IGhostManager extends IManager {
     readonly ghosts: Set<IGhost>;
     readonly house: Set<IGhost>;
     readonly enemy: IPacman;
+    readonly onCooldown: boolean;
 
     startMove(): void;
     stopMove(): void;

@@ -49,6 +49,8 @@ System.register(["_ts/object/canvas", "_ts/object/locations", "_ts/class/player/
                     this._isMoving = false;
                     this._onAnimation = false;
                     this._ctx = canvas_1.default.player;
+                    //recalculate crop location since direction is reset
+                    this.getCropXY();
                 }
                 reset() {
                     if (this._interval !== null) {

@@ -3,6 +3,7 @@ import Canvas from "_ts/object/canvas";
 import Locations from "_ts/object/locations";
 import Movable from "_ts/class/player/movable";
 import Grid from "_ts/class/grid";
+import Pacman from "./pacman";
 
 export default abstract class Player extends Movable implements IPlayer {
 
@@ -57,6 +58,8 @@ export default abstract class Player extends Movable implements IPlayer {
         this._isMoving = false;
         this._onAnimation = false;
         this._ctx = Canvas.player;
+        //recalculate crop location since direction is reset
+        this.getCropXY();
     }
 
     public reset(): void {

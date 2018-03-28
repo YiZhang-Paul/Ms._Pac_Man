@@ -1,5 +1,6 @@
 import { IGhostManager, IGhost, IPacman, IGameManager } from "_ts/interfaces";
 import Utility from "_ts/object/utility";
+import Blinky from "_ts/class/player/blinky";
 
 export default class GhostManager implements IGhostManager {
 
@@ -51,10 +52,10 @@ export default class GhostManager implements IGhostManager {
     public initialize(): void {
 
         this._names = ["blinky", "pinky", "inky", "sue"];
-        this._blinky = null;
-        this._pinky = null;
-        this._inky = null;
-        this._sue = null;
+        this._blinky = new Blinky(this);
+        this._pinky = new Blinky(this);
+        this._inky = new Blinky(this);
+        this._sue = new Blinky(this);
         this._ghosts = new Set([this._blinky, this._pinky, this._inky, this._sue]);
         this._house = new Set([this._pinky, this._inky, this._sue]);
         this._cooldown = 2000;
