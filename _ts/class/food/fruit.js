@@ -1,7 +1,7 @@
-System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/object/grid", "_ts/class/point", "_ts/class/player/movable"], function (exports_1, context_1) {
+System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/class/player/movable", "_ts/class/point", "_ts/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var utility_1, canvas_1, grid_1, point_1, movable_1, Fruit;
+    var utility_1, canvas_1, movable_1, point_1, grid_1, Fruit;
     return {
         setters: [
             function (utility_1_1) {
@@ -10,14 +10,14 @@ System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/object/grid", "
             function (canvas_1_1) {
                 canvas_1 = canvas_1_1;
             },
-            function (grid_1_1) {
-                grid_1 = grid_1_1;
+            function (movable_1_1) {
+                movable_1 = movable_1_1;
             },
             function (point_1_1) {
                 point_1 = point_1_1;
             },
-            function (movable_1_1) {
-                movable_1 = movable_1_1;
+            function (grid_1_1) {
+                grid_1 = grid_1_1;
             }
         ],
         execute: function () {
@@ -66,7 +66,7 @@ System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/object/grid", "
                 }
                 //self-dispose when going out of maze area
                 autoDispose() {
-                    if (!grid_1.default.exists(this._row, this._column)) {
+                    if (!grid_1.default.layout.exists(this._row, this._column)) {
                         this.dispose();
                     }
                 }

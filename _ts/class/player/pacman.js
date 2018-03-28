@@ -1,20 +1,20 @@
-System.register(["_ts/object/control", "_ts/object/grid", "_ts/class/point", "_ts/class/player/player"], function (exports_1, context_1) {
+System.register(["_ts/object/control", "_ts/class/player/player", "_ts/class/point", "_ts/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var control_1, grid_1, point_1, player_1, Pacman;
+    var control_1, player_1, point_1, grid_1, Pacman;
     return {
         setters: [
             function (control_1_1) {
                 control_1 = control_1_1;
             },
-            function (grid_1_1) {
-                grid_1 = grid_1_1;
+            function (player_1_1) {
+                player_1 = player_1_1;
             },
             function (point_1_1) {
                 point_1 = point_1_1;
             },
-            function (player_1_1) {
-                player_1 = player_1_1;
+            function (grid_1_1) {
+                grid_1 = grid_1_1;
             }
         ],
         execute: function () {
@@ -33,12 +33,7 @@ System.register(["_ts/object/control", "_ts/object/grid", "_ts/class/point", "_t
                 get lastGhostKilled() {
                     return this._lastGhostKilled;
                 }
-                //can turn left or right (exclude turning around)
-                get canTurn() {
-                    return this.onNodeCenter && this.withinMaze;
-                }
                 initialize() {
-                    super.initialize();
                     this._killCount = 0;
                     this._speed = Math.round(grid_1.default.height * 0.025) / 100;
                     this._isDying = false;
@@ -52,7 +47,7 @@ System.register(["_ts/object/control", "_ts/object/grid", "_ts/class/point", "_t
                     this._tick = 2;
                     this._isDying = false;
                 }
-                //check if object can turn to given direction
+                //check if pacman can turn to given direction
                 isValidDirection(direction) {
                     //can always turn around
                     const isOpposite = direction === this.getOpposite();
@@ -95,11 +90,12 @@ System.register(["_ts/object/control", "_ts/object/grid", "_ts/class/point", "_t
                     return this.distanceToMovable(ghost) < grid_1.default.nodeSize * 0.5;
                 }
                 consumeGhost() {
-                    this._originator.ghostManager.ghosts.forEach(ghost => {
+                    let originator = this._originator;
+                    originator.ghostManager.ghosts.forEach(ghost => {
                         if (this.canKill(ghost)) {
                             this._killCount++;
                             this._lastGhostKilled = ghost;
-                            this._originator.killGhost();
+                            originator.killGhost();
                         }
                     });
                 }

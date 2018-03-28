@@ -3,7 +3,7 @@ import PriorityQueue from "_ts/class/priorityQueue";
 import Node from "_ts/class/node";
 import Grid from "_ts/class/grid";
 
-export default class PathFinder implements IFindPath {
+export default class Pathfinder implements IFindPath {
 
     private _originator: IMovable;
     private _costs: Map<string, number>;

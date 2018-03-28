@@ -81,17 +81,17 @@ System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas"
                     this.loadAsset();
                     this.registerKeyDown();
                     this.registerKeyUp();
-                    this.state = "initialized";
+                    this._state = "initialized";
                 },
                 run() {
                     //fps optimization
                     const maxFps = 60;
                     let delta = 0;
                     let lastFrameRender = 0;
-                    this.timeStep = utility_1.default.roundTo(1000 / maxFps, 2);
+                    this._timeStep = utility_1.default.roundTo(1000 / maxFps, 2);
                     const mainLoop = timestamp => {
                         //sync with target fps
-                        if (timestamp < lastFrameRender + this.timeStep) {
+                        if (timestamp < lastFrameRender + this._timeStep) {
                             requestAnimationFrame(mainLoop);
                             return;
                         }
@@ -99,9 +99,9 @@ System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas"
                         delta += timestamp - lastFrameRender;
                         lastFrameRender = timestamp;
                         let counter = 0;
-                        while (delta > this.timeStep) {
+                        while (delta > this._timeStep) {
                             this.update();
-                            delta -= this.timeStep;
+                            delta -= this._timeStep;
                             if (++counter >= 240) {
                                 delta = 0;
                             }
@@ -111,16 +111,16 @@ System.register(["_ts/object/monitor", "_ts/object/utility", "_ts/object/canvas"
                     };
                     //run game
                     requestAnimationFrame(mainLoop);
-                    this.state = "running";
+                    this._state = "running";
                 },
                 reset() {
-                    this.manager.reset();
+                    this._manager.reset();
                 },
                 update() {
-                    this.manager.update(this.timeStep);
+                    this._manager.update(this._timeStep);
                 },
                 draw() {
-                    this.manager.draw();
+                    this._manager.draw();
                 }
             });
         }

@@ -34,15 +34,8 @@ export default class Pacman extends Player implements IPacman {
         return this._lastGhostKilled;
     }
 
-    //can turn left or right (exclude turning around)
-    get canTurn(): boolean {
-
-        return this.onNodeCenter && this.withinMaze;
-    }
-
     public initialize(): void {
 
-        super.initialize();
         this._killCount = 0;
         this._speed = Math.round(Grid.height * 0.025) / 100;
         this._isDying = false;
@@ -59,7 +52,7 @@ export default class Pacman extends Player implements IPacman {
         this._isDying = false;
     }
 
-    //check if object can turn to given direction
+    //check if pacman can turn to given direction
     protected isValidDirection(direction: string): boolean {
         //can always turn around
         const isOpposite = direction === this.getOpposite();
@@ -117,20 +110,22 @@ export default class Pacman extends Player implements IPacman {
 
     private consumeGhost(): void {
 
-        this._originator.ghostManager.ghosts.forEach(ghost => {
+        let originator = <IGameManager>this._originator;
+
+        originator.ghostManager.ghosts.forEach(ghost => {
 
             if(this.canKill(ghost)) {
 
                 this._killCount++;
                 this._lastGhostKilled = ghost;
-                this._originator.killGhost();
+                originator.killGhost();
             }
         });
     }
 
     private consumeFood(): void {
 
-        let foodManager = this._originator.foodManager;
+        let foodManager = (<IGameManager>this._originator).foodManager;
 
         if(this.onNodeCenter && foodManager.isBean(this._row, this._column)) {
             //refresh kill count on power bean consumption
@@ -145,7 +140,7 @@ export default class Pacman extends Player implements IPacman {
 
     private consumeFruit(): void {
 
-        let foodManager = this._originator.foodManager;
+        let foodManager = (<IGameManager>this._originator).foodManager;
         let fruit = foodManager.fruit;
 
         if(fruit === null) {
@@ -222,7 +217,7 @@ export default class Pacman extends Player implements IPacman {
         clearInterval(this._deathInterval);
         this._deathInterval = null;
 
-        this._originator.changeState("resetting");
+        (<IGameManager>this._originator).changeState("resetting");
     }
 
     public update(timeStep: number): void {

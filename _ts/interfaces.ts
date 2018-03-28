@@ -112,13 +112,19 @@ export interface IPlayer extends IMovable {
 
     isMoving: boolean;
     onAnimation: boolean;
+    pathAhead: INode[];
 
+    nodeAhead(direction: string, total: number): INode;
     playAnimation(totalTicks: number, speed: number, endTick: number): void;
     stopAnimation(endTick: number): void;
 }
-//TODO: ghost
+
 export interface IGhost extends IPlayer {
 
+    readonly score: number;
+    readonly inTunnel: boolean;
+    readonly onFlee: boolean;
+    readonly onTransition: boolean;
 }
 
 export interface IPacman extends IPlayer {
@@ -201,7 +207,9 @@ export interface IBlinkableFood extends IFood, IBlinkable {}
 
 export interface IFruit extends IFood, IMovable {}
 
-export interface IFoodManager extends IInitializable, IResettable, IRenderable {
+export interface IManager extends IInitializable, IResettable, IRenderable {}
+
+export interface IFoodManager extends IManager {
 
     readonly totalBeans: number;
     readonly fruitQueue: number[];
@@ -216,12 +224,18 @@ export interface IFoodManager extends IInitializable, IResettable, IRenderable {
     update(timeStep: number): void;
 }
 
-export interface IGhostManager extends IInitializable, IResettable, IRenderable {
+export interface IGhostManager extends IManager {
 
+    readonly names: string[];
+    readonly enemy: IPacman;
     readonly ghosts: IGhost[];
+
+    killPacman(): void;
+    getInHouse(ghost: IGhost): void;
+    getOutHouse(ghost: IGhost): void;
 }
 
-export interface IGameManager extends IRenderable, IResettable {
+export interface IGameManager extends IManager {
 
     readonly id: number;
     readonly life: number;

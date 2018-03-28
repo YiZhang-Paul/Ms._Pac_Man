@@ -173,7 +173,7 @@ System.register(["_ts/object/utility", "_ts/object/canvas", "_ts/class/food/bean
                         //TODO: trigger ghost flee on power bean consumption
                     }
                     //remove beans
-                    grid_1.default.setContent(0, food.row, food.column, null);
+                    grid_1.default.layout.setObject(food.row, food.column, null);
                 }
                 update(timeStep) {
                     this.queueFruit();

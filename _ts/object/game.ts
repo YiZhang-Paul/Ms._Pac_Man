@@ -82,7 +82,7 @@ export default <IGame>{
         this.loadAsset();
         this.registerKeyDown();
         this.registerKeyUp();
-        this.state = "initialized";
+        this._state = "initialized";
     },
 
     run(): void {
@@ -90,11 +90,11 @@ export default <IGame>{
         const maxFps = 60;
         let delta = 0;
         let lastFrameRender = 0;
-        this.timeStep = Utility.roundTo(1000 / maxFps, 2);
+        this._timeStep = Utility.roundTo(1000 / maxFps, 2);
 
         const mainLoop = timestamp => {
             //sync with target fps
-            if(timestamp < lastFrameRender + this.timeStep) {
+            if(timestamp < lastFrameRender + this._timeStep) {
 
                 requestAnimationFrame(mainLoop);
 
@@ -106,10 +106,10 @@ export default <IGame>{
             lastFrameRender = timestamp;
             let counter = 0;
 
-            while(delta > this.timeStep) {
+            while(delta > this._timeStep) {
 
                 this.update();
-                delta -= this.timeStep;
+                delta -= this._timeStep;
 
                 if(++counter >= 240) {
 
@@ -122,21 +122,21 @@ export default <IGame>{
         }
         //run game
         requestAnimationFrame(mainLoop);
-        this.state = "running";
+        this._state = "running";
     },
 
     reset(): void {
 
-        this.manager.reset();
+        this._manager.reset();
     },
 
     update(): void {
 
-        this.manager.update(this.timeStep);
+        this._manager.update(this._timeStep);
     },
 
     draw(): void {
 
-        this.manager.draw();
+        this._manager.draw();
     }
 };

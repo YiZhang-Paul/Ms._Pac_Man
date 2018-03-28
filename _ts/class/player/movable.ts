@@ -1,5 +1,6 @@
-import { IMovable, IPoint, IState } from "_ts/interfaces";
+import { IMovable, IPoint, IState, INode } from "_ts/interfaces";
 import StateMachine from "_ts/class/stateMachine";
+import Node from "_ts/class/node";
 import Grid from "_ts/class/grid";
 
 export default abstract class Movable implements IMovable {
@@ -52,6 +53,21 @@ export default abstract class Movable implements IMovable {
     get state(): string {
 
         return this._state.active;
+    }
+
+    //straight path on current facing direction
+    get pathAhead(): INode[] {
+
+        let path: INode[] = [new Node(this._row, this._column)];
+        let node = Grid.getAdjacentNode(this._direction, this._row, this._column);
+
+        while(node !== null && Grid.isAccessible(node.row, node.column)) {
+
+            path.push(node);
+            node = Grid.getAdjacentNode(this._direction, node.row, node.column);
+        }
+
+        return path;
     }
 
     abstract get canTurn(): boolean;
@@ -171,6 +187,29 @@ export default abstract class Movable implements IMovable {
         }
 
         return Grid.layout.getMetadata(adjacent.row, adjacent.column).hasOwnProperty("w");
+    }
+
+    //retrieve node with given distance ahead
+    public nodeAhead(direction: string, total: number): INode {
+
+        if(!this.withinMaze) {
+
+            return null;
+        }
+
+        let node: INode = new Node(this._row, this._column);
+
+        for(let i = 0; i < total; i++) {
+
+            node = Grid.getAdjacentNode(direction, node.row, node.column);
+
+            if(node === null || !Grid.isAccessible(node.row, node.column)) {
+
+                return null;
+            }
+        }
+
+        return node;
     }
 
     protected getOpposite(direction: string = this.direction): string {

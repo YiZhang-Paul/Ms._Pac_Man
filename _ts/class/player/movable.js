@@ -1,14 +1,17 @@
-System.register(["_ts/object/grid", "_ts/class/stateMachine"], function (exports_1, context_1) {
+System.register(["_ts/class/stateMachine", "_ts/class/node", "_ts/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var grid_1, stateMachine_1, Movable;
+    var stateMachine_1, node_1, grid_1, Movable;
     return {
         setters: [
-            function (grid_1_1) {
-                grid_1 = grid_1_1;
-            },
             function (stateMachine_1_1) {
                 stateMachine_1 = stateMachine_1_1;
+            },
+            function (node_1_1) {
+                node_1 = node_1_1;
+            },
+            function (grid_1_1) {
+                grid_1 = grid_1_1;
             }
         ],
         execute: function () {
@@ -37,6 +40,16 @@ System.register(["_ts/object/grid", "_ts/class/stateMachine"], function (exports
                 }
                 get state() {
                     return this._state.active;
+                }
+                //straight path on current facing direction
+                get pathAhead() {
+                    let path = [new node_1.default(this._row, this._column)];
+                    let node = grid_1.default.getAdjacentNode(this._direction, this._row, this._column);
+                    while (node !== null && grid_1.default.isAccessible(node.row, node.column)) {
+                        path.push(node);
+                        node = grid_1.default.getAdjacentNode(this._direction, node.row, node.column);
+                    }
+                    return path;
                 }
                 //check if object is right on center of current node
                 get onNodeCenter() {
@@ -104,14 +117,28 @@ System.register(["_ts/object/grid", "_ts/class/stateMachine"], function (exports
                     if (adjacent === null) {
                         return false;
                     }
-                    return grid_1.default.getContent(1, adjacent.row, adjacent.column).hasOwnProperty("d");
+                    return grid_1.default.layout.getMetadata(adjacent.row, adjacent.column).hasOwnProperty("d");
                 }
                 hasWall(direction = this._direction) {
                     let adjacent = grid_1.default.getAdjacentNode(direction, this._row, this._column);
                     if (adjacent === null) {
                         return false;
                     }
-                    return grid_1.default.getContent(1, adjacent.row, adjacent.column).hasOwnProperty("w");
+                    return grid_1.default.layout.getMetadata(adjacent.row, adjacent.column).hasOwnProperty("w");
+                }
+                //retrieve node with given distance ahead
+                nodeAhead(direction, total) {
+                    if (!this.withinMaze) {
+                        return null;
+                    }
+                    let node = new node_1.default(this._row, this._column);
+                    for (let i = 0; i < total; i++) {
+                        node = grid_1.default.getAdjacentNode(direction, node.row, node.column);
+                        if (node === null || !grid_1.default.isAccessible(node.row, node.column)) {
+                            return null;
+                        }
+                    }
+                    return node;
                 }
                 getOpposite(direction = this.direction) {
                     switch (direction) {

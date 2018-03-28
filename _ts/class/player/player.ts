@@ -1,13 +1,12 @@
-import { IPlayer, IGameManager } from "_ts/interfaces";
+import { IPlayer, IManager } from "_ts/interfaces";
 import Canvas from "_ts/object/canvas";
 import Locations from "_ts/object/locations";
 import Movable from "_ts/class/player/movable";
-import Point from "_ts/class/point";
 import Grid from "_ts/class/grid";
 
 export default abstract class Player extends Movable implements IPlayer {
 
-    protected _originator: IGameManager;
+    protected _originator: IManager;
     protected _name: string;
     protected _tick: number;
     protected _totalTicks: number;
@@ -15,7 +14,7 @@ export default abstract class Player extends Movable implements IPlayer {
     protected _isMoving: boolean;
     protected _onAnimation: boolean;
 
-    constructor(name: string, originator: IGameManager) {
+    constructor(name: string, originator: IManager) {
 
         super(null, null, null);
         this._name = name;
@@ -31,6 +30,12 @@ export default abstract class Player extends Movable implements IPlayer {
     get onAnimation(): boolean {
 
         return this._onAnimation;
+    }
+
+    //can turn left or right (exclude turning around)
+    get canTurn(): boolean {
+
+        return this.onNodeCenter && this.withinMaze;
     }
 
     set isMoving(value: boolean) {
@@ -56,13 +61,14 @@ export default abstract class Player extends Movable implements IPlayer {
 
     public reset(): void {
 
-        this.initialize();
-
         if(this._interval !== null) {
 
             clearInterval(this._interval);
             this._interval = null;
         }
+
+        this.initialize();
+        super.reset();
     }
 
     //warp from one side to the other side of tunnel
@@ -106,7 +112,7 @@ export default abstract class Player extends Movable implements IPlayer {
 
     public playAnimation(
 
-        totalTicks: number,
+        totalTicks: number = this._totalTicks,
         speed: number = 100,
         endTick: number = this._tick
 

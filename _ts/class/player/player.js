@@ -1,7 +1,7 @@
-System.register(["_ts/object/canvas", "_ts/object/locations", "_ts/object/grid", "_ts/class/player/movable"], function (exports_1, context_1) {
+System.register(["_ts/object/canvas", "_ts/object/locations", "_ts/class/player/movable", "_ts/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var canvas_1, locations_1, grid_1, movable_1, Player;
+    var canvas_1, locations_1, movable_1, grid_1, Player;
     return {
         setters: [
             function (canvas_1_1) {
@@ -10,11 +10,11 @@ System.register(["_ts/object/canvas", "_ts/object/locations", "_ts/object/grid",
             function (locations_1_1) {
                 locations_1 = locations_1_1;
             },
-            function (grid_1_1) {
-                grid_1 = grid_1_1;
-            },
             function (movable_1_1) {
                 movable_1 = movable_1_1;
+            },
+            function (grid_1_1) {
+                grid_1 = grid_1_1;
             }
         ],
         execute: function () {
@@ -30,6 +30,10 @@ System.register(["_ts/object/canvas", "_ts/object/locations", "_ts/object/grid",
                 }
                 get onAnimation() {
                     return this._onAnimation;
+                }
+                //can turn left or right (exclude turning around)
+                get canTurn() {
+                    return this.onNodeCenter && this.withinMaze;
                 }
                 set isMoving(value) {
                     this._isMoving = value;
@@ -47,11 +51,12 @@ System.register(["_ts/object/canvas", "_ts/object/locations", "_ts/object/grid",
                     this._ctx = canvas_1.default.player;
                 }
                 reset() {
-                    this.initialize();
                     if (this._interval !== null) {
                         clearInterval(this._interval);
                         this._interval = null;
                     }
+                    this.initialize();
+                    super.reset();
                 }
                 //warp from one side to the other side of tunnel
                 crossTunnel() {
@@ -79,7 +84,7 @@ System.register(["_ts/object/canvas", "_ts/object/locations", "_ts/object/grid",
                     this._tick = (this._tick + 1) % totalTicks;
                     this.getCropXY();
                 }
-                playAnimation(totalTicks, speed = 100, endTick = this._tick) {
+                playAnimation(totalTicks = this._totalTicks, speed = 100, endTick = this._tick) {
                     if (!this._onAnimation) {
                         this.stopAnimation(endTick);
                         return;

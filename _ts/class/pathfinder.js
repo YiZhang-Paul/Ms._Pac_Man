@@ -1,21 +1,21 @@
-System.register(["_ts/object/grid", "_ts/class/node", "_ts/class/priorityQueue"], function (exports_1, context_1) {
+System.register(["_ts/class/priorityQueue", "_ts/class/node", "_ts/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var grid_1, node_1, priorityQueue_1, PathFinder;
+    var priorityQueue_1, node_1, grid_1, Pathfinder;
     return {
         setters: [
-            function (grid_1_1) {
-                grid_1 = grid_1_1;
+            function (priorityQueue_1_1) {
+                priorityQueue_1 = priorityQueue_1_1;
             },
             function (node_1_1) {
                 node_1 = node_1_1;
             },
-            function (priorityQueue_1_1) {
-                priorityQueue_1 = priorityQueue_1_1;
+            function (grid_1_1) {
+                grid_1 = grid_1_1;
             }
         ],
         execute: function () {
-            PathFinder = class PathFinder {
+            Pathfinder = class Pathfinder {
                 constructor(originator) {
                     this._originator = originator;
                 }
@@ -94,7 +94,7 @@ System.register(["_ts/object/grid", "_ts/class/node", "_ts/class/priorityQueue"]
                     return [...path, node].reverse();
                 }
             };
-            exports_1("default", PathFinder);
+            exports_1("default", Pathfinder);
         }
     };
 });

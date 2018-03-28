@@ -1,14 +1,14 @@
-System.register(["_ts/object/grid", "_ts/class/point"], function (exports_1, context_1) {
+System.register(["_ts/class/point", "_ts/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var grid_1, point_1;
+    var point_1, grid_1;
     return {
         setters: [
-            function (grid_1_1) {
-                grid_1 = grid_1_1;
-            },
             function (point_1_1) {
                 point_1 = point_1_1;
+            },
+            function (grid_1_1) {
+                grid_1 = grid_1_1;
             }
         ],
         execute: function () {

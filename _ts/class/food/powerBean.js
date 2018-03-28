@@ -1,4 +1,4 @@
-System.register(["_ts/class/food/bean", "_ts/object/grid"], function (exports_1, context_1) {
+System.register(["_ts/class/food/bean", "_ts/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var bean_1, grid_1, PowerBean;
