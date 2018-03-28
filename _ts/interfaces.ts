@@ -125,14 +125,17 @@ export interface IGhost extends IPlayer {
     readonly inTunnel: boolean;
     readonly onFlee: boolean;
     readonly onTransition: boolean;
+
+    startFlee(): void;
+    startRetreat(): void;
 }
 
 export interface IPacman extends IPlayer {
 
     readonly isDying: boolean;
     readonly killCount: number;
-    readonly lastGhostKilled: IGhost;
 
+    killGhost(): void;
     consume(): void;
 }
 
@@ -207,7 +210,10 @@ export interface IBlinkableFood extends IFood, IBlinkable {}
 
 export interface IFruit extends IFood, IMovable {}
 
-export interface IManager extends IInitializable, IResettable, IRenderable {}
+export interface IManager extends IInitializable, IResettable, IRenderable {
+
+    update(timeStep: number): void;
+}
 
 export interface IFoodManager extends IManager {
 
@@ -221,18 +227,22 @@ export interface IFoodManager extends IManager {
     putBeans(): void;
     putFruit(): void;
     remove(food: IFood): void;
-    update(timeStep: number): void;
 }
 
 export interface IGhostManager extends IManager {
 
     readonly names: string[];
+    readonly ghosts: Set<IGhost>;
+    readonly house: Set<IGhost>;
     readonly enemy: IPacman;
-    readonly ghosts: IGhost[];
 
-    killPacman(): void;
+    startMove(): void;
+    stopMove(): void;
     getInHouse(ghost: IGhost): void;
     getOutHouse(ghost: IGhost): void;
+    startFlee(): void;
+    killPacman(): void;
+    killGhost(ghost: IGhost): void;
 }
 
 export interface IGameManager extends IManager {
@@ -246,10 +256,10 @@ export interface IGameManager extends IManager {
     readonly foodManager: IFoodManager;
     readonly ghostManager: IGhostManager;
 
-    killGhost(): void;
+    killPacman(): void;
+    killGhost(ghost: IGhost): void;
     checkScore(score: number): void;
     changeState(state: string): void;
-    update(timeStep: number): void;
 }
 
 export interface IGame extends IInitializable, IResettable, IRenderable {

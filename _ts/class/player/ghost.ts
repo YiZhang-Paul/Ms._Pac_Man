@@ -370,7 +370,7 @@ export default abstract class Ghost extends Player implements IGhost {
     /**
      * trigger state transition
      */
-    private startFlee(): void {
+    public startFlee(): void {
 
         this.getCropXY = this.fleeCropXY;
         this.stopAnimation(0);
@@ -400,7 +400,7 @@ export default abstract class Ghost extends Player implements IGhost {
         }
     }
 
-    private startRetreat(): void {
+    public startRetreat(): void {
 
         this.getCropXY = this.retreatCropXY;
         this.stopAnimation(0);

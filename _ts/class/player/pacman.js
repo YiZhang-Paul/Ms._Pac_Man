@@ -30,14 +30,10 @@ System.register(["_ts/object/control", "_ts/class/player/player", "_ts/class/poi
                 get killCount() {
                     return this._killCount;
                 }
-                get lastGhostKilled() {
-                    return this._lastGhostKilled;
-                }
                 initialize() {
                     this._killCount = 0;
                     this._speed = Math.round(grid_1.default.height * 0.025) / 100;
                     this._isDying = false;
-                    this._lastGhostKilled = null;
                     this._totalTicks = 3;
                     this._deathTimeout = null;
                     this._deathInterval = null;
@@ -89,13 +85,12 @@ System.register(["_ts/object/control", "_ts/class/player/player", "_ts/class/poi
                     }
                     return this.distanceToMovable(ghost) < grid_1.default.nodeSize * 0.5;
                 }
-                consumeGhost() {
+                killGhost() {
                     let originator = this._originator;
                     originator.ghostManager.ghosts.forEach(ghost => {
                         if (this.canKill(ghost)) {
                             this._killCount++;
-                            this._lastGhostKilled = ghost;
-                            originator.killGhost();
+                            originator.killGhost(ghost);
                         }
                     });
                 }
@@ -124,7 +119,6 @@ System.register(["_ts/object/control", "_ts/class/player/player", "_ts/class/poi
                 consume() {
                     this.consumeFood();
                     this.consumeFruit();
-                    this.consumeGhost();
                 }
                 //calculate tile image crop location
                 getCropXY() {
@@ -171,6 +165,7 @@ System.register(["_ts/object/control", "_ts/class/player/player", "_ts/class/poi
                     this.move(timeStep);
                     //check food and ghost
                     this.consume();
+                    this.killGhost();
                 }
             };
             exports_1("default", Pacman);

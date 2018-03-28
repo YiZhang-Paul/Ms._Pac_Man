@@ -8,7 +8,6 @@ export default class Pacman extends Player implements IPacman {
 
     private _killCount: number;
     private _isDying: boolean;
-    private _lastGhostKilled: IGhost;
     private _deathTimeout: number;
     private _deathInterval: number;
 
@@ -29,17 +28,11 @@ export default class Pacman extends Player implements IPacman {
         return this._killCount;
     }
 
-    get lastGhostKilled(): IGhost {
-
-        return this._lastGhostKilled;
-    }
-
     public initialize(): void {
 
         this._killCount = 0;
         this._speed = Math.round(Grid.height * 0.025) / 100;
         this._isDying = false;
-        this._lastGhostKilled = null;
         this._totalTicks = 3;
         this._deathTimeout = null;
         this._deathInterval = null;
@@ -108,7 +101,7 @@ export default class Pacman extends Player implements IPacman {
         return this.distanceToMovable(ghost) < Grid.nodeSize * 0.5;
     }
 
-    private consumeGhost(): void {
+    public killGhost(): void {
 
         let originator = <IGameManager>this._originator;
 
@@ -117,8 +110,7 @@ export default class Pacman extends Player implements IPacman {
             if(this.canKill(ghost)) {
 
                 this._killCount++;
-                this._lastGhostKilled = ghost;
-                originator.killGhost();
+                originator.killGhost(ghost);
             }
         });
     }
@@ -161,7 +153,6 @@ export default class Pacman extends Player implements IPacman {
 
         this.consumeFood();
         this.consumeFruit();
-        this.consumeGhost();
     }
 
     //calculate tile image crop location
@@ -229,5 +220,6 @@ export default class Pacman extends Player implements IPacman {
         this.move(timeStep);
         //check food and ghost
         this.consume();
+        this.killGhost();
     }
 }
