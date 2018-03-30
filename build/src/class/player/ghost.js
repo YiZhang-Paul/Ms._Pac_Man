@@ -96,11 +96,9 @@ System.register(["src/object/locations", "src/object/utility", "src/class/pathfi
                     this.defaultCropXY = this.getCropXY;
                 }
                 reset() {
-                    super.reset();
-                    this._speed = this._defaultSpeed;
-                    this._path = null;
-                    this._stateManager.reset();
+                    //restore default appearance
                     this.getCropXY = this.defaultCropXY;
+                    super.reset();
                 }
                 turnAround() {
                     if (this.toCollision === 0) {

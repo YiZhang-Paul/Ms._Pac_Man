@@ -119,12 +119,9 @@ export default abstract class Ghost extends Player implements IGhost {
     }
 
     public reset(): void {
-
-        super.reset();
-        this._speed = this._defaultSpeed;
-        this._path = null;
-        this._stateManager.reset();
+        //restore default appearance
         this.getCropXY = this.defaultCropXY;
+        super.reset();
     }
 
     protected turnAround(): void {
