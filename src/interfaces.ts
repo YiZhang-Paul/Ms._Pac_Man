@@ -8,6 +8,11 @@ export interface IResettable {
     reset(): void;
 }
 
+export interface IDeconstructable {
+
+    destroy(): void;
+}
+
 export interface IDisposable {
 
     dispose(auto?: boolean): void;
@@ -228,7 +233,7 @@ export interface IFruit extends IFood, IMovable {}
 /**
  * game asset manager
  */
-export interface IManager extends IInitializable, IResettable, IUpdatable, IRenderable {}
+export interface IManager extends IInitializable, IResettable, IDeconstructable, IUpdatable, IRenderable {}
 
 export interface IFoodManager extends IManager {
 

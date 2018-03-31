@@ -118,6 +118,12 @@ export default class GameManager implements IGameManager {
         this._stateManager.reset();
     }
 
+    public destroy(): void {
+
+        this._ghostManager.destroy();
+        this._foodManager.destroy();
+    }
+
     //trigger ghost flee mode on power bean consumption
     public startFlee(): void {
 
@@ -266,7 +272,7 @@ export default class GameManager implements IGameManager {
                 clearTimeout(this._timeout);
                 this._timeout = null;
 
-                this.reset();
+                this.destroy();
                 this.initialize();
 
             }, 3000);

@@ -100,6 +100,10 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                     this._scoreBoard.reset();
                     this._stateManager.reset();
                 }
+                destroy() {
+                    this._ghostManager.destroy();
+                    this._foodManager.destroy();
+                }
                 //trigger ghost flee mode on power bean consumption
                 startFlee() {
                     this._ghostManager.startFlee();
@@ -206,7 +210,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                         this._timeout = setTimeout(() => {
                             clearTimeout(this._timeout);
                             this._timeout = null;
-                            this.reset();
+                            this.destroy();
                             this.initialize();
                         }, 3000);
                     }

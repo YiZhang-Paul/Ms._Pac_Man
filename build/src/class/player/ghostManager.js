@@ -73,6 +73,10 @@ System.register(["src/object/utility", "src/class/player/blinky", "src/class/pla
                     });
                     this._house = new Set([this._pinky, this._inky, this._sue]);
                 }
+                destroy() {
+                    this._ghosts.clear();
+                    this._house.clear();
+                }
                 //record timestamp when ghost enter ghost house
                 setCooldown() {
                     this._timestamp = utility_1.default.now;

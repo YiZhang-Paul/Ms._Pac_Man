@@ -95,6 +95,12 @@ export default class GhostManager implements IGhostManager {
         this._house = new Set([this._pinky, this._inky, this._sue]);
     }
 
+    public destroy(): void {
+
+        this._ghosts.clear();
+        this._house.clear();
+    }
+
     //record timestamp when ghost enter ghost house
     private setCooldown(): void {
 

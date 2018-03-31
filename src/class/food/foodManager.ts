@@ -71,6 +71,31 @@ export default class FoodManager implements IFoodManager {
         }
     }
 
+    public destroy(): void {
+
+        this._powerBeans.clear();
+
+        if(this._fruit !== null) {
+
+            this._fruit.dispose(true);
+        }
+
+        if(this._timeout !== null) {
+
+            clearTimeout(this._timeout);
+        }
+
+        if(this._fruitInterval !== null) {
+
+            clearInterval(this._fruitInterval);
+        }
+
+        if(this._beanInterval !== null) {
+
+            clearInterval(this._beanInterval);
+        }
+    }
+
     //blink all power beans
     private blink(): void {
 
