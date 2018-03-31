@@ -109,6 +109,7 @@ System.register(["src/object/utility", "src/object/canvas", "src/class/food/bean
                 }
                 putBeans() {
                     this._totalBeans = 0;
+                    this._powerBeans.clear();
                     this._ctx.clearRect(0, 0, grid_1.default.width, grid_1.default.height);
                     for (let i = 0; i < grid_1.default.layout.rows; i++) {
                         for (let j = 0; j < grid_1.default.layout.columns; j++) {

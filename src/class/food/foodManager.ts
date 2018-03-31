@@ -142,6 +142,7 @@ export default class FoodManager implements IFoodManager {
     public putBeans(): void {
 
         this._totalBeans = 0;
+        this._powerBeans.clear();
         this._ctx.clearRect(0, 0, Grid.width, Grid.height);
 
         for(let i = 0; i < Grid.layout.rows; i++) {

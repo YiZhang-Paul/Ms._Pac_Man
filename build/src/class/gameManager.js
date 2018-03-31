@@ -108,7 +108,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                     //when pacman death animation finished
                     if (animationEnd) {
                         this._life--;
-                        this._stateManager.swap("resetting");
+                        this.checkGameState();
                         return;
                     }
                     this._stateManager.swap("pacmanDying");
@@ -130,7 +130,16 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                     this._scoreBoard.draw();
                 }
                 checkGameState() {
-                    if (this._foodManager.totalBeans === 0) {
+                    if (this._life === 0) {
+                        //restart entire game
+                        this._stateManager.swap("restarting");
+                    }
+                    else if (this._foodManager.totalBeans === 0) {
+                        //load next round
+                        this._stateManager.swap("reloading");
+                    }
+                    else if (this.state === "pacmanDying") {
+                        //reset current round
                         this._stateManager.swap("resetting");
                     }
                 }
@@ -191,22 +200,43 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                         }, 2000);
                     }
                 }
-                resetting(timeStep) {
-                    if (this._interval === null && this._timeout === null) {
-                        this._interval = setInterval(() => {
-                            this._maze.blink();
-                        }, 300);
+                //start a new game
+                restarting(timeStep) {
+                    if (this._timeout === null) {
                         this._timeout = setTimeout(() => {
                             clearTimeout(this._timeout);
                             this._timeout = null;
+                            this.reset();
+                            this.initialize();
+                        }, 3000);
+                    }
+                }
+                //load next round
+                reloading(timeStep) {
+                    if (this._interval === null && this._timeout === null) {
+                        this._pacman.stopAnimation(2);
+                        //blink maze border
+                        this._interval = setInterval(() => {
+                            this._maze.blink();
+                        }, 400);
+                        this._timeout = setTimeout(() => {
                             clearInterval(this._interval);
                             this._interval = null;
-                            if (this._life === 0) {
-                                this.initialize();
-                            }
-                            else {
-                                this.reset();
-                            }
+                            clearTimeout(this._timeout);
+                            this._timeout = null;
+                            this.reset();
+                            //repopulate food
+                            this._foodManager.putBeans();
+                        }, 3000);
+                    }
+                }
+                //reset current round
+                resetting(timeStep) {
+                    if (this._timeout === null) {
+                        this._timeout = setTimeout(() => {
+                            clearTimeout(this._timeout);
+                            this._timeout = null;
+                            this.reset();
                         }, 3000);
                     }
                 }

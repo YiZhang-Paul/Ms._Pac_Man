@@ -129,7 +129,7 @@ export default class GameManager implements IGameManager {
         if(animationEnd) {
 
             this._life--;
-            this._stateManager.swap("resetting");
+            this.checkGameState();
 
             return;
         }
@@ -158,8 +158,16 @@ export default class GameManager implements IGameManager {
 
     public checkGameState(): void {
 
-        if(this._foodManager.totalBeans === 0) {
-
+        if(this._life === 0) {
+            //restart entire game
+            this._stateManager.swap("restarting");
+        }
+        else if(this._foodManager.totalBeans === 0) {
+            //load next round
+            this._stateManager.swap("reloading");
+        }
+        else if(this.state === "pacmanDying") {
+            //reset current round
             this._stateManager.swap("resetting");
         }
     }
@@ -248,31 +256,62 @@ export default class GameManager implements IGameManager {
         }
     }
 
-    private resetting(timeStep: number): void {
+    //start a new game
+    private restarting(timeStep: number): void {
 
-        if(this._interval === null && this._timeout === null) {
-
-            this._interval = setInterval(() => {
-
-                this._maze.blink();
-
-            }, 300);
+        if(this._timeout === null) {
 
             this._timeout = setTimeout(() => {
 
                 clearTimeout(this._timeout);
                 this._timeout = null;
+
+                this.reset();
+                this.initialize();
+
+            }, 3000);
+        }
+    }
+
+    //load next round
+    private reloading(timeStep: number): void {
+
+        if(this._interval === null && this._timeout === null) {
+
+            this._pacman.stopAnimation(2);
+            //blink maze border
+            this._interval = setInterval(() => {
+
+                this._maze.blink();
+
+            }, 400);
+
+            this._timeout = setTimeout(() => {
+
                 clearInterval(this._interval);
                 this._interval = null;
+                clearTimeout(this._timeout);
+                this._timeout = null;
 
-                if(this._life === 0) {
+                this.reset();
+                //repopulate food
+                this._foodManager.putBeans();
 
-                    this.initialize();
-                }
-                else {
+            }, 3000);
+        }
+    }
 
-                    this.reset();
-                }
+    //reset current round
+    private resetting(timeStep: number): void {
+
+        if(this._timeout === null) {
+
+            this._timeout = setTimeout(() => {
+
+                clearTimeout(this._timeout);
+                this._timeout = null;
+
+                this.reset();
 
             }, 3000);
         }
