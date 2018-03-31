@@ -111,6 +111,9 @@ export interface IMovable extends IInitializable, IResettable, ILocatable, IUpda
     distanceToMovable(movable: IMovable): number;
 }
 
+/**
+ * player objects
+ */
 export interface IPlayer extends IMovable {
 
     isMoving: boolean;
@@ -143,6 +146,9 @@ export interface IPacman extends IPlayer {
     playDeathAnimation(): void;
 }
 
+/**
+ * game grid
+ */
 export interface IGridData extends IDimension {
 
     readonly rows: number;
@@ -183,6 +189,9 @@ export interface IGrid extends IInitializable, IDimension {
     getAdjacentNodes(row: number, column: number): INode[];
 }
 
+/**
+ * user interface
+ */
 export interface IUserInterface extends IInitializable, IResettable, IRenderable, IDimension {}
 
 export interface IMaze extends IUserInterface, IBlinkable {}
@@ -204,6 +213,9 @@ export interface IHud extends IUserInterface {
     showFruits(): void;
 }
 
+/**
+ * food objects
+ */
 export interface IFood extends ILocatable, IRenderable, IDisposable {
 
     score: number;
@@ -213,6 +225,9 @@ export interface IBlinkableFood extends IFood, IBlinkable {}
 
 export interface IFruit extends IFood, IMovable {}
 
+/**
+ * game asset manager
+ */
 export interface IManager extends IInitializable, IResettable, IUpdatable, IRenderable {}
 
 export interface IFoodManager extends IManager {
@@ -261,7 +276,7 @@ export interface IGameManager extends IManager {
     readonly ghosts: Set<IGhost>;
 
     startFlee(): void;
-    killPacman(killed: boolean): void;
+    killPacman(animationEnd: boolean): void;
     killGhost(ghost: IGhost): void;
     checkScore(score: number): void;
     checkGameState(): void;
@@ -270,6 +285,9 @@ export interface IGameManager extends IManager {
     removePopUp(popUp: IPopUp): void;
 }
 
+/**
+ * main game object
+ */
 export interface IGame extends IInitializable, IResettable, IUpdatable, IRenderable {
 
     readonly state: string;

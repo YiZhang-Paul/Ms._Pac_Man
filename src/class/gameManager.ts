@@ -1,8 +1,7 @@
 import {
 
-    IGameManager, IFoodManager, IHud, IPopUp,
-    IPacman, IGhost, IGhostManager, IMaze,
-    IPoint, IScoreBoard, IState
+    IGameManager, IFoodManager, IHud, IPopUp, IPacman, IGhost,
+    IGhostManager, IMaze, IPoint, IScoreBoard, IState
 
 } from "src/interfaces";
 
@@ -57,6 +56,7 @@ export default class GameManager implements IGameManager {
         return this._score;
     }
 
+    //current highest score
     get highest(): number {
 
         return this._highest;
@@ -100,7 +100,7 @@ export default class GameManager implements IGameManager {
             this._scoreBoard = new ScoreBoard(this);
         }
         else {
-
+            //keep previous score board on game reset
             this._scoreBoard.reset();
         }
     }
@@ -118,14 +118,15 @@ export default class GameManager implements IGameManager {
         this._stateManager.reset();
     }
 
+    //trigger ghost flee mode on power bean consumption
     public startFlee(): void {
 
         this._ghostManager.startFlee();
     }
 
-    public killPacman(killed: boolean): void {
-
-        if(killed) {
+    public killPacman(animationEnd: boolean): void {
+        //when pacman death animation finished
+        if(animationEnd) {
 
             this._life--;
             this._stateManager.swap("resetting");
@@ -137,11 +138,12 @@ export default class GameManager implements IGameManager {
     }
 
     public killGhost(ghost: IGhost): void {
-
+        //score is doubled for every ghost killed on last power bean consumption
         const multiplier = Math.pow(2, this._pacman.killCount - 1);
         const score = ghost.score * multiplier;
         this.checkScore(score);
         this.addPopUp(ghost.coordinate, score);
+        //trigger retreat mode of killed ghost
         this._lastGhostKilled = ghost;
         this._lastGhostKilled.startRetreat();
         this._stateManager.swap("ghostKilled");
@@ -162,6 +164,7 @@ export default class GameManager implements IGameManager {
         }
     }
 
+    //draw next fruits in queue
     public showFruits(): void {
 
         this._hud.draw();
@@ -177,6 +180,9 @@ export default class GameManager implements IGameManager {
         this._popUps.delete(popUp);
     }
 
+    /**
+     * game states
+     */
     private loaded(timeStep: number): void {
 
         this._hud.load();
@@ -184,7 +190,7 @@ export default class GameManager implements IGameManager {
     }
 
     private startGame(timeStep: number): void {
-
+        //detect key press
         if(Control.active !== null) {
 
             this._ghostManager.startMove();
@@ -200,15 +206,7 @@ export default class GameManager implements IGameManager {
     }
 
     private ghostKilled(timeStep: number): void {
-
-        this.ghosts.forEach(ghost => {
-
-            if(ghost !== this._lastGhostKilled && ghost.state === "retreat") {
-
-                ghost.update(timeStep);
-            }
-        });
-
+        //brief pause on ghost kill
         if(this._timeout === null) {
 
             this._pacman.stopAnimation(0);
@@ -222,8 +220,17 @@ export default class GameManager implements IGameManager {
 
             }, 400);
         }
+
+        this.ghosts.forEach(ghost => {
+            //only retreating ghosts can move during pause period
+            if(ghost !== this._lastGhostKilled && ghost.state === "retreat") {
+
+                ghost.update(timeStep);
+            }
+        });
     }
 
+    //play pacman death animation
     private pacmanDying(timeStep: number): void {
 
         if(this._timeout === null && !this._pacman.isDying) {
@@ -274,7 +281,7 @@ export default class GameManager implements IGameManager {
     public update(timeStep: number): void {
 
         this._stateManager.update(timeStep);
-
+        //auto dispose pop ups
         this._popUps.forEach(popUp => {
 
             popUp.update();

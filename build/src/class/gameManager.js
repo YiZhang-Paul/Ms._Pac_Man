@@ -52,6 +52,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                 get score() {
                     return this._score;
                 }
+                //current highest score
                 get highest() {
                     return this._highest;
                 }
@@ -84,6 +85,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                         this._scoreBoard = new scoreBoard_1.default(this);
                     }
                     else {
+                        //keep previous score board on game reset
                         this._scoreBoard.reset();
                     }
                 }
@@ -98,11 +100,13 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                     this._scoreBoard.reset();
                     this._stateManager.reset();
                 }
+                //trigger ghost flee mode on power bean consumption
                 startFlee() {
                     this._ghostManager.startFlee();
                 }
-                killPacman(killed) {
-                    if (killed) {
+                killPacman(animationEnd) {
+                    //when pacman death animation finished
+                    if (animationEnd) {
                         this._life--;
                         this._stateManager.swap("resetting");
                         return;
@@ -110,10 +114,12 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                     this._stateManager.swap("pacmanDying");
                 }
                 killGhost(ghost) {
+                    //score is doubled for every ghost killed on last power bean consumption
                     const multiplier = Math.pow(2, this._pacman.killCount - 1);
                     const score = ghost.score * multiplier;
                     this.checkScore(score);
                     this.addPopUp(ghost.coordinate, score);
+                    //trigger retreat mode of killed ghost
                     this._lastGhostKilled = ghost;
                     this._lastGhostKilled.startRetreat();
                     this._stateManager.swap("ghostKilled");
@@ -128,6 +134,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                         this._stateManager.swap("resetting");
                     }
                 }
+                //draw next fruits in queue
                 showFruits() {
                     this._hud.draw();
                 }
@@ -137,11 +144,15 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                 removePopUp(popUp) {
                     this._popUps.delete(popUp);
                 }
+                /**
+                 * game states
+                 */
                 loaded(timeStep) {
                     this._hud.load();
                     this.startGame(timeStep);
                 }
                 startGame(timeStep) {
+                    //detect key press
                     if (control_1.default.active !== null) {
                         this._ghostManager.startMove();
                         this._stateManager.swap("ongoing");
@@ -153,11 +164,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                     this._foodManager.update(timeStep);
                 }
                 ghostKilled(timeStep) {
-                    this.ghosts.forEach(ghost => {
-                        if (ghost !== this._lastGhostKilled && ghost.state === "retreat") {
-                            ghost.update(timeStep);
-                        }
-                    });
+                    //brief pause on ghost kill
                     if (this._timeout === null) {
                         this._pacman.stopAnimation(0);
                         this._timeout = setTimeout(() => {
@@ -166,7 +173,14 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                             this._timeout = null;
                         }, 400);
                     }
+                    this.ghosts.forEach(ghost => {
+                        //only retreating ghosts can move during pause period
+                        if (ghost !== this._lastGhostKilled && ghost.state === "retreat") {
+                            ghost.update(timeStep);
+                        }
+                    });
                 }
+                //play pacman death animation
                 pacmanDying(timeStep) {
                     if (this._timeout === null && !this._pacman.isDying) {
                         this._pacman.stopAnimation(2);
@@ -198,6 +212,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                 }
                 update(timeStep) {
                     this._stateManager.update(timeStep);
+                    //auto dispose pop ups
                     this._popUps.forEach(popUp => {
                         popUp.update();
                     });
