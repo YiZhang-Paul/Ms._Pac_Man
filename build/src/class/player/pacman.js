@@ -1,7 +1,7 @@
-System.register(["src/object/direction", "src/object/control", "src/class/player/player", "src/class/point", "src/class/grid"], function (exports_1, context_1) {
+System.register(["src/object/direction", "src/object/control", "src/class/player/player", "src/class/sound", "src/class/point", "src/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var direction_1, control_1, player_1, point_1, grid_1, Pacman;
+    var direction_1, control_1, player_1, sound_1, point_1, grid_1, Pacman;
     return {
         setters: [
             function (direction_1_1) {
@@ -12,6 +12,9 @@ System.register(["src/object/direction", "src/object/control", "src/class/player
             },
             function (player_1_1) {
                 player_1 = player_1_1;
+            },
+            function (sound_1_1) {
+                sound_1 = sound_1_1;
             },
             function (point_1_1) {
                 point_1 = point_1_1;
@@ -96,6 +99,7 @@ System.register(["src/object/direction", "src/object/control", "src/class/player
                         if (this.canKill(ghost)) {
                             this._killCount++;
                             originator.killGhost(ghost);
+                            sound_1.default.play(document.getElementById("eat_ghost"));
                         }
                     });
                 }
@@ -106,6 +110,7 @@ System.register(["src/object/direction", "src/object/control", "src/class/player
                             this._killCount = 0;
                         }
                         this._foodManager.getBean(this._row, this._column).dispose();
+                        sound_1.default.play(document.getElementById("eat_bean"));
                     }
                 }
                 consumeFruit() {
@@ -118,6 +123,7 @@ System.register(["src/object/direction", "src/object/control", "src/class/player
                     let pacmanNode = grid_1.default.getNode(this._coordinate);
                     if (fruitNode.isSame(pacmanNode)) {
                         fruit.dispose(false);
+                        sound_1.default.play(document.getElementById("eat_fruit"));
                     }
                 }
                 consume() {

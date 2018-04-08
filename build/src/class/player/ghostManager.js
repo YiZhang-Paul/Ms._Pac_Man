@@ -1,11 +1,14 @@
-System.register(["src/object/utility", "src/class/player/blinky", "src/class/player/pinky", "src/class/player/inky", "src/class/player/sue"], function (exports_1, context_1) {
+System.register(["src/object/utility", "src/class/sound", "src/class/player/blinky", "src/class/player/pinky", "src/class/player/inky", "src/class/player/sue"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var utility_1, blinky_1, pinky_1, inky_1, sue_1, GhostManager;
+    var utility_1, sound_1, blinky_1, pinky_1, inky_1, sue_1, GhostManager;
     return {
         setters: [
             function (utility_1_1) {
                 utility_1 = utility_1_1;
+            },
+            function (sound_1_1) {
+                sound_1 = sound_1_1;
             },
             function (blinky_1_1) {
                 blinky_1 = blinky_1_1;
@@ -117,6 +120,8 @@ System.register(["src/object/utility", "src/class/player/blinky", "src/class/pla
                             ghost.startFlee();
                         }
                     });
+                    this.clearSound();
+                    sound_1.default.play(document.getElementById("ghost_flee"), 0, 1, true);
                 }
                 killPacman() {
                     this._originator.killPacman(false);
@@ -124,10 +129,33 @@ System.register(["src/object/utility", "src/class/player/blinky", "src/class/pla
                 killGhost(ghost) {
                     ghost.startRetreat();
                 }
+                clearSound() {
+                    sound_1.default.clear(document.getElementById("ghost_chase"));
+                    sound_1.default.clear(document.getElementById("ghost_flee"));
+                    sound_1.default.clear(document.getElementById("ghost_retreat"));
+                }
+                checkSound() {
+                    let ghosts = Array.from(this._ghosts);
+                    let sound = null;
+                    if (ghosts.some(ghost => ghost.state === "retreat")) {
+                        sound = document.getElementById("ghost_retreat");
+                    }
+                    else if (ghosts.some(ghost => new Set(["flee", "transition"]).has(ghost.state))) {
+                        sound = document.getElementById("ghost_flee");
+                    }
+                    else {
+                        sound = document.getElementById("ghost_chase");
+                    }
+                    if (!sound_1.default.isPlaying(sound)) {
+                        this.clearSound();
+                        sound_1.default.play(sound, 0, 1, true);
+                    }
+                }
                 update(timeStep) {
                     this._ghosts.forEach(ghost => {
                         ghost.update(timeStep);
                     });
+                    this.checkSound();
                 }
                 draw() {
                     this._ghosts.forEach(ghost => {

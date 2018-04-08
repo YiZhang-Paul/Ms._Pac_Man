@@ -80,6 +80,16 @@ class Sound implements IAudioPlayer {
         });
     }
 
+    public isPlaying(sound: HTMLAudioElement): boolean {
+
+        if(!this._status.has(sound)) {
+
+            return false;
+        }
+
+        return !this._status.get(sound).ready;
+    }
+
     private setup(
 
         sound: HTMLAudioElement,
@@ -97,26 +107,6 @@ class Sound implements IAudioPlayer {
 
                 this.clear(sound);
             });
-        }
-    }
-
-    private clear(sound: HTMLAudioElement): void {
-
-        if(!this._status.has(sound)) {
-
-            return;
-        }
-
-        let data = this._status.get(sound);
-
-        if(!data.ready) {
-
-            sound.currentTime = data.start;
-            sound.volume = data.volume;
-            sound.loop = data.loop;
-            sound.pause();
-            //indicate clear success
-            data.ready = true;
         }
     }
 
@@ -140,6 +130,26 @@ class Sound implements IAudioPlayer {
             sound.loop = loop;
             sound.play();
             data.ready = false;
+        }
+    }
+
+    public clear(sound: HTMLAudioElement): void {
+
+        if(!this._status.has(sound)) {
+
+            return;
+        }
+
+        let data = this._status.get(sound);
+
+        if(!data.ready) {
+
+            sound.currentTime = data.start;
+            sound.volume = data.volume;
+            sound.loop = data.loop;
+            sound.pause();
+            //indicate clear success
+            data.ready = true;
         }
     }
 }

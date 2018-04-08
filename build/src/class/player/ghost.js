@@ -94,8 +94,8 @@ System.register(["src/object/direction", "src/object/locations", "src/object/uti
                     this._passiveness = 5;
                     this._totalTicks = 2;
                     this._timestamp = null;
-                    this._fleeTime = 10000;
-                    this._transitionTime = 3000;
+                    this._fleeTime = 6500;
+                    this._transitionTime = 2500;
                     this._dodging = false;
                     this.defaultCropXY = this.getCropXY;
                 }

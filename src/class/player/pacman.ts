@@ -2,6 +2,7 @@ import { IPacman, IGameManager, IGhost, IFood, IFoodManager } from "src/interfac
 import { Direction } from "src/object/direction";
 import Control from "src/object/control";
 import Player from "src/class/player/player";
+import Sound from "src/class/sound";
 import Point from "src/class/point";
 import Grid from "src/class/grid";
 
@@ -115,6 +116,7 @@ export default class Pacman extends Player implements IPacman {
 
                 this._killCount++;
                 originator.killGhost(ghost);
+                Sound.play(<HTMLAudioElement>document.getElementById("eat_ghost"));
             }
         });
     }
@@ -129,6 +131,7 @@ export default class Pacman extends Player implements IPacman {
             }
 
             this._foodManager.getBean(this._row, this._column).dispose();
+            Sound.play(<HTMLAudioElement>document.getElementById("eat_bean"));
         }
     }
 
@@ -147,6 +150,7 @@ export default class Pacman extends Player implements IPacman {
         if(fruitNode.isSame(pacmanNode)) {
 
             fruit.dispose(false);
+            Sound.play(<HTMLAudioElement>document.getElementById("eat_fruit"));
         }
     }
 

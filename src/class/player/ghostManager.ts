@@ -1,5 +1,6 @@
 import { IGhostManager, IGhost, IPacman, IGameManager } from "src/interfaces";
 import Utility from "src/object/utility";
+import Sound from "src/class/sound";
 import Blinky from "src/class/player/blinky";
 import Pinky from "src/class/player/pinky";
 import Inky from "src/class/player/inky";
@@ -162,6 +163,9 @@ export default class GhostManager implements IGhostManager {
                 ghost.startFlee();
             }
         });
+
+        this.clearSound();
+        Sound.play(<HTMLAudioElement>document.getElementById("ghost_flee"), 0, 1, true);
     }
 
     public killPacman(): void {
@@ -174,12 +178,46 @@ export default class GhostManager implements IGhostManager {
         ghost.startRetreat();
     }
 
+    private clearSound(): void {
+
+        Sound.clear(<HTMLAudioElement>document.getElementById("ghost_chase"));
+        Sound.clear(<HTMLAudioElement>document.getElementById("ghost_flee"));
+        Sound.clear(<HTMLAudioElement>document.getElementById("ghost_retreat"));
+    }
+
+    private checkSound(): void {
+
+        let ghosts = Array.from(this._ghosts);
+        let sound: HTMLAudioElement = null;
+
+        if(ghosts.some(ghost => ghost.state === "retreat")) {
+
+            sound = <HTMLAudioElement>document.getElementById("ghost_retreat");
+        }
+        else if(ghosts.some(ghost => new Set<string>(["flee", "transition"]).has(ghost.state))) {
+
+            sound = <HTMLAudioElement>document.getElementById("ghost_flee");
+        }
+        else {
+
+            sound = <HTMLAudioElement>document.getElementById("ghost_chase");
+        }
+
+        if(!Sound.isPlaying(sound)) {
+
+            this.clearSound();
+            Sound.play(sound, 0, 1, true);
+        }
+    }
+
     public update(timeStep: number): void {
 
         this._ghosts.forEach(ghost => {
 
             ghost.update(timeStep);
         });
+
+        this.checkSound();
     }
 
     public draw(): void {

@@ -10,6 +10,7 @@ import Canvas from "src/object/canvas";
 import StateMachine from "src/class/stateMachine";
 import Grid from "src/class/grid";
 import Maze from "src/class/userInterface/maze";
+import Sound from "src/class/sound";
 import ScoreBoard from "src/class/userInterface/scoreBoard";
 import Hud from "src/class/userInterface/hud";
 import ScorePopUp from "src/class/userInterface/scorePopUp";
@@ -94,6 +95,7 @@ export default class GameManager implements IGameManager {
         this._interval = null;
         this._ctx = Canvas.player;
         this._stateManager = new StateMachine(this, "loaded");
+        this._stateManager.push("loading");
 
         if(this._scoreBoard === undefined) {
 
@@ -197,6 +199,28 @@ export default class GameManager implements IGameManager {
     /**
      * game states
      */
+    private loading(timeStep: number): void {
+
+        if(this._timeout === null) {
+
+            let soundTimeout = setTimeout(() => {
+
+                clearTimeout(soundTimeout);
+                Sound.play(<HTMLAudioElement>document.getElementById("intro_music"));
+
+            }, 800);
+
+            this._timeout = setTimeout(() => {
+
+                clearTimeout(this._timeout);
+                this._timeout = null;
+
+                this._stateManager.pop();
+
+            }, 4500);
+        }
+    }
+
     private loaded(timeStep: number): void {
 
         this._hud.load();
@@ -250,15 +274,23 @@ export default class GameManager implements IGameManager {
         if(this._timeout === null && !this._pacman.isDying) {
 
             this._pacman.stopAnimation(2);
+            Sound.reset();
 
             this._timeout = setTimeout(() => {
 
                 this._pacman.playDeathAnimation();
 
+                let soundTimeout = setTimeout(() => {
+
+                    clearTimeout(soundTimeout);
+                    Sound.play(<HTMLAudioElement>document.getElementById("death"));
+
+                }, 2000);
+
                 clearTimeout(this._timeout);
                 this._timeout = null;
 
-            }, 2000);
+            }, 1300);
         }
     }
 
@@ -266,6 +298,8 @@ export default class GameManager implements IGameManager {
     private restarting(timeStep: number): void {
 
         if(this._timeout === null) {
+
+            Sound.reset();
 
             this._timeout = setTimeout(() => {
 
@@ -285,6 +319,7 @@ export default class GameManager implements IGameManager {
         if(this._interval === null && this._timeout === null) {
 
             this._pacman.stopAnimation(2);
+            Sound.reset();
             //blink maze border
             this._interval = setInterval(() => {
 
@@ -311,6 +346,8 @@ export default class GameManager implements IGameManager {
     private resetting(timeStep: number): void {
 
         if(this._timeout === null) {
+
+            Sound.reset();
 
             this._timeout = setTimeout(() => {
 

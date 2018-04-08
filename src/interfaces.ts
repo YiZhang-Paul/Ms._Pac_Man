@@ -206,7 +206,9 @@ export interface IAudioData {
 
 export interface IAudioPlayer extends IInitializable, IResettable {
 
+    isPlaying(sound: HTMLAudioElement): boolean;
     play(sound: HTMLAudioElement, start?: number, volume?: number, loop?: boolean): void;
+    clear(sound: HTMLAudioElement): void;
 }
 
 /**

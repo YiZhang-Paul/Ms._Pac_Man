@@ -1,7 +1,7 @@
-System.register(["src/object/control", "src/object/canvas", "src/class/stateMachine", "src/class/grid", "src/class/userInterface/maze", "src/class/userInterface/scoreBoard", "src/class/userInterface/hud", "src/class/userInterface/scorePopUp", "src/class/player/pacman", "src/class/player/ghostManager", "src/class/food/foodManager"], function (exports_1, context_1) {
+System.register(["src/object/control", "src/object/canvas", "src/class/stateMachine", "src/class/grid", "src/class/userInterface/maze", "src/class/sound", "src/class/userInterface/scoreBoard", "src/class/userInterface/hud", "src/class/userInterface/scorePopUp", "src/class/player/pacman", "src/class/player/ghostManager", "src/class/food/foodManager"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var control_1, canvas_1, stateMachine_1, grid_1, maze_1, scoreBoard_1, hud_1, scorePopUp_1, pacman_1, ghostManager_1, foodManager_1, GameManager;
+    var control_1, canvas_1, stateMachine_1, grid_1, maze_1, sound_1, scoreBoard_1, hud_1, scorePopUp_1, pacman_1, ghostManager_1, foodManager_1, GameManager;
     return {
         setters: [
             function (control_1_1) {
@@ -18,6 +18,9 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
             },
             function (maze_1_1) {
                 maze_1 = maze_1_1;
+            },
+            function (sound_1_1) {
+                sound_1 = sound_1_1;
             },
             function (scoreBoard_1_1) {
                 scoreBoard_1 = scoreBoard_1_1;
@@ -81,6 +84,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                     this._interval = null;
                     this._ctx = canvas_1.default.player;
                     this._stateManager = new stateMachine_1.default(this, "loaded");
+                    this._stateManager.push("loading");
                     if (this._scoreBoard === undefined) {
                         this._scoreBoard = new scoreBoard_1.default(this);
                     }
@@ -160,6 +164,19 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                 /**
                  * game states
                  */
+                loading(timeStep) {
+                    if (this._timeout === null) {
+                        let soundTimeout = setTimeout(() => {
+                            clearTimeout(soundTimeout);
+                            sound_1.default.play(document.getElementById("intro_music"));
+                        }, 800);
+                        this._timeout = setTimeout(() => {
+                            clearTimeout(this._timeout);
+                            this._timeout = null;
+                            this._stateManager.pop();
+                        }, 4500);
+                    }
+                }
                 loaded(timeStep) {
                     this._hud.load();
                     this.startGame(timeStep);
@@ -197,16 +214,22 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                 pacmanDying(timeStep) {
                     if (this._timeout === null && !this._pacman.isDying) {
                         this._pacman.stopAnimation(2);
+                        sound_1.default.reset();
                         this._timeout = setTimeout(() => {
                             this._pacman.playDeathAnimation();
+                            let soundTimeout = setTimeout(() => {
+                                clearTimeout(soundTimeout);
+                                sound_1.default.play(document.getElementById("death"));
+                            }, 2000);
                             clearTimeout(this._timeout);
                             this._timeout = null;
-                        }, 2000);
+                        }, 1300);
                     }
                 }
                 //start a new game
                 restarting(timeStep) {
                     if (this._timeout === null) {
+                        sound_1.default.reset();
                         this._timeout = setTimeout(() => {
                             clearTimeout(this._timeout);
                             this._timeout = null;
@@ -219,6 +242,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                 reloading(timeStep) {
                     if (this._interval === null && this._timeout === null) {
                         this._pacman.stopAnimation(2);
+                        sound_1.default.reset();
                         //blink maze border
                         this._interval = setInterval(() => {
                             this._maze.blink();
@@ -237,6 +261,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                 //reset current round
                 resetting(timeStep) {
                     if (this._timeout === null) {
+                        sound_1.default.reset();
                         this._timeout = setTimeout(() => {
                             clearTimeout(this._timeout);
                             this._timeout = null;
