@@ -220,7 +220,7 @@ export default class Pacman extends Player implements IPacman {
     public update(timeStep: number): void {
         //animation
         this._onAnimation = this.toCollision !== 0;
-        this.playAnimation(this._totalTicks, 100, 0);
+        this.playAnimation(this._totalTicks, 70, 0);
         //movement
         this.setDirection();
         this.move(timeStep);

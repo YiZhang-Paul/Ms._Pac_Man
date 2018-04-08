@@ -217,7 +217,7 @@ export default class GameManager implements IGameManager {
 
                 this._stateManager.pop();
 
-            }, 4500);
+            }, 5200);
         }
     }
 

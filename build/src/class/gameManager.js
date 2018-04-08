@@ -174,7 +174,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                             clearTimeout(this._timeout);
                             this._timeout = null;
                             this._stateManager.pop();
-                        }, 4500);
+                        }, 5200);
                     }
                 }
                 loaded(timeStep) {

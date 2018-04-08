@@ -60,8 +60,17 @@ System.register(["src/object/direction", "src/object/utility", "src/object/canva
                     this.blink();
                 }
                 reset() {
+                    this._fruitQueue = new Array();
                     if (this._fruit !== null) {
                         this._fruit.dispose(true);
+                    }
+                    if (this._timeout !== null) {
+                        clearTimeout(this._timeout);
+                        this._timeout = null;
+                    }
+                    if (this._fruitInterval !== null) {
+                        clearInterval(this._fruitInterval);
+                        this._fruitInterval = null;
                     }
                 }
                 destroy() {
@@ -165,7 +174,7 @@ System.register(["src/object/direction", "src/object/utility", "src/object/canva
                                 this._fruitQueue.push(utility_1.default.getRandom(1, 7));
                                 this._originator.showFruits();
                             }
-                        }, 1000);
+                        }, utility_1.default.getRandom(15, 20) * 1000);
                     }
                 }
                 //place first fruit in queue on game area
@@ -178,7 +187,7 @@ System.register(["src/object/direction", "src/object/utility", "src/object/canva
                         this._originator.showFruits();
                         clearTimeout(this._timeout);
                         this._timeout = null;
-                    }, utility_1.default.getRandom(1, 2) * 1000);
+                    }, utility_1.default.getRandom(3, 8) * 1000);
                 }
                 removeBean(bean) {
                     if (this.isPowerBean(bean.row, bean.column)) {

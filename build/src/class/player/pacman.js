@@ -170,7 +170,7 @@ System.register(["src/object/direction", "src/object/control", "src/class/player
                 update(timeStep) {
                     //animation
                     this._onAnimation = this.toCollision !== 0;
-                    this.playAnimation(this._totalTicks, 100, 0);
+                    this.playAnimation(this._totalTicks, 70, 0);
                     //movement
                     this.setDirection();
                     this.move(timeStep);

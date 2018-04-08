@@ -66,9 +66,23 @@ export default class FoodManager implements IFoodManager {
 
     public reset(): void {
 
+        this._fruitQueue = new Array<number>();
+
         if(this._fruit !== null) {
 
             this._fruit.dispose(true);
+        }
+
+        if(this._timeout !== null) {
+
+            clearTimeout(this._timeout);
+            this._timeout = null;
+        }
+
+        if(this._fruitInterval !== null) {
+
+            clearInterval(this._fruitInterval);
+            this._fruitInterval = null;
         }
     }
 
@@ -220,7 +234,7 @@ export default class FoodManager implements IFoodManager {
                     this._originator.showFruits();
                 }
 
-            }, 1000);
+            }, Utility.getRandom(15, 20) * 1000);
         }
     }
 
@@ -240,7 +254,7 @@ export default class FoodManager implements IFoodManager {
             clearTimeout(this._timeout);
             this._timeout = null;
 
-        }, Utility.getRandom(1, 2) * 1000);
+        }, Utility.getRandom(3, 8) * 1000);
     }
 
     public removeBean(bean: IFood): void {
