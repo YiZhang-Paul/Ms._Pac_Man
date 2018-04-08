@@ -253,6 +253,8 @@ export default class FoodManager implements IFoodManager {
 
             clearTimeout(this._timeout);
             this._timeout = null;
+            clearInterval(this._fruitInterval);
+            this._fruitInterval = null;
 
         }, Utility.getRandom(3, 8) * 1000);
     }

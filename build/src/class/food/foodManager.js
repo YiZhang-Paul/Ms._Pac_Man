@@ -187,6 +187,8 @@ System.register(["src/object/direction", "src/object/utility", "src/object/canva
                         this._originator.showFruits();
                         clearTimeout(this._timeout);
                         this._timeout = null;
+                        clearInterval(this._fruitInterval);
+                        this._fruitInterval = null;
                     }, utility_1.default.getRandom(3, 8) * 1000);
                 }
                 removeBean(bean) {
