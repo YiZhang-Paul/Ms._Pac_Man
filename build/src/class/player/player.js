@@ -45,6 +45,7 @@ System.register(["src/object/canvas", "src/object/locations", "src/class/player/
                     locations_1.default.setLocation(this, this._name);
                     this._tick = 0;
                     this._totalTicks = null;
+                    this._timeout = null;
                     this._interval = null;
                     this._isMoving = false;
                     this._onAnimation = false;

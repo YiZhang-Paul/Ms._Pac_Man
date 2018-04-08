@@ -103,15 +103,30 @@ System.register(["src/object/direction", "src/object/control", "src/class/player
                         }
                     });
                 }
-                consumeFood() {
-                    if (this.onNodeCenter && this._foodManager.isBean(this._row, this._column)) {
-                        //refresh kill count on power bean consumption
-                        if (this._foodManager.isPowerBean(this._row, this._column)) {
-                            this._killCount = 0;
-                        }
-                        this._foodManager.getBean(this._row, this._column).dispose();
-                        sound_1.default.play(document.getElementById("eat_bean"));
+                clearEatSound() {
+                    let sound = document.getElementById("eat_bean");
+                    if (sound_1.default.isPlaying(sound) && this._timeout === null) {
+                        this._timeout = setTimeout(() => {
+                            clearTimeout(this._timeout);
+                            this._timeout = null;
+                            sound_1.default.clear(sound);
+                        }, 350);
                     }
+                }
+                consumeFood() {
+                    if (!this.onNodeCenter) {
+                        return;
+                    }
+                    if (!this._foodManager.isBean(this._row, this._column)) {
+                        this.clearEatSound();
+                        return;
+                    }
+                    //refresh kill count on power bean consumption
+                    if (this._foodManager.isPowerBean(this._row, this._column)) {
+                        this._killCount = 0;
+                    }
+                    this._foodManager.getBean(this._row, this._column).dispose();
+                    sound_1.default.play(document.getElementById("eat_bean"), 1);
                 }
                 consumeFruit() {
                     let fruit = this._foodManager.fruit;

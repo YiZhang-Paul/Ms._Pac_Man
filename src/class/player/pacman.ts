@@ -121,18 +121,44 @@ export default class Pacman extends Player implements IPacman {
         });
     }
 
+    private clearEatSound(): void {
+
+        let sound = <HTMLAudioElement>document.getElementById("eat_bean");
+
+        if(Sound.isPlaying(sound) && this._timeout === null) {
+
+            this._timeout = setTimeout(() => {
+
+                clearTimeout(this._timeout);
+                this._timeout = null;
+
+                Sound.clear(sound);
+
+            }, 350);
+        }
+    }
+
     private consumeFood(): void {
 
-        if(this.onNodeCenter && this._foodManager.isBean(this._row, this._column)) {
-            //refresh kill count on power bean consumption
-            if(this._foodManager.isPowerBean(this._row, this._column)) {
+        if(!this.onNodeCenter) {
 
-                this._killCount = 0;
-            }
-
-            this._foodManager.getBean(this._row, this._column).dispose();
-            Sound.play(<HTMLAudioElement>document.getElementById("eat_bean"));
+            return;
         }
+
+        if(!this._foodManager.isBean(this._row, this._column)) {
+
+            this.clearEatSound();
+
+            return;
+        }
+        //refresh kill count on power bean consumption
+        if(this._foodManager.isPowerBean(this._row, this._column)) {
+
+            this._killCount = 0;
+        }
+
+        this._foodManager.getBean(this._row, this._column).dispose();
+        Sound.play(<HTMLAudioElement>document.getElementById("eat_bean"), 1);
     }
 
     private consumeFruit(): void {

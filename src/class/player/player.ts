@@ -10,6 +10,7 @@ export default abstract class Player extends Movable implements IPlayer {
     protected _name: string;
     protected _tick: number;
     protected _totalTicks: number;
+    protected _timeout: number;
     protected _interval: number;
     protected _isMoving: boolean;
     protected _onAnimation: boolean;
@@ -53,6 +54,7 @@ export default abstract class Player extends Movable implements IPlayer {
         Locations.setLocation(this, this._name);
         this._tick = 0;
         this._totalTicks = null;
+        this._timeout = null;
         this._interval = null;
         this._isMoving = false;
         this._onAnimation = false;
