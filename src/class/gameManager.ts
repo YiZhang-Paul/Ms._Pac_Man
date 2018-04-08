@@ -100,7 +100,7 @@ export default class GameManager implements IGameManager {
             this._scoreBoard = new ScoreBoard(this);
         }
         else {
-            //keep previous score board on game reset
+            //keep previous scoreboard on game reset
             this._scoreBoard.reset();
         }
     }
