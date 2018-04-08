@@ -194,6 +194,22 @@ export interface IGrid extends IInitializable, IDimension {
 }
 
 /**
+ * in-game sound
+ */
+export interface IAudioData {
+
+    ready: boolean;
+    start: number;
+    volume: number;
+    loop: boolean;
+}
+
+export interface IAudioPlayer extends IInitializable, IResettable {
+
+    play(sound: HTMLAudioElement, start?: number, volume?: number, loop?: boolean): void;
+}
+
+/**
  * user interface
  */
 export interface IUserInterface extends IInitializable, IResettable, IRenderable, IDimension {}
