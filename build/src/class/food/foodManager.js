@@ -1,9 +1,12 @@
-System.register(["src/object/utility", "src/object/canvas", "src/class/food/bean", "src/class/food/powerBean", "src/class/food/fruit", "src/class/grid"], function (exports_1, context_1) {
+System.register(["src/object/direction", "src/object/utility", "src/object/canvas", "src/class/food/bean", "src/class/food/powerBean", "src/class/food/fruit", "src/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var utility_1, canvas_1, bean_1, powerBean_1, fruit_1, grid_1, FoodManager;
+    var direction_1, utility_1, canvas_1, bean_1, powerBean_1, fruit_1, grid_1, FoodManager;
     return {
         setters: [
+            function (direction_1_1) {
+                direction_1 = direction_1_1;
+            },
             function (utility_1_1) {
                 utility_1 = utility_1_1;
             },
@@ -144,12 +147,12 @@ System.register(["src/object/utility", "src/object/canvas", "src/class/food/bean
                     if (Math.random() < 0.5) {
                         row = Math.random() < 0.5 ? 0 : grid_1.default.layout.rows - 1;
                         column = Math.floor(Math.random() * (grid_1.default.layout.columns - 10)) + 5;
-                        direction = row === 0 ? "down" : "up";
+                        direction = row === 0 ? direction_1.Direction.DOWN : direction_1.Direction.UP;
                     }
                     else {
                         row = Math.floor(Math.random() * (grid_1.default.layout.rows - 10)) + 5;
                         column = Math.random() < 0.5 ? 0 : grid_1.default.layout.columns - 1;
-                        direction = column === 0 ? "right" : "left";
+                        direction = column === 0 ? direction_1.Direction.RIGHT : direction_1.Direction.LEFT;
                     }
                     return new fruit_1.default(this, row, column, type, direction);
                 }

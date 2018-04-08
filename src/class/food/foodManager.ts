@@ -1,4 +1,5 @@
 import { IGameManager, IFoodManager, IFood, IBlinkableFood, IFruit } from "src/interfaces";
+import { Direction } from "src/object/direction";
 import Utility from "src/object/utility";
 import Canvas from "src/object/canvas";
 import Bean from "src/class/food/bean";
@@ -188,19 +189,19 @@ export default class FoodManager implements IFoodManager {
 
         let row: number;
         let column: number;
-        let direction: string;
+        let direction: number;
         //randomize fruit spawn location
         if(Math.random() < 0.5) {
 
             row = Math.random() < 0.5 ? 0 : Grid.layout.rows - 1;
             column = Math.floor(Math.random() * (Grid.layout.columns - 10)) + 5;
-            direction = row === 0 ? "down" : "up";
+            direction = row === 0 ? Direction.DOWN : Direction.UP;
         }
         else {
 
             row = Math.floor(Math.random() * (Grid.layout.rows - 10)) + 5;
             column = Math.random() < 0.5 ? 0 : Grid.layout.columns - 1;
-            direction = column === 0 ? "right" : "left";
+            direction = column === 0 ? Direction.RIGHT : Direction.LEFT;
         }
 
         return new Fruit(this, row, column, type, direction);

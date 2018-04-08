@@ -110,7 +110,7 @@ export interface IState extends IInitializable, IResettable, IUpdatable {
 export interface IMovable extends IInitializable, IResettable, ILocatable, IUpdatable, IRenderable {
 
     speed: number;
-    direction: string;
+    direction: number;
     readonly state: string;
 
     distanceToMovable(movable: IMovable): number;
@@ -125,7 +125,7 @@ export interface IPlayer extends IMovable {
     onAnimation: boolean;
     pathAhead: INode[];
 
-    nodeAhead(direction: string, total: number): INode;
+    nodeAhead(direction: number, total: number): INode;
     playAnimation(totalTicks: number, speed: number, endTick: number): void;
     stopAnimation(endTick: number): void;
 }
@@ -174,7 +174,6 @@ export interface IGridLayout extends IInitializable, IGridData {
 export interface IGrid extends IInitializable, IDimension {
 
     readonly nodeSize: number;
-    readonly directions: string[];
     readonly layout: IGridLayout;
 
     readonly accessible: {
@@ -190,7 +189,7 @@ export interface IGrid extends IInitializable, IDimension {
     isEntrance(row: number, column: number): boolean;
     getNode(point: IPoint): INode;
     getNodeCenter(row: number, column: number): IPoint;
-    getAdjacentNode(direction: string, row: number, column: number): INode;
+    getAdjacentNode(direction: number, row: number, column: number): INode;
     getAdjacentNodes(row: number, column: number): INode[];
 }
 

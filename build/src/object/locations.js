@@ -1,9 +1,12 @@
-System.register(["src/class/point", "src/class/grid"], function (exports_1, context_1) {
+System.register(["src/object/direction", "src/class/point", "src/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var point_1, grid_1;
+    var direction_1, point_1, grid_1;
     return {
         setters: [
+            function (direction_1_1) {
+                direction_1 = direction_1_1;
+            },
             function (point_1_1) {
                 point_1 = point_1_1;
             },
@@ -28,27 +31,27 @@ System.register(["src/class/point", "src/class/grid"], function (exports_1, cont
                 pacman: {
                     row: 23,
                     column: 14,
-                    direction: "right"
+                    direction: direction_1.Direction.RIGHT
                 },
                 blinky: {
                     row: 11,
                     column: 14,
-                    direction: "left"
+                    direction: direction_1.Direction.LEFT
                 },
                 pinky: {
                     row: 14,
                     column: 14,
-                    direction: "down"
+                    direction: direction_1.Direction.DOWN
                 },
                 inky: {
                     row: 14,
                     column: 12,
-                    direction: "up"
+                    direction: direction_1.Direction.UP
                 },
                 sue: {
                     row: 14,
                     column: 16,
-                    direction: "up"
+                    direction: direction_1.Direction.UP
                 },
                 //set initial location of given movable object
                 setLocation(movable, key) {

@@ -1,9 +1,12 @@
-System.register(["src/object/control", "src/class/player/player", "src/class/point", "src/class/grid"], function (exports_1, context_1) {
+System.register(["src/object/direction", "src/object/control", "src/class/player/player", "src/class/point", "src/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var control_1, player_1, point_1, grid_1, Pacman;
+    var direction_1, control_1, player_1, point_1, grid_1, Pacman;
     return {
         setters: [
+            function (direction_1_1) {
+                direction_1 = direction_1_1;
+            },
             function (control_1_1) {
                 control_1 = control_1_1;
             },
@@ -59,12 +62,12 @@ System.register(["src/object/control", "src/class/player/player", "src/class/poi
                         case control_1.default.UP:
                         case control_1.default.S:
                         case control_1.default.DOWN:
-                            return key === control_1.default.W || key === control_1.default.UP ? "up" : "down";
+                            return key === control_1.default.W || key === control_1.default.UP ? direction_1.Direction.UP : direction_1.Direction.DOWN;
                         case control_1.default.A:
                         case control_1.default.LEFT:
                         case control_1.default.D:
                         case control_1.default.RIGHT:
-                            return key === control_1.default.A || key === control_1.default.LEFT ? "left" : "right";
+                            return key === control_1.default.A || key === control_1.default.LEFT ? direction_1.Direction.LEFT : direction_1.Direction.RIGHT;
                     }
                     return this._direction;
                 }
@@ -123,7 +126,8 @@ System.register(["src/object/control", "src/class/player/player", "src/class/poi
                 }
                 //calculate tile image crop location
                 getCropXY() {
-                    const index = grid_1.default.directions.indexOf(this._direction);
+                    let directions = [direction_1.Direction.UP, direction_1.Direction.DOWN, direction_1.Direction.LEFT, direction_1.Direction.RIGHT];
+                    const index = directions.indexOf(this._direction);
                     const x = (index * 3 + this._tick) * this._cropWidth % 256;
                     const y = Math.floor((index * 3 + this._tick) * this._cropWidth / 256) * this._cropWidth;
                     this._cropXY = new point_1.default(x, y);

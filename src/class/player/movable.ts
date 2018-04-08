@@ -1,4 +1,5 @@
 import { IMovable, IPoint, IState, INode } from "src/interfaces";
+import { Direction } from "src/object/direction";
 import StateMachine from "src/class/stateMachine";
 import Node from "src/class/node";
 import Grid from "src/class/grid";
@@ -9,14 +10,14 @@ export default abstract class Movable implements IMovable {
     protected _column: number;
     protected _coordinate: IPoint;
     protected _speed: number;
-    protected _direction: string;
+    protected _direction: number;
     protected _cropXY: IPoint;
     protected _cropWidth: number;
     protected _tile: HTMLImageElement;
     protected _ctx: CanvasRenderingContext2D;
     protected _stateManager: IState;
 
-    constructor(row: number, column: number, direction: string) {
+    constructor(row: number, column: number, direction: number) {
 
         this._row = row;
         this._column = column;
@@ -44,7 +45,7 @@ export default abstract class Movable implements IMovable {
     }
 
     //current facing direction
-    get direction(): string {
+    get direction(): number {
 
         return this._direction;
     }
@@ -127,7 +128,7 @@ export default abstract class Movable implements IMovable {
         this._coordinate = value;
     }
 
-    set direction(value: string) {
+    set direction(value: number) {
 
         this._direction = value;
     }
@@ -160,12 +161,12 @@ export default abstract class Movable implements IMovable {
 
         let center = Grid.getNodeCenter(row, column);
 
-        return new Set(["up", "down"]).has(this._direction) ?
+        return new Set([Direction.UP, Direction.DOWN]).has(this._direction) ?
             Math.abs(this._coordinate.y - center.y) :
             Math.abs(this._coordinate.x - center.x);
     }
 
-    protected hasDoor(direction: string = this._direction): boolean {
+    protected hasDoor(direction: number = this._direction): boolean {
 
         let adjacent = Grid.getAdjacentNode(direction, this._row, this._column);
 
@@ -177,7 +178,7 @@ export default abstract class Movable implements IMovable {
         return Grid.layout.getMetadata(adjacent.row, adjacent.column).hasOwnProperty("d");
     }
 
-    protected hasWall(direction: string = this._direction): boolean {
+    protected hasWall(direction: number = this._direction): boolean {
 
         let adjacent = Grid.getAdjacentNode(direction, this._row, this._column);
 
@@ -190,7 +191,7 @@ export default abstract class Movable implements IMovable {
     }
 
     //retrieve node with given distance ahead
-    public nodeAhead(direction: string, total: number): INode {
+    public nodeAhead(direction: number, total: number): INode {
 
         if(!this.withinMaze) {
 
@@ -212,24 +213,24 @@ export default abstract class Movable implements IMovable {
         return node;
     }
 
-    protected getOpposite(direction: string = this.direction): string {
+    protected getOpposite(direction: number = this._direction): number {
 
         switch(direction) {
 
-            case "up" : case "down" :
+            case Direction.UP : case Direction.DOWN :
 
-                return direction === "up" ? "down" : "up";
+                return direction === Direction.UP ? Direction.DOWN : Direction.UP;
 
-            case "left" : case "right" :
+            case Direction.LEFT : case Direction.RIGHT :
 
-                return direction === "left" ? "right" : "left";
+                return direction === Direction.LEFT ? Direction.RIGHT : Direction.LEFT;
         }
 
         return direction;
     }
 
     //check if object can turn to given direction
-    protected abstract isValidDirection(direction: string): boolean;
+    protected abstract isValidDirection(direction: number): boolean;
 
     protected abstract setDirection(): void;
 
@@ -261,13 +262,13 @@ export default abstract class Movable implements IMovable {
 
         const speed = this.adjustSpeed(this._speed * timeStep);
 
-        if(new Set(["up", "down"]).has(this._direction)) {
+        if(new Set([Direction.UP, Direction.DOWN]).has(this._direction)) {
 
-            this._coordinate.y += speed * (this._direction === "up" ? -1 : 1);
+            this._coordinate.y += speed * (this._direction === Direction.UP ? -1 : 1);
         }
         else {
 
-            this._coordinate.x += speed * (this._direction === "left" ? -1 : 1);
+            this._coordinate.x += speed * (this._direction === Direction.LEFT ? -1 : 1);
         }
     };
 

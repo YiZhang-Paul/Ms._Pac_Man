@@ -1,4 +1,5 @@
 import { IGhost, IGhostManager, IState, INode, IFindPath, IPacman, IMovable } from "src/interfaces";
+import { Direction } from "src/object/direction";
 import Locations from "src/object/locations";
 import Utility from "src/object/utility";
 import StateMachine from "src/class/stateMachine";
@@ -32,14 +33,16 @@ export default abstract class Ghost extends Player implements IGhost {
     }
 
     //direction of next node on traveling path
-    get nextNodeDirection(): string {
+    get nextNodeDirection(): number {
         //when current path is not available or too short
         if(this._path === null || this._path.length <= 1) {
 
             return this._direction;
         }
 
-        return Grid.directions.find(direction => {
+        let directions: number[] = [Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT];
+
+        return directions.find(direction => {
 
             let node = Grid.getAdjacentNode(direction, this._row, this._column);
 
@@ -133,7 +136,7 @@ export default abstract class Ghost extends Player implements IGhost {
     }
 
     //check if pacman can turn to given direction
-    protected isValidDirection(direction: string): boolean {
+    protected isValidDirection(direction: number): boolean {
         //can always turn around
         if(direction === this.getOpposite()) {
 
@@ -152,13 +155,13 @@ export default abstract class Ghost extends Player implements IGhost {
         const inXRange = this._coordinate.x > left && this._coordinate.x < right;
         const inYRange = Math.round(Math.abs(this._coordinate.y - centerY)) < Grid.nodeSize * 0.5;
         //change directions to move out of ghost house
-        if(new Set(["up", "down"]).has(this._direction) && !inXRange && inYRange) {
+        if(new Set([Direction.UP, Direction.DOWN]).has(this._direction) && !inXRange && inYRange) {
 
-            this._direction = this._coordinate.x > Grid.width * 0.5 ? "left" : "right";
+            this._direction = this._coordinate.x > Grid.width * 0.5 ? Direction.LEFT : Direction.RIGHT;
         }
-        else if(new Set(["left", "right"]).has(this._direction) && inXRange) {
+        else if(new Set([Direction.LEFT, Direction.RIGHT]).has(this._direction) && inXRange) {
 
-            this._direction = "up";
+            this._direction = Direction.UP;
             this._stateManager.swap("exitingHouse");
         }
         else {
@@ -175,21 +178,21 @@ export default abstract class Ghost extends Player implements IGhost {
     protected abstract getChaseDestination(): INode;
 
     //check if ghost and given object is moving towards each other
-    private isHeadOn(direction: string, movable: IMovable): boolean {
+    private isHeadOn(direction: number, movable: IMovable): boolean {
 
         if(this.getOpposite(direction) === movable.direction) {
 
             return true;
         }
         //when ghost and given object are moving on same axis
-        if(new Set(["left", "right"]).has(direction)) {
+        if(new Set([Direction.LEFT, Direction.RIGHT]).has(direction)) {
 
-            return direction === "left" ?
+            return direction === Direction.LEFT ?
                 this._coordinate.x > movable.coordinate.x :
                 this._coordinate.x < movable.coordinate.x;
         }
 
-        return direction === "up" ?
+        return direction === Direction.UP ?
             this._coordinate.y > movable.coordinate.y :
             this._coordinate.y < movable.coordinate.y;
     }
@@ -298,17 +301,17 @@ export default abstract class Ghost extends Player implements IGhost {
     //set direction to move along current path
     protected setDirection(): void {
 
-        let direction: string = null;
+        let direction: number = 0;
         let node = this._path[0];
         let center = Grid.getNodeCenter(node.row, node.column);
 
         if(this._coordinate.y === center.y) {
 
-            direction = this._coordinate.x < center.x ? "right" : "left";
+            direction = this._coordinate.x < center.x ? Direction.RIGHT : Direction.LEFT;
         }
         else if(this._coordinate.x === center.x) {
 
-            direction = this._coordinate.y < center.y ? "down" : "up";
+            direction = this._coordinate.y < center.y ? Direction.DOWN : Direction.UP;
         }
         else {
             //correct current coordinate to prevent number precision error
@@ -347,7 +350,8 @@ export default abstract class Ghost extends Player implements IGhost {
 
     private retreatCropXY(): void {
 
-        const index = Grid.directions.indexOf(this._direction);
+        let directions: number[] = [Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT];
+        const index = directions.indexOf(this._direction);
         const x = (4 + index) * this._cropWidth + 1;
         const y = this._cropWidth * 7;
 
@@ -357,8 +361,9 @@ export default abstract class Ghost extends Player implements IGhost {
     //default tile image crop location
     protected getCropXY(): void {
 
+        let directions: number[] = [Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT];
         let names = (<IGhostManager>this._originator).names;
-        const index = Grid.directions.indexOf(this._direction);
+        const index = directions.indexOf(this._direction);
         const x = (index * 2 + this._tick) * this._cropWidth;
         const y = (names.indexOf(this._name) + 2) * this._cropWidth;
 
@@ -414,7 +419,7 @@ export default abstract class Ghost extends Player implements IGhost {
 
             (<IGhostManager>this._originator).getInHouse(this);
             //move to left or right upon entering
-            this._direction = this._coordinate.x < Grid.width * 0.5 ? "left" : "right";
+            this._direction = this._coordinate.x < Grid.width * 0.5 ? Direction.LEFT : Direction.RIGHT;
             //restore default appearance
             this.getCropXY = this.defaultCropXY;
             this.stopAnimation(0);
@@ -425,7 +430,7 @@ export default abstract class Ghost extends Player implements IGhost {
 
     private getOutHouse(): void {
 
-        if(this._direction === "up" && this.hasDoor("down")) {
+        if(this._direction === Direction.UP && this.hasDoor(Direction.DOWN)) {
 
             (<IGhostManager>this._originator).getOutHouse(this);
             this._stateManager.swap("exitedHouse");
@@ -502,7 +507,7 @@ export default abstract class Ghost extends Player implements IGhost {
 
         if(this.toCollision === 0) {
             //pick random direction upon exiting ghost house
-            this._direction = Math.random() < 0.5 ? "left" : "right";
+            this._direction = Math.random() < 0.5 ? Direction.LEFT : Direction.RIGHT;
             this._stateManager.swap("chasing");
         }
     }

@@ -1,3 +1,4 @@
+import { Direction } from "src/object/direction";
 import { IMovable } from "src/interfaces";
 import Point from "src/class/point";
 import Grid from "src/class/grid";
@@ -24,35 +25,35 @@ export default {
 
         row       : 23,
         column    : 14,
-        direction : "right"
+        direction : Direction.RIGHT
     },
 
     blinky : {
 
         row       : 11,
         column    : 14,
-        direction : "left"
+        direction : Direction.LEFT
     },
 
     pinky : {
 
         row       : 14,
         column    : 14,
-        direction : "down"
+        direction : Direction.DOWN
     },
 
     inky : {
 
         row       : 14,
         column    : 12,
-        direction : "up"
+        direction : Direction.UP
     },
 
     sue : {
 
         row  	  : 14,
         column    : 16,
-        direction : "up"
+        direction : Direction.UP
     },
 
     //set initial location of given movable object

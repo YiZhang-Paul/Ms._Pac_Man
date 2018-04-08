@@ -1,9 +1,12 @@
-System.register(["src/object/utility", "src/object/layout", "src/class/point", "src/class/node"], function (exports_1, context_1) {
+System.register(["src/object/direction", "src/object/utility", "src/object/layout", "src/class/point", "src/class/node"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var utility_1, layout_1, point_1, node_1, Grid;
+    var direction_1, utility_1, layout_1, point_1, node_1, Grid;
     return {
         setters: [
+            function (direction_1_1) {
+                direction_1 = direction_1_1;
+            },
             function (utility_1_1) {
                 utility_1 = utility_1_1;
             },
@@ -20,7 +23,6 @@ System.register(["src/object/utility", "src/object/layout", "src/class/point", "
         execute: function () {
             Grid = class Grid {
                 constructor(layout) {
-                    this._directions = ["up", "down", "left", "right"];
                     //walkable nodes on all sections of the grid
                     this._accessible = {
                         all: new Array(),
@@ -40,9 +42,6 @@ System.register(["src/object/utility", "src/object/layout", "src/class/point", "
                 }
                 get height() {
                     return this._layout.height;
-                }
-                get directions() {
-                    return this._directions;
                 }
                 get accessible() {
                     return this._accessible;
@@ -100,13 +99,13 @@ System.register(["src/object/utility", "src/object/layout", "src/class/point", "
                 }
                 //retrieve adjacent node on given direction for given node
                 getAdjacentNode(direction, row, column) {
-                    if (direction === "up" && row > 0)
+                    if (direction === direction_1.Direction.UP && row > 0)
                         row--;
-                    else if (direction === "down" && row < this._layout.rows - 1)
+                    else if (direction === direction_1.Direction.DOWN && row < this._layout.rows - 1)
                         row++;
-                    else if (direction === "left" && column > 0)
+                    else if (direction === direction_1.Direction.LEFT && column > 0)
                         column--;
-                    else if (direction === "right" && column < this._layout.columns - 1)
+                    else if (direction === direction_1.Direction.RIGHT && column < this._layout.columns - 1)
                         column++;
                     else {
                         return null;
@@ -115,7 +114,8 @@ System.register(["src/object/utility", "src/object/layout", "src/class/point", "
                 }
                 //retrieve adjacent nodes on all four directions for given node
                 getAdjacentNodes(row, column) {
-                    return this._directions.map(direction => {
+                    let directions = [direction_1.Direction.UP, direction_1.Direction.DOWN, direction_1.Direction.LEFT, direction_1.Direction.RIGHT];
+                    return directions.map(direction => {
                         return this.getAdjacentNode(direction, row, column);
                     }).filter(node => node !== null);
                 }

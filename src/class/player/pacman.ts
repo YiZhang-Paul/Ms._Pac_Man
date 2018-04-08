@@ -1,4 +1,5 @@
 import { IPacman, IGameManager, IGhost, IFood, IFoodManager } from "src/interfaces";
+import { Direction } from "src/object/direction";
 import Control from "src/object/control";
 import Player from "src/class/player/player";
 import Point from "src/class/point";
@@ -49,7 +50,7 @@ export default class Pacman extends Player implements IPacman {
     }
 
     //check if pacman can turn to given direction
-    protected isValidDirection(direction: string): boolean {
+    protected isValidDirection(direction: number): boolean {
         //can always turn around
         const isOpposite = direction === this.getOpposite();
         const isAccessible = !this.hasDoor(direction) && !this.hasWall(direction);
@@ -58,19 +59,19 @@ export default class Pacman extends Player implements IPacman {
     }
 
     //translate input key code to corresponding moving direction
-    private readInputKey(key: number): string {
+    private readInputKey(key: number): number {
 
         switch(key) {
 
             case Control.W : case Control.UP :
             case Control.S : case Control.DOWN :
 
-                return key === Control.W || key === Control.UP ? "up" : "down";
+                return key === Control.W || key === Control.UP ? Direction.UP : Direction.DOWN;
 
             case Control.A : case Control.LEFT :
             case Control.D : case Control.RIGHT :
 
-                return key === Control.A || key === Control.LEFT ? "left" : "right";
+                return key === Control.A || key === Control.LEFT ? Direction.LEFT : Direction.RIGHT;
         }
 
         return this._direction;
@@ -158,7 +159,8 @@ export default class Pacman extends Player implements IPacman {
     //calculate tile image crop location
     protected getCropXY(): void {
 
-        const index = Grid.directions.indexOf(this._direction);
+        let directions: number[] = [Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT];
+        const index = directions.indexOf(this._direction);
         const x = (index * 3 + this._tick) * this._cropWidth % 256;
         const y = Math.floor((index * 3 + this._tick) * this._cropWidth / 256) * this._cropWidth;
 

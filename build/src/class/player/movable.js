@@ -1,9 +1,12 @@
-System.register(["src/class/stateMachine", "src/class/node", "src/class/grid"], function (exports_1, context_1) {
+System.register(["src/object/direction", "src/class/stateMachine", "src/class/node", "src/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var stateMachine_1, node_1, grid_1, Movable;
+    var direction_1, stateMachine_1, node_1, grid_1, Movable;
     return {
         setters: [
+            function (direction_1_1) {
+                direction_1 = direction_1_1;
+            },
             function (stateMachine_1_1) {
                 stateMachine_1 = stateMachine_1_1;
             },
@@ -108,7 +111,7 @@ System.register(["src/class/stateMachine", "src/class/node", "src/class/grid"], 
                 //calculate distance to center of given node
                 distanceToNode(row, column) {
                     let center = grid_1.default.getNodeCenter(row, column);
-                    return new Set(["up", "down"]).has(this._direction) ?
+                    return new Set([direction_1.Direction.UP, direction_1.Direction.DOWN]).has(this._direction) ?
                         Math.abs(this._coordinate.y - center.y) :
                         Math.abs(this._coordinate.x - center.x);
                 }
@@ -140,14 +143,14 @@ System.register(["src/class/stateMachine", "src/class/node", "src/class/grid"], 
                     }
                     return node;
                 }
-                getOpposite(direction = this.direction) {
+                getOpposite(direction = this._direction) {
                     switch (direction) {
-                        case "up":
-                        case "down":
-                            return direction === "up" ? "down" : "up";
-                        case "left":
-                        case "right":
-                            return direction === "left" ? "right" : "left";
+                        case direction_1.Direction.UP:
+                        case direction_1.Direction.DOWN:
+                            return direction === direction_1.Direction.UP ? direction_1.Direction.DOWN : direction_1.Direction.UP;
+                        case direction_1.Direction.LEFT:
+                        case direction_1.Direction.RIGHT:
+                            return direction === direction_1.Direction.LEFT ? direction_1.Direction.RIGHT : direction_1.Direction.LEFT;
                     }
                     return direction;
                 }
@@ -167,11 +170,11 @@ System.register(["src/class/stateMachine", "src/class/node", "src/class/grid"], 
                 }
                 move(timeStep) {
                     const speed = this.adjustSpeed(this._speed * timeStep);
-                    if (new Set(["up", "down"]).has(this._direction)) {
-                        this._coordinate.y += speed * (this._direction === "up" ? -1 : 1);
+                    if (new Set([direction_1.Direction.UP, direction_1.Direction.DOWN]).has(this._direction)) {
+                        this._coordinate.y += speed * (this._direction === direction_1.Direction.UP ? -1 : 1);
                     }
                     else {
-                        this._coordinate.x += speed * (this._direction === "left" ? -1 : 1);
+                        this._coordinate.x += speed * (this._direction === direction_1.Direction.LEFT ? -1 : 1);
                     }
                 }
                 ;

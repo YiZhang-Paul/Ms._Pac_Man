@@ -1,7 +1,7 @@
-System.register(["src/object/control", "src/object/canvas", "src/object/direction", "src/class/stateMachine", "src/class/grid", "src/class/userInterface/maze", "src/class/userInterface/scoreBoard", "src/class/userInterface/hud", "src/class/userInterface/scorePopUp", "src/class/player/pacman", "src/class/player/ghostManager", "src/class/food/foodManager"], function (exports_1, context_1) {
+System.register(["src/object/control", "src/object/canvas", "src/class/stateMachine", "src/class/grid", "src/class/userInterface/maze", "src/class/userInterface/scoreBoard", "src/class/userInterface/hud", "src/class/userInterface/scorePopUp", "src/class/player/pacman", "src/class/player/ghostManager", "src/class/food/foodManager"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var control_1, canvas_1, direction_1, stateMachine_1, grid_1, maze_1, scoreBoard_1, hud_1, scorePopUp_1, pacman_1, ghostManager_1, foodManager_1, GameManager;
+    var control_1, canvas_1, stateMachine_1, grid_1, maze_1, scoreBoard_1, hud_1, scorePopUp_1, pacman_1, ghostManager_1, foodManager_1, GameManager;
     return {
         setters: [
             function (control_1_1) {
@@ -9,9 +9,6 @@ System.register(["src/object/control", "src/object/canvas", "src/object/directio
             },
             function (canvas_1_1) {
                 canvas_1 = canvas_1_1;
-            },
-            function (direction_1_1) {
-                direction_1 = direction_1_1;
             },
             function (stateMachine_1_1) {
                 stateMachine_1 = stateMachine_1_1;
@@ -45,7 +42,6 @@ System.register(["src/object/control", "src/object/canvas", "src/object/directio
             GameManager = class GameManager {
                 constructor() {
                     this.initialize();
-                    console.log(direction_1.Direction.DOWN);
                 }
                 get id() {
                     return this._id;

@@ -1,4 +1,5 @@
 import { IFruit, IFoodManager } from "src/interfaces";
+import { Direction } from "src/object/direction";
 import Utility from "src/object/utility";
 import Canvas from "src/object/canvas";
 import Movable from "src/class/player/movable";
@@ -23,7 +24,7 @@ export default class Fruit extends Movable implements IFruit {
         row: number,
         column: number,
         type: number,
-        direction: string
+        direction: number
 
     ) {
 
@@ -105,14 +106,16 @@ export default class Fruit extends Movable implements IFruit {
         this._cropXY = new Point(x, y);
     }
 
-    protected isValidDirection(direction: string): boolean {
+    protected isValidDirection(direction: number): boolean {
 
         return direction !== this.getOpposite();
     }
 
-    private getValidDirections(): string[] {
+    private getValidDirections(): number[] {
 
-        return Grid.directions.filter(direction => {
+        let directions: number[] = [Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT];
+
+        return directions.filter(direction => {
 
             return this.isValidDirection(direction);
         });
@@ -133,25 +136,25 @@ export default class Fruit extends Movable implements IFruit {
     }
 
     //check if fruit can jump over obstacle on given direction
-    private canJumpOver(direction: string): boolean {
+    private canJumpOver(direction: number): boolean {
 
         let [row, column] = [this._row, this._column];
         const thickness = 3;
 
-        if(new Set(["up", "down"]).has(direction)) {
+        if(new Set([Direction.UP, Direction.DOWN]).has(direction)) {
 
-            row += thickness * (direction === "up" ? -1 : 1);
+            row += thickness * (direction === Direction.UP ? -1 : 1);
         }
         else {
 
-            column += thickness * (direction === "left" ? -1 : 1);
+            column += thickness * (direction === Direction.LEFT ? -1 : 1);
         }
 
         return Grid.isAccessible(row, column);
     }
 
     //check if fruit can move through adjacent node on given direction
-    private canMoveThrough(direction: string): boolean {
+    private canMoveThrough(direction: number): boolean {
 
         let node = Grid.getAdjacentNode(direction, this._row, this._column);
 

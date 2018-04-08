@@ -1,4 +1,5 @@
 import { IGrid, IGridLayout, INode, IPoint } from "src/interfaces";
+import { Direction } from "src/object/direction";
 import Utility from "src/object/utility";
 import Layout from "src/object/layout";
 import Point from "src/class/point";
@@ -7,7 +8,6 @@ import Node from "src/class/node";
 class Grid implements IGrid {
 
     private _layout: IGridLayout;
-    private _directions = ["up", "down", "left", "right"];
     //walkable nodes on all sections of the grid
     private _accessible = {
 
@@ -37,11 +37,6 @@ class Grid implements IGrid {
     get height(): number {
 
         return this._layout.height;
-    }
-
-    get directions(): string[] {
-
-        return this._directions;
     }
 
     get accessible(): {
@@ -144,12 +139,12 @@ class Grid implements IGrid {
     }
 
     //retrieve adjacent node on given direction for given node
-    public getAdjacentNode(direction: string, row: number, column: number): INode {
+    public getAdjacentNode(direction: number, row: number, column: number): INode {
 
-        if(direction === "up" && row > 0) row--;
-        else if(direction === "down" && row < this._layout.rows - 1) row++;
-        else if(direction === "left" && column > 0) column--;
-        else if(direction === "right" && column < this._layout.columns - 1) column++;
+        if(direction === Direction.UP && row > 0) row--;
+        else if(direction === Direction.DOWN && row < this._layout.rows - 1) row++;
+        else if(direction === Direction.LEFT && column > 0) column--;
+        else if(direction === Direction.RIGHT && column < this._layout.columns - 1) column++;
         else {
 
             return null;
@@ -161,7 +156,9 @@ class Grid implements IGrid {
     //retrieve adjacent nodes on all four directions for given node
     public getAdjacentNodes(row: number, column: number): INode[] {
 
-        return this._directions.map(direction => {
+        let directions: number[] = [Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT];
+
+        return directions.map(direction => {
 
             return this.getAdjacentNode(direction, row, column);
 

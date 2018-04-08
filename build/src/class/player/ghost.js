@@ -1,9 +1,12 @@
-System.register(["src/object/locations", "src/object/utility", "src/class/pathfinder", "src/class/player/player", "src/class/point", "src/class/node", "src/class/grid"], function (exports_1, context_1) {
+System.register(["src/object/direction", "src/object/locations", "src/object/utility", "src/class/pathfinder", "src/class/player/player", "src/class/point", "src/class/node", "src/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var locations_1, utility_1, pathfinder_1, player_1, point_1, node_1, grid_1, Ghost;
+    var direction_1, locations_1, utility_1, pathfinder_1, player_1, point_1, node_1, grid_1, Ghost;
     return {
         setters: [
+            function (direction_1_1) {
+                direction_1 = direction_1_1;
+            },
             function (locations_1_1) {
                 locations_1 = locations_1_1;
             },
@@ -41,7 +44,8 @@ System.register(["src/object/locations", "src/object/utility", "src/class/pathfi
                     if (this._path === null || this._path.length <= 1) {
                         return this._direction;
                     }
-                    return grid_1.default.directions.find(direction => {
+                    let directions = [direction_1.Direction.UP, direction_1.Direction.DOWN, direction_1.Direction.LEFT, direction_1.Direction.RIGHT];
+                    return directions.find(direction => {
                         let node = grid_1.default.getAdjacentNode(direction, this._row, this._column);
                         return this._path[1].isSame(node);
                     });
@@ -122,11 +126,11 @@ System.register(["src/object/locations", "src/object/utility", "src/class/pathfi
                     const inXRange = this._coordinate.x > left && this._coordinate.x < right;
                     const inYRange = Math.round(Math.abs(this._coordinate.y - centerY)) < grid_1.default.nodeSize * 0.5;
                     //change directions to move out of ghost house
-                    if (new Set(["up", "down"]).has(this._direction) && !inXRange && inYRange) {
-                        this._direction = this._coordinate.x > grid_1.default.width * 0.5 ? "left" : "right";
+                    if (new Set([direction_1.Direction.UP, direction_1.Direction.DOWN]).has(this._direction) && !inXRange && inYRange) {
+                        this._direction = this._coordinate.x > grid_1.default.width * 0.5 ? direction_1.Direction.LEFT : direction_1.Direction.RIGHT;
                     }
-                    else if (new Set(["left", "right"]).has(this._direction) && inXRange) {
-                        this._direction = "up";
+                    else if (new Set([direction_1.Direction.LEFT, direction_1.Direction.RIGHT]).has(this._direction) && inXRange) {
+                        this._direction = direction_1.Direction.UP;
                         this._stateManager.swap("exitingHouse");
                     }
                     else {
@@ -142,12 +146,12 @@ System.register(["src/object/locations", "src/object/utility", "src/class/pathfi
                         return true;
                     }
                     //when ghost and given object are moving on same axis
-                    if (new Set(["left", "right"]).has(direction)) {
-                        return direction === "left" ?
+                    if (new Set([direction_1.Direction.LEFT, direction_1.Direction.RIGHT]).has(direction)) {
+                        return direction === direction_1.Direction.LEFT ?
                             this._coordinate.x > movable.coordinate.x :
                             this._coordinate.x < movable.coordinate.x;
                     }
-                    return direction === "up" ?
+                    return direction === direction_1.Direction.UP ?
                         this._coordinate.y > movable.coordinate.y :
                         this._coordinate.y < movable.coordinate.y;
                 }
@@ -222,14 +226,14 @@ System.register(["src/object/locations", "src/object/utility", "src/class/pathfi
                 }
                 //set direction to move along current path
                 setDirection() {
-                    let direction = null;
+                    let direction = 0;
                     let node = this._path[0];
                     let center = grid_1.default.getNodeCenter(node.row, node.column);
                     if (this._coordinate.y === center.y) {
-                        direction = this._coordinate.x < center.x ? "right" : "left";
+                        direction = this._coordinate.x < center.x ? direction_1.Direction.RIGHT : direction_1.Direction.LEFT;
                     }
                     else if (this._coordinate.x === center.x) {
-                        direction = this._coordinate.y < center.y ? "down" : "up";
+                        direction = this._coordinate.y < center.y ? direction_1.Direction.DOWN : direction_1.Direction.UP;
                     }
                     else {
                         //correct current coordinate to prevent number precision error
@@ -256,15 +260,17 @@ System.register(["src/object/locations", "src/object/utility", "src/class/pathfi
                     this._cropXY = new point_1.default(x, y);
                 }
                 retreatCropXY() {
-                    const index = grid_1.default.directions.indexOf(this._direction);
+                    let directions = [direction_1.Direction.UP, direction_1.Direction.DOWN, direction_1.Direction.LEFT, direction_1.Direction.RIGHT];
+                    const index = directions.indexOf(this._direction);
                     const x = (4 + index) * this._cropWidth + 1;
                     const y = this._cropWidth * 7;
                     this._cropXY = new point_1.default(x, y);
                 }
                 //default tile image crop location
                 getCropXY() {
+                    let directions = [direction_1.Direction.UP, direction_1.Direction.DOWN, direction_1.Direction.LEFT, direction_1.Direction.RIGHT];
                     let names = this._originator.names;
-                    const index = grid_1.default.directions.indexOf(this._direction);
+                    const index = directions.indexOf(this._direction);
                     const x = (index * 2 + this._tick) * this._cropWidth;
                     const y = (names.indexOf(this._name) + 2) * this._cropWidth;
                     this._cropXY = new point_1.default(x, y);
@@ -305,7 +311,7 @@ System.register(["src/object/locations", "src/object/utility", "src/class/pathfi
                     if (meta !== null && meta.hasOwnProperty("c")) {
                         this._originator.getInHouse(this);
                         //move to left or right upon entering
-                        this._direction = this._coordinate.x < grid_1.default.width * 0.5 ? "left" : "right";
+                        this._direction = this._coordinate.x < grid_1.default.width * 0.5 ? direction_1.Direction.LEFT : direction_1.Direction.RIGHT;
                         //restore default appearance
                         this.getCropXY = this.defaultCropXY;
                         this.stopAnimation(0);
@@ -314,7 +320,7 @@ System.register(["src/object/locations", "src/object/utility", "src/class/pathfi
                     }
                 }
                 getOutHouse() {
-                    if (this._direction === "up" && this.hasDoor("down")) {
+                    if (this._direction === direction_1.Direction.UP && this.hasDoor(direction_1.Direction.DOWN)) {
                         this._originator.getOutHouse(this);
                         this._stateManager.swap("exitedHouse");
                     }
@@ -359,7 +365,7 @@ System.register(["src/object/locations", "src/object/utility", "src/class/pathfi
                     this.move(timeStep);
                     if (this.toCollision === 0) {
                         //pick random direction upon exiting ghost house
-                        this._direction = Math.random() < 0.5 ? "left" : "right";
+                        this._direction = Math.random() < 0.5 ? direction_1.Direction.LEFT : direction_1.Direction.RIGHT;
                         this._stateManager.swap("chasing");
                     }
                 }

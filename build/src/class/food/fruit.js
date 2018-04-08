@@ -1,9 +1,12 @@
-System.register(["src/object/utility", "src/object/canvas", "src/class/player/movable", "src/class/point", "src/class/grid"], function (exports_1, context_1) {
+System.register(["src/object/direction", "src/object/utility", "src/object/canvas", "src/class/player/movable", "src/class/point", "src/class/grid"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var utility_1, canvas_1, movable_1, point_1, grid_1, Fruit;
+    var direction_1, utility_1, canvas_1, movable_1, point_1, grid_1, Fruit;
     return {
         setters: [
+            function (direction_1_1) {
+                direction_1 = direction_1_1;
+            },
             function (utility_1_1) {
                 utility_1 = utility_1_1;
             },
@@ -79,7 +82,8 @@ System.register(["src/object/utility", "src/object/canvas", "src/class/player/mo
                     return direction !== this.getOpposite();
                 }
                 getValidDirections() {
-                    return grid_1.default.directions.filter(direction => {
+                    let directions = [direction_1.Direction.UP, direction_1.Direction.DOWN, direction_1.Direction.LEFT, direction_1.Direction.RIGHT];
+                    return directions.filter(direction => {
                         return this.isValidDirection(direction);
                     });
                 }
@@ -96,11 +100,11 @@ System.register(["src/object/utility", "src/object/canvas", "src/class/player/mo
                 canJumpOver(direction) {
                     let [row, column] = [this._row, this._column];
                     const thickness = 3;
-                    if (new Set(["up", "down"]).has(direction)) {
-                        row += thickness * (direction === "up" ? -1 : 1);
+                    if (new Set([direction_1.Direction.UP, direction_1.Direction.DOWN]).has(direction)) {
+                        row += thickness * (direction === direction_1.Direction.UP ? -1 : 1);
                     }
                     else {
-                        column += thickness * (direction === "left" ? -1 : 1);
+                        column += thickness * (direction === direction_1.Direction.LEFT ? -1 : 1);
                     }
                     return grid_1.default.isAccessible(row, column);
                 }
