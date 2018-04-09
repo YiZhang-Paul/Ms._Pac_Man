@@ -34,6 +34,8 @@ export default class GameManager implements IGameManager {
     private _popUps: Set<IPopUp>;
     private _timeout: number;
     private _interval: number;
+    private _cropWidth: number;
+    private _tile: HTMLImageElement;
     private _ctx: CanvasRenderingContext2D;
     private _stateManager: IState;
 
@@ -93,9 +95,12 @@ export default class GameManager implements IGameManager {
         this._popUps = new Set<IPopUp>();
         this._timeout = null;
         this._interval = null;
+        this._cropWidth = 32;
+        this._tile = <HTMLImageElement>document.getElementById("tile");
         this._ctx = Canvas.player;
         this._stateManager = new StateMachine(this, "loaded");
         this._stateManager.push("loading");
+        this.drawReadyText();
 
         if(this._scoreBoard === undefined) {
 
@@ -118,6 +123,7 @@ export default class GameManager implements IGameManager {
         this._hud.reset();
         this._scoreBoard.reset();
         this._stateManager.reset();
+        this.drawReadyText();
     }
 
     public destroy(): void {
@@ -233,6 +239,7 @@ export default class GameManager implements IGameManager {
 
             this._ghostManager.startMove();
             this._stateManager.swap("ongoing");
+            this.eraseReadyText();
         }
     }
 
@@ -370,6 +377,33 @@ export default class GameManager implements IGameManager {
         });
     }
 
+    private drawReadyText(): void {
+
+        Canvas.background.drawImage(
+
+            this._tile,
+            this._cropWidth * 5,
+            this._cropWidth * 9,
+            this._cropWidth * 3,
+            this._cropWidth,
+            Grid.nodeSize * 11.8,
+            Grid.nodeSize * 16,
+            Grid.nodeSize * 5,
+            Grid.nodeSize * 2
+        );
+    }
+
+    private eraseReadyText(): void {
+
+        Canvas.background.clearRect(
+
+            Grid.nodeSize * 11.8,
+            Grid.nodeSize * 16.5,
+            Grid.nodeSize * 5,
+            Grid.nodeSize * 2
+        );
+    }
+
     private drawPopUps(): void {
 
         this._popUps.forEach(popUp => {
@@ -384,7 +418,7 @@ export default class GameManager implements IGameManager {
         this._foodManager.draw();
         this.drawPopUps();
 
-        if(this.state !== "resetting") {
+        if(!new Set<string>(["restarting", "resetting"]).has(this.state)) {
 
             this._pacman.draw();
         }

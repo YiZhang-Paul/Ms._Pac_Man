@@ -82,9 +82,12 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                     this._popUps = new Set();
                     this._timeout = null;
                     this._interval = null;
+                    this._cropWidth = 32;
+                    this._tile = document.getElementById("tile");
                     this._ctx = canvas_1.default.player;
                     this._stateManager = new stateMachine_1.default(this, "loaded");
                     this._stateManager.push("loading");
+                    this.drawReadyText();
                     if (this._scoreBoard === undefined) {
                         this._scoreBoard = new scoreBoard_1.default(this);
                     }
@@ -103,6 +106,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                     this._hud.reset();
                     this._scoreBoard.reset();
                     this._stateManager.reset();
+                    this.drawReadyText();
                 }
                 destroy() {
                     this._ghostManager.destroy();
@@ -186,6 +190,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                     if (control_1.default.active !== null) {
                         this._ghostManager.startMove();
                         this._stateManager.swap("ongoing");
+                        this.eraseReadyText();
                     }
                 }
                 ongoing(timeStep) {
@@ -276,6 +281,12 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                         popUp.update();
                     });
                 }
+                drawReadyText() {
+                    canvas_1.default.background.drawImage(this._tile, this._cropWidth * 5, this._cropWidth * 9, this._cropWidth * 3, this._cropWidth, grid_1.default.nodeSize * 11.8, grid_1.default.nodeSize * 16, grid_1.default.nodeSize * 5, grid_1.default.nodeSize * 2);
+                }
+                eraseReadyText() {
+                    canvas_1.default.background.clearRect(grid_1.default.nodeSize * 11.8, grid_1.default.nodeSize * 16.5, grid_1.default.nodeSize * 5, grid_1.default.nodeSize * 2);
+                }
                 drawPopUps() {
                     this._popUps.forEach(popUp => {
                         popUp.draw();
@@ -285,7 +296,7 @@ System.register(["src/object/control", "src/object/canvas", "src/class/stateMach
                     this._ctx.clearRect(0, 0, grid_1.default.width, grid_1.default.height);
                     this._foodManager.draw();
                     this.drawPopUps();
-                    if (this.state !== "resetting") {
+                    if (!new Set(["restarting", "resetting"]).has(this.state)) {
                         this._pacman.draw();
                     }
                     if (!this._pacman.isDying && this.state !== "resetting") {
