@@ -1,7 +1,7 @@
-import { IScoreBoard, IGameManager } from "src/interfaces";
-import Monitor from "src/object/monitor";
-import Canvas from "src/object/canvas";
-import Grid from "src/class/grid";
+import { IScoreBoard, IGameManager } from "../../interfaces";
+import Monitor from "../../object/monitor";
+import Canvas from "../../object/canvas";
+import Grid from "../../class/grid";
 
 export default class ScoreBoard implements IScoreBoard {
 

@@ -1,7 +1,7 @@
-import { IGhostManager, INode } from "src/interfaces";
-import StateMachine from "src/class/stateMachine";
-import Node from "src/class/node";
-import Ghost from "src/class/player/ghost";
+import { IGhostManager, INode } from "../../interfaces";
+import StateMachine from "../../class/stateMachine";
+import Node from "../../class/node";
+import Ghost from "../../class/player/ghost";
 
 /**
  * blinky will chase pacman for entire game duration

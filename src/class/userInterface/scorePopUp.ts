@@ -1,8 +1,8 @@
-import { IPopUp, IPoint, IGameManager } from "src/interfaces";
-import Utility from "src/object/utility";
-import Canvas from "src/object/canvas";
-import Point from "src/class/point";
-import Grid from "src/class/grid";
+import { IPopUp, IPoint, IGameManager } from "../../interfaces";
+import Utility from "../../object/utility";
+import Canvas from "../../object/canvas";
+import Point from "../../class/point";
+import Grid from "../../class/grid";
 
 export default class ScorePopUp implements IPopUp {
 

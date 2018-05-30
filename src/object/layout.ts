@@ -1,5 +1,5 @@
-import { IGridLayout } from "src/interfaces";
-import Monitor from "src/object/monitor";
+import { IGridLayout } from "../interfaces";
+import Monitor from "../object/monitor";
 
 let layers = [
 

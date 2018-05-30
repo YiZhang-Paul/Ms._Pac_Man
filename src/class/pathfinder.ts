@@ -1,7 +1,7 @@
-import { IFindPath, IMovable, INode, IPriorityQueue } from "src/interfaces";
-import PriorityQueue from "src/class/priorityQueue";
-import Node from "src/class/node";
-import Grid from "src/class/grid";
+import { IFindPath, IMovable, INode, IPriorityQueue } from "../interfaces";
+import PriorityQueue from "../class/priorityQueue";
+import Node from "../class/node";
+import Grid from "../class/grid";
 
 export default class Pathfinder implements IFindPath {
 

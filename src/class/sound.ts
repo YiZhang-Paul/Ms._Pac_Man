@@ -1,4 +1,4 @@
-import { IAudioData, IAudioPlayer } from "src/interfaces";
+import { IAudioData, IAudioPlayer } from "../interfaces";
 
 class AudioData implements IAudioData {
 

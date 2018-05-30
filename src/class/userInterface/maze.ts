@@ -1,5 +1,5 @@
-import { IMaze } from "src/interfaces";
-import Canvas from "src/object/canvas";
+import { IMaze } from "../../interfaces";
+import Canvas from "../../object/canvas";
 
 export default class Maze implements IMaze {
 

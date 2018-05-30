@@ -1,10 +1,10 @@
-import { IGame, IGameManager } from "src/interfaces";
-import Monitor from "src/object/monitor";
-import Utility from "src/object/utility";
-import Canvas from "src/object/canvas";
-import Control from "src/object/control";
-import GameManager from "src/class/gameManager";
-import Grid from "src/class/grid";
+import { IGame, IGameManager } from "../interfaces";
+import Monitor from "../object/monitor";
+import Utility from "../object/utility";
+import Canvas from "../object/canvas";
+import Control from "../object/control";
+import GameManager from "../class/gameManager";
+import Grid from "../class/grid";
 
 export default <IGame>{
 

@@ -1,11 +1,11 @@
-import { IGameManager, IFoodManager, IFood, IBlinkableFood, IFruit } from "src/interfaces";
-import { Direction } from "src/object/direction";
-import Utility from "src/object/utility";
-import Canvas from "src/object/canvas";
-import Bean from "src/class/food/bean";
-import PowerBean from "src/class/food/powerBean";
-import Fruit from "src/class/food/fruit";
-import Grid from "src/class/grid";
+import { IGameManager, IFoodManager, IFood, IBlinkableFood, IFruit } from "../../interfaces";
+import { Direction } from "../../object/direction";
+import Utility from "../../object/utility";
+import Canvas from "../../object/canvas";
+import Bean from "../../class/food/bean";
+import PowerBean from "../../class/food/powerBean";
+import Fruit from "../../class/food/fruit";
+import Grid from "../../class/grid";
 
 export default class FoodManager implements IFoodManager {
 

@@ -1,10 +1,10 @@
-import { IGhostManager, IGhost, IPacman, IGameManager } from "src/interfaces";
-import Utility from "src/object/utility";
-import Sound from "src/class/sound";
-import Blinky from "src/class/player/blinky";
-import Pinky from "src/class/player/pinky";
-import Inky from "src/class/player/inky";
-import Sue from "src/class/player/sue";
+import { IGhostManager, IGhost, IPacman, IGameManager } from "../../interfaces";
+import Utility from "../../object/utility";
+import Sound from "../../class/sound";
+import Blinky from "../../class/player/blinky";
+import Pinky from "../../class/player/pinky";
+import Inky from "../../class/player/inky";
+import Sue from "../../class/player/sue";
 
 export default class GhostManager implements IGhostManager {
 

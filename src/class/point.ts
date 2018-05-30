@@ -1,4 +1,4 @@
-import { IPoint } from "src/interfaces";
+import { IPoint } from "../interfaces";
 
 export default class Point implements IPoint {
 

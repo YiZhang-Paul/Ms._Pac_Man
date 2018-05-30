@@ -1,10 +1,10 @@
-import { IFruit, IFoodManager } from "src/interfaces";
-import { Direction } from "src/object/direction";
-import Utility from "src/object/utility";
-import Canvas from "src/object/canvas";
-import Movable from "src/class/player/movable";
-import Point from "src/class/point";
-import Grid from "src/class/grid";
+import { IFruit, IFoodManager } from "../../interfaces";
+import { Direction } from "../../object/direction";
+import Utility from "../../object/utility";
+import Canvas from "../../object/canvas";
+import Movable from "../../class/player/movable";
+import Point from "../../class/point";
+import Grid from "../../class/grid";
 
 export default class Fruit extends Movable implements IFruit {
 

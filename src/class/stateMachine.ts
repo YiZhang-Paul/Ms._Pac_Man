@@ -1,5 +1,5 @@
-import { IState } from "src/interfaces";
-import Utility from "src/object/utility";
+import { IState } from "../interfaces";
+import Utility from "../object/utility";
 
 //stack based finite state machine
 export default class StateMachine implements IState {

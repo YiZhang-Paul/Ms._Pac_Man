@@ -1,4 +1,4 @@
-import { INode } from "src/interfaces";
+import { INode } from "../interfaces";
 
 export default class Node implements INode {
 

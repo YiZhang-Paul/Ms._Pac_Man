@@ -1,7 +1,7 @@
-import { IHud, IGameManager, IFoodManager } from "src/interfaces";
-import Monitor from "src/object/monitor";
-import Canvas from "src/object/canvas";
-import Grid from "src/class/grid";
+import { IHud, IGameManager, IFoodManager } from "../../interfaces";
+import Monitor from "../../object/monitor";
+import Canvas from "../../object/canvas";
+import Grid from "../../class/grid";
 
 export default class Hud implements IHud {
 

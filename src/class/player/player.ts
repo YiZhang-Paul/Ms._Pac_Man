@@ -1,8 +1,8 @@
-import { IPlayer, IManager } from "src/interfaces";
-import Canvas from "src/object/canvas";
-import Locations from "src/object/locations";
-import Movable from "src/class/player/movable";
-import Grid from "src/class/grid";
+import { IPlayer, IManager } from "../../interfaces";
+import Canvas from "../../object/canvas";
+import Locations from "../../object/locations";
+import Movable from "../../class/player/movable";
+import Grid from "../../class/grid";
 
 export default abstract class Player extends Movable implements IPlayer {
 

@@ -1,6 +1,6 @@
-import { IFoodManager, IBlinkableFood } from "src/interfaces";
-import Bean from "src/class/food/bean";
-import Grid from "src/class/grid";
+import { IFoodManager, IBlinkableFood } from "../../interfaces";
+import Bean from "../../class/food/bean";
+import Grid from "../../class/grid";
 
 export default class PowerBean extends Bean implements IBlinkableFood {
 

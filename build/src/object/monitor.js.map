@@ -1,1 +1,1 @@
-{"version":3,"file":"monitor.js","sourceRoot":"","sources":["../../../src/object/monitor.ts"],"names":[],"mappings":";;;;;;iCAG2B;gBAEvB,KAAK,EAAI,MAAM,CAAC,UAAU;gBAC1B,MAAM,EAAG,MAAM,CAAC,WAAW;aAC9B;QAAC,CAAC"}
+{"version":3,"file":"monitor.js","sourceRoot":"","sources":["../../../src/object/monitor.ts"],"names":[],"mappings":";;AAEA,oBAAoB;AACpB,kBAA2B;IAEvB,KAAK,EAAI,MAAM,CAAC,UAAU;IAC1B,MAAM,EAAG,MAAM,CAAC,WAAW;CAC9B,CAAC"}

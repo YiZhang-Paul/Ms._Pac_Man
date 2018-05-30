@@ -1,7 +1,7 @@
-import { IFood, IPoint, IFoodManager } from "src/interfaces";
-import Point from "src/class/point";
-import Canvas from "src/object/canvas";
-import Grid from "src/class/grid";
+import { IFood, IPoint, IFoodManager } from "../../interfaces";
+import Point from "../../class/point";
+import Canvas from "../../object/canvas";
+import Grid from "../../class/grid";
 
 export default class Bean implements IFood {
 

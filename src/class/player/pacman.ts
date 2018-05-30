@@ -1,10 +1,10 @@
-import { IPacman, IGameManager, IGhost, IFood, IFoodManager } from "src/interfaces";
-import { Direction } from "src/object/direction";
-import Control from "src/object/control";
-import Player from "src/class/player/player";
-import Sound from "src/class/sound";
-import Point from "src/class/point";
-import Grid from "src/class/grid";
+import { IPacman, IGameManager, IGhost, IFood, IFoodManager } from "../../interfaces";
+import { Direction } from "../../object/direction";
+import Control from "../../object/control";
+import Player from "../../class/player/player";
+import Sound from "../../class/sound";
+import Point from "../../class/point";
+import Grid from "../../class/grid";
 
 export default class Pacman extends Player implements IPacman {
 

@@ -3,20 +3,20 @@ import {
     IGameManager, IFoodManager, IHud, IPopUp, IPacman, IGhost,
     IGhostManager, IMaze, IPoint, IScoreBoard, IState
 
-} from "src/interfaces";
+} from "../interfaces";
 
-import Control from "src/object/control";
-import Canvas from "src/object/canvas";
-import StateMachine from "src/class/stateMachine";
-import Grid from "src/class/grid";
-import Maze from "src/class/userInterface/maze";
-import Sound from "src/class/sound";
-import ScoreBoard from "src/class/userInterface/scoreBoard";
-import Hud from "src/class/userInterface/hud";
-import ScorePopUp from "src/class/userInterface/scorePopUp";
-import Pacman from "src/class/player/pacman";
-import GhostManager from "src/class/player/ghostManager";
-import FoodManager from "src/class/food/foodManager";
+import Control from "../object/control";
+import Canvas from "../object/canvas";
+import StateMachine from "../class/stateMachine";
+import Grid from "../class/grid";
+import Maze from "../class/userInterface/maze";
+import Sound from "../class/sound";
+import ScoreBoard from "../class/userInterface/scoreBoard";
+import Hud from "../class/userInterface/hud";
+import ScorePopUp from "../class/userInterface/scorePopUp";
+import Pacman from "../class/player/pacman";
+import GhostManager from "../class/player/ghostManager";
+import FoodManager from "../class/food/foodManager";
 
 export default class GameManager implements IGameManager {
 

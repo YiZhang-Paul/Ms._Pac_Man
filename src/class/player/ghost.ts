@@ -1,13 +1,13 @@
-import { IGhost, IGhostManager, IState, INode, IFindPath, IPacman, IMovable } from "src/interfaces";
-import { Direction } from "src/object/direction";
-import Locations from "src/object/locations";
-import Utility from "src/object/utility";
-import StateMachine from "src/class/stateMachine";
-import Pathfinder from "src/class/pathfinder";
-import Player from "src/class/player/player";
-import Point from "src/class/point";
-import Node from "src/class/node";
-import Grid from "src/class/grid";
+import { IGhost, IGhostManager, IState, INode, IFindPath, IPacman, IMovable } from "../../interfaces";
+import { Direction } from "../../object/direction";
+import Locations from "../../object/locations";
+import Utility from "../../object/utility";
+import StateMachine from "../../class/stateMachine";
+import Pathfinder from "../../class/pathfinder";
+import Player from "../../class/player/player";
+import Point from "../../class/point";
+import Node from "../../class/node";
+import Grid from "../../class/grid";
 
 export default abstract class Ghost extends Player implements IGhost {
 

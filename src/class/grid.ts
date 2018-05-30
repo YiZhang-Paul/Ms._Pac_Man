@@ -1,9 +1,9 @@
-import { IGrid, IGridLayout, INode, IPoint } from "src/interfaces";
-import { Direction } from "src/object/direction";
-import Utility from "src/object/utility";
-import Layout from "src/object/layout";
-import Point from "src/class/point";
-import Node from "src/class/node";
+import { IGrid, IGridLayout, INode, IPoint } from "../interfaces";
+import { Direction } from "../object/direction";
+import Utility from "../object/utility";
+import Layout from "../object/layout";
+import Point from "../class/point";
+import Node from "../class/node";
 
 class Grid implements IGrid {
 

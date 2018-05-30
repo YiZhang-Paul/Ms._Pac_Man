@@ -1,8 +1,8 @@
-import { IMovable, IPoint, IState, INode } from "src/interfaces";
-import { Direction } from "src/object/direction";
-import StateMachine from "src/class/stateMachine";
-import Node from "src/class/node";
-import Grid from "src/class/grid";
+import { IMovable, IPoint, IState, INode } from "../../interfaces";
+import { Direction } from "../../object/direction";
+import StateMachine from "../../class/stateMachine";
+import Node from "../../class/node";
+import Grid from "../../class/grid";
 
 export default abstract class Movable implements IMovable {
 

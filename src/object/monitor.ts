@@ -1,4 +1,4 @@
-import { IDimension } from "src/interfaces";
+import { IDimension } from "../interfaces";
 
 //monitor dimensions
 export default <IDimension>{

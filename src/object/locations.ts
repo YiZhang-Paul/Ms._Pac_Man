@@ -1,7 +1,7 @@
-import { Direction } from "src/object/direction";
-import { IMovable } from "src/interfaces";
-import Point from "src/class/point";
-import Grid from "src/class/grid";
+import { Direction } from "../object/direction";
+import { IMovable } from "../interfaces";
+import Point from "../class/point";
+import Grid from "../class/grid";
 
 //game object default locations
 export default {

@@ -1,4 +1,4 @@
-import Utility from "src/object/utility";
+import Utility from "../object/utility";
 
 //in-game control
 export default {

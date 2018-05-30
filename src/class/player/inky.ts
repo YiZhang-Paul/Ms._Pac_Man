@@ -1,8 +1,8 @@
-import { IGhostManager, INode } from "src/interfaces";
-import StateMachine from "src/class/stateMachine";
-import Node from "src/class/node";
-import Grid from "src/class/grid";
-import Ghost from "src/class/player/ghost";
+import { IGhostManager, INode } from "../../interfaces";
+import StateMachine from "../../class/stateMachine";
+import Node from "../../class/node";
+import Grid from "../../class/grid";
+import Ghost from "../../class/player/ghost";
 
 /**
  * inky will always move in correlation to blinky to trap pacman

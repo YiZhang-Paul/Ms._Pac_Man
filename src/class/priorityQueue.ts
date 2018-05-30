@@ -1,5 +1,5 @@
-import { IData, IHeap, IPriorityQueue } from "src/interfaces";
-import Utility from "src/object/utility";
+import { IData, IHeap, IPriorityQueue } from "../interfaces";
+import Utility from "../object/utility";
 
 //data transport unit with key-value matching
 class Item<T> implements IData<T> {
