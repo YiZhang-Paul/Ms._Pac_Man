@@ -136,7 +136,7 @@ export default abstract class Player extends Movable implements IPlayer {
         //start animation
         if(this._interval === null) {
 
-            this._interval = setInterval(() => {
+            this._interval = window.setInterval(() => {
 
                 this.nextTick(totalTicks);
 

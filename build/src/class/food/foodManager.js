@@ -71,7 +71,7 @@ class FoodManager {
     //blink all power beans
     blink() {
         if (this._beanInterval === null) {
-            this._beanInterval = setInterval(() => {
+            this._beanInterval = window.setInterval(() => {
                 this._powerBeans.forEach(bean => {
                     bean.blink();
                 });
@@ -148,7 +148,7 @@ class FoodManager {
     //add next fruit to queue
     queueFruit() {
         if (this._fruitInterval === null) {
-            this._fruitInterval = setInterval(() => {
+            this._fruitInterval = window.setInterval(() => {
                 if (this._fruitQueue.length < 5) {
                     //pick random fruit type
                     this._fruitQueue.push(utility_1.default.getRandom(1, 7));
@@ -162,7 +162,7 @@ class FoodManager {
         if (!this.canPutFruit) {
             return;
         }
-        this._timeout = setTimeout(() => {
+        this._timeout = window.setTimeout(() => {
             this._fruit = this.createFruit(this._fruitQueue.shift());
             this._originator.showFruits();
             clearTimeout(this._timeout);

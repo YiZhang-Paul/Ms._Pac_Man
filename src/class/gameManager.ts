@@ -216,7 +216,7 @@ export default class GameManager implements IGameManager {
 
             }, 800);
 
-            this._timeout = setTimeout(() => {
+            this._timeout = window.setTimeout(() => {
 
                 clearTimeout(this._timeout);
                 this._timeout = null;
@@ -256,7 +256,7 @@ export default class GameManager implements IGameManager {
 
             this._pacman.stopAnimation(0);
 
-            this._timeout = setTimeout(() => {
+            this._timeout = window.setTimeout(() => {
 
                 this._stateManager.swap("ongoing");
 
@@ -283,7 +283,7 @@ export default class GameManager implements IGameManager {
             this._pacman.stopAnimation(2);
             Sound.reset();
 
-            this._timeout = setTimeout(() => {
+            this._timeout = window.setTimeout(() => {
 
                 this._pacman.playDeathAnimation();
 
@@ -308,7 +308,7 @@ export default class GameManager implements IGameManager {
 
             Sound.reset();
 
-            this._timeout = setTimeout(() => {
+            this._timeout = window.setTimeout(() => {
 
                 clearTimeout(this._timeout);
                 this._timeout = null;
@@ -328,13 +328,13 @@ export default class GameManager implements IGameManager {
             this._pacman.stopAnimation(2);
             Sound.reset();
             //blink maze border
-            this._interval = setInterval(() => {
+            this._interval = window.setInterval(() => {
 
                 this._maze.blink();
 
             }, 400);
 
-            this._timeout = setTimeout(() => {
+            this._timeout = window.setTimeout(() => {
 
                 clearInterval(this._interval);
                 this._interval = null;
@@ -356,7 +356,7 @@ export default class GameManager implements IGameManager {
 
             Sound.reset();
 
-            this._timeout = setTimeout(() => {
+            this._timeout = window.setTimeout(() => {
 
                 clearTimeout(this._timeout);
                 this._timeout = null;

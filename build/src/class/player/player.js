@@ -83,7 +83,7 @@ class Player extends movable_1.default {
         }
         //start animation
         if (this._interval === null) {
-            this._interval = setInterval(() => {
+            this._interval = window.setInterval(() => {
                 this.nextTick(totalTicks);
             }, speed);
         }

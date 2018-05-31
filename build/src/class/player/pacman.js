@@ -88,7 +88,7 @@ class Pacman extends player_1.default {
     clearEatSound() {
         let sound = document.getElementById("eat_bean");
         if (sound_1.default.isPlaying(sound) && this._timeout === null) {
-            this._timeout = setTimeout(() => {
+            this._timeout = window.setTimeout(() => {
                 clearTimeout(this._timeout);
                 this._timeout = null;
                 sound_1.default.clear(sound);
@@ -148,8 +148,8 @@ class Pacman extends player_1.default {
         let tick = 0;
         this._isDying = true;
         this.getDeathCropXY(tick);
-        this._deathTimeout = setTimeout(() => {
-            this._deathInterval = setInterval(() => {
+        this._deathTimeout = window.setTimeout(() => {
+            this._deathInterval = window.setInterval(() => {
                 this.getDeathCropXY(++tick);
                 if (tick === 13) {
                     this.stopDeathAnimation();

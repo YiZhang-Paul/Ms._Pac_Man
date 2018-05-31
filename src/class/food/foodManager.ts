@@ -116,7 +116,7 @@ export default class FoodManager implements IFoodManager {
 
         if(this._beanInterval === null) {
 
-            this._beanInterval = setInterval(() => {
+            this._beanInterval = window.setInterval(() => {
 
                 this._powerBeans.forEach(bean => {
 
@@ -226,7 +226,7 @@ export default class FoodManager implements IFoodManager {
 
         if(this._fruitInterval === null) {
 
-            this._fruitInterval = setInterval(() => {
+            this._fruitInterval = window.setInterval(() => {
 
                 if(this._fruitQueue.length < 5) {
                     //pick random fruit type
@@ -246,7 +246,7 @@ export default class FoodManager implements IFoodManager {
             return;
         }
 
-        this._timeout = setTimeout(() => {
+        this._timeout = window.setTimeout(() => {
 
             this._fruit = this.createFruit(this._fruitQueue.shift());
             this._originator.showFruits();

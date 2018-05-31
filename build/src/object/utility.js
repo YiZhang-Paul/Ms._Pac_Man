@@ -15,6 +15,10 @@ exports.default = {
         return Math.round(value * power) / power;
     },
     swap(array, index1, index2) {
+        let indexes = [index1, index2];
+        if (indexes.some(index => index < 0 || index > array.length - 1)) {
+            throw "Invalid Index";
+        }
         [array[index1], array[index2]] = [array[index2], array[index1]];
     },
     //pick random element from a collection

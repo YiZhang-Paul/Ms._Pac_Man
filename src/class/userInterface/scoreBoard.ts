@@ -65,7 +65,7 @@ export default class ScoreBoard implements IScoreBoard {
 
         if(this._interval === null) {
 
-            this._interval = setInterval(() => {
+            this._interval = window.setInterval(() => {
 
                 this.flip();
                 this.draw();

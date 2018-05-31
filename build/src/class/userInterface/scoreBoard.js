@@ -41,7 +41,7 @@ class ScoreBoard {
     //blink player id
     blinkId() {
         if (this._interval === null) {
-            this._interval = setInterval(() => {
+            this._interval = window.setInterval(() => {
                 this.flip();
                 this.draw();
             }, 150);

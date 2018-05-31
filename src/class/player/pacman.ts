@@ -127,7 +127,7 @@ export default class Pacman extends Player implements IPacman {
 
         if(Sound.isPlaying(sound) && this._timeout === null) {
 
-            this._timeout = setTimeout(() => {
+            this._timeout = window.setTimeout(() => {
 
                 clearTimeout(this._timeout);
                 this._timeout = null;
@@ -217,9 +217,9 @@ export default class Pacman extends Player implements IPacman {
         this._isDying = true;
         this.getDeathCropXY(tick);
 
-        this._deathTimeout = setTimeout(() => {
+        this._deathTimeout = window.setTimeout(() => {
 
-            this._deathInterval = setInterval(() => {
+            this._deathInterval = window.setInterval(() => {
 
                 this.getDeathCropXY(++tick);
 

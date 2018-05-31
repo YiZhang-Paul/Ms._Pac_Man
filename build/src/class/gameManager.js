@@ -144,7 +144,7 @@ class GameManager {
                 clearTimeout(soundTimeout);
                 sound_1.default.play(document.getElementById("intro_music"));
             }, 800);
-            this._timeout = setTimeout(() => {
+            this._timeout = window.setTimeout(() => {
                 clearTimeout(this._timeout);
                 this._timeout = null;
                 this._stateManager.pop();
@@ -172,7 +172,7 @@ class GameManager {
         //brief pause on ghost kill
         if (this._timeout === null) {
             this._pacman.stopAnimation(0);
-            this._timeout = setTimeout(() => {
+            this._timeout = window.setTimeout(() => {
                 this._stateManager.swap("ongoing");
                 clearTimeout(this._timeout);
                 this._timeout = null;
@@ -190,7 +190,7 @@ class GameManager {
         if (this._timeout === null && !this._pacman.isDying) {
             this._pacman.stopAnimation(2);
             sound_1.default.reset();
-            this._timeout = setTimeout(() => {
+            this._timeout = window.setTimeout(() => {
                 this._pacman.playDeathAnimation();
                 let soundTimeout = setTimeout(() => {
                     clearTimeout(soundTimeout);
@@ -205,7 +205,7 @@ class GameManager {
     restarting(timeStep) {
         if (this._timeout === null) {
             sound_1.default.reset();
-            this._timeout = setTimeout(() => {
+            this._timeout = window.setTimeout(() => {
                 clearTimeout(this._timeout);
                 this._timeout = null;
                 this.destroy();
@@ -219,10 +219,10 @@ class GameManager {
             this._pacman.stopAnimation(2);
             sound_1.default.reset();
             //blink maze border
-            this._interval = setInterval(() => {
+            this._interval = window.setInterval(() => {
                 this._maze.blink();
             }, 400);
-            this._timeout = setTimeout(() => {
+            this._timeout = window.setTimeout(() => {
                 clearInterval(this._interval);
                 this._interval = null;
                 clearTimeout(this._timeout);
@@ -237,7 +237,7 @@ class GameManager {
     resetting(timeStep) {
         if (this._timeout === null) {
             sound_1.default.reset();
-            this._timeout = setTimeout(() => {
+            this._timeout = window.setTimeout(() => {
                 clearTimeout(this._timeout);
                 this._timeout = null;
                 this.reset();
