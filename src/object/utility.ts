@@ -22,6 +22,13 @@ export default {
 
     swap(array: any[], index1: number, index2: number): void {
 
+        let indexes = [index1, index2];
+
+        if(indexes.some(index => index < 0 || index > array.length - 1)) {
+
+            throw "Invalid Index";
+        }
+
         [array[index1], array[index2]] = [array[index2], array[index1]];
     },
 
