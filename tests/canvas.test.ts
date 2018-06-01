@@ -1,7 +1,10 @@
-require("jsdom-global")("<!doctype html><html><body id='board'></body></html>");
 import Canvas from "../src/object/canvas";
+import * as jsdom from "jsdom-global";
 import { expect } from "chai";
 import "mocha";
+
+jsdom("<!doctype html><html><body id='board'></body></html>");
+
 //test begin
 context("canvas test", function() {
 
